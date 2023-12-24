@@ -3,6 +3,7 @@ import requests
 import torch
 from PIL import Image
 from io import BytesIO
+from ..constants import get_name,get_category
 
 class ShowText:
     def __init__(self):
@@ -19,11 +20,12 @@ class ShowText:
                 "extra_pnginfo": "EXTRA_PNGINFO",},
         }
 
+    NAME = get_name('show_text')
+    CATEGORY = get_category("util")
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     OUTPUT_NODE = True
     FUNCTION = "doWork"
-    CATEGORY = "🦊2lab/util"
 
     def doWork(self, text, unique_id=None, extra_pnginfo=None):
         return {"ui": {"string": [text, ]}, "result": (text,)}
@@ -41,11 +43,12 @@ class ShowWebImage:
             },
         }
 
+    NAME = get_name('show_web_image')
+    CATEGORY = get_category("util")
     RETURN_TYPES = ("IMAGE", "MASK","TEXT")
     RETURN_NAMES = ("image", "mask","image_url")
     OUTPUT_NODE = True
     FUNCTION = "doWork"
-    CATEGORY = "🦊2lab/util"
 
     def doWork(self, image_url, RGBA):
         print(image_url)

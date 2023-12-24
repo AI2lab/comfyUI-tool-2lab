@@ -1,4 +1,5 @@
 import openai
+from ..constants import get_name,get_category
 
 class Openai_chatGPT:
     def __init__(self):
@@ -8,7 +9,7 @@ class Openai_chatGPT:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "secret_key": ("KEY", {"multiline": False, "default": ""}),
+                "secret_key": ("KEY", {"multiline": False}),
                 "prompt": ("STRING", {"multiline": True}),
                 "model": (["gpt-3.5-turbo", "gpt-3.5-turbo-16k-0613", "gpt-4", "gpt-4-vision-preview"],
                           {"default": "gpt-3.5-turbo"}),
@@ -18,10 +19,11 @@ class Openai_chatGPT:
             }
         }
 
+    NAME = get_name('Openai_chatGPT')
+    CATEGORY = get_category("api")
     RETURN_TYPES = ("STRING", "STRING",)
     RETURN_NAMES = ("text", "image_url")
     FUNCTION = "doWork"
-    CATEGORY = "🦊2lab/api"
 
     def doWork(self, secret_key, model, prompt, image_url=None):
         client = openai.OpenAI(

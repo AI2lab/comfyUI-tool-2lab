@@ -2,6 +2,7 @@ import json
 import os
 from openai import AzureOpenAI
 from pathlib import Path
+from ..constants import get_name,get_category
 
 cur_path = Path(__file__)
 root_path = cur_path.parent.parent
@@ -25,10 +26,11 @@ class Azure_openai_gpt:
             }
         }
 
+    NAME = get_name('Azure_Openai_GPT')
+    CATEGORY = get_category("api")
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     FUNCTION = "doWork"
-    CATEGORY = "🦊2lab/api"
 
     def doWork(self, key,endpoint, deployment,version, prompt):
         print(key)

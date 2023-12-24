@@ -1,9 +1,11 @@
 import json
 import os
 from pathlib import Path
+from ..constants import get_name,get_category
 
 cur_path = Path(__file__)
-root_path = cur_path.parent.parent
+root_path = cur_path.parent.parent.parent
+print("root_path = ",root_path)
 
 class LoadProperties:
     key_dict = None
@@ -19,10 +21,11 @@ class LoadProperties:
             },
         }
 
+    NAME = get_name('properties_loader')
+    CATEGORY = get_category("api")
     RETURN_TYPES = ("KEY",)
     RETURN_NAMES = ("key",)
     FUNCTION = "doWork"
-    CATEGORY = "🦊2lab/api"
 
     def doWork(self, key):
         value = LoadProperties.key_dict.get(key)
@@ -33,6 +36,7 @@ class LoadProperties:
         if cls.key_dict is None:
             try:
                 config_path = os.path.join(root_path, 'properties.json')
+                print("config_path = ",config_path)
                 with open(config_path, 'r') as f:
                     cls.key_dict = json.load(f)
             except:

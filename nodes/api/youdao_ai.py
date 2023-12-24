@@ -2,7 +2,7 @@ import hashlib
 import json
 import time
 import uuid
-
+from ..constants import get_name,get_category
 import requests
 
 YOUDAO_URL = 'https://openapi.youdao.com/api'
@@ -39,10 +39,11 @@ class youdao_translator:
             },
         }
 
+    NAME = get_name('youdao_translator')
+    CATEGORY = get_category("api")
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     FUNCTION = "doWork"
-    CATEGORY = "🦊2lab/api"
 
     def doWork(self, app_key,app_secret, to_lang, text):
         q = text

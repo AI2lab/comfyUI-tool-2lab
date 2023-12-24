@@ -1,4 +1,5 @@
 import zhipuai
+from ..constants import get_name,get_category
 
 class ChatGLM_GPT:
     def __init__(self):
@@ -15,10 +16,11 @@ class ChatGLM_GPT:
             },
         }
 
+    NAME = get_name('ChatGLM_GPT')
+    CATEGORY = get_category("api")
     RETURN_TYPES = ("STRING", )
     RETURN_NAMES = ("text", )
     FUNCTION = "doWork"
-    CATEGORY = "🦊2lab/api"
 
     def doWork(self, api_key, model, prompt):
         zhipuai.api_key = api_key

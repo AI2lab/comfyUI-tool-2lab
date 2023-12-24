@@ -1,9 +1,6 @@
-import hashlib
 import json
-import time
-import uuid
-
 import requests
+from ..constants import get_name,get_category
 
 api_server_url = "http://api.factx.cn/api/v4";
 
@@ -38,6 +35,8 @@ class app_factxApi_create_user:
             "required": {},
         }
 
+    NAME = get_name('factx_api_create_user')
+    CATEGORY = get_category("api/factx")
     RETURN_TYPES = ("STRING","STRING","STRING",)
     RETURN_NAMES = ("api_id","api_key","message",)
     FUNCTION = "doWork"

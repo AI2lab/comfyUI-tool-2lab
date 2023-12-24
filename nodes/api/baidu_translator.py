@@ -2,6 +2,7 @@ import hashlib
 import json
 import time
 import requests
+from ..constants import get_name,get_category
 
 url_api_baidu_translator = "http://api.fanyi.baidu.com/api/trans/vip/translate" # 百度翻译API的URL
 
@@ -20,10 +21,11 @@ class baidu_translator:
             },
         }
 
+    NAME = get_name('baidu_translator')
+    CATEGORY = get_category("api")
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     FUNCTION = "doWork"
-    CATEGORY = "🦊2lab/api"
 
     def doWork(self, app_id,api_key, to_lang, text):
         from_lang = "auto"     # 源语言自动识别
