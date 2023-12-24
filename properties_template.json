@@ -1,0 +1,19 @@
+{
+  "baidu_tranlator_app_id": "",
+  "baidu_tranlator_security_key": "",
+  "youdao_ai_app_key": "",
+  "youdao_ai_app_secret": "",
+  "openai_secret_key": "",
+  "azure_openai_key": "",
+  "azure_openai_endpoint": "",
+  "azure_openai_deployment_gpt_35_turbo": "",
+  "azure_openai_deployment_gpt_35_turbo_16k": "",
+  "azure_openai_deployment_gpt_4": "",
+  "azure_openai_deployment_gpt_4_32k": "",
+  "azure_openai_api_version": "2023-05-15",
+  "chatGlm_gpt_api_key": ""
+}
+
+
+
+
