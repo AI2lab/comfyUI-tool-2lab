@@ -4,7 +4,7 @@ import { ComfyWidgets } from "/scripts/widgets.js";
 app.registerExtension({
   name: "Comfy.2labNode",
   async beforeRegisterNodeDef(nodeType, nodeData, app) {
-    if (nodeData.name === "show_text") {
+    if (nodeData.name === "show_text (2lab)") {
       // Node Created
       const onNodeCreated = nodeType.prototype.onNodeCreated;
       nodeType.prototype.onNodeCreated = function () {

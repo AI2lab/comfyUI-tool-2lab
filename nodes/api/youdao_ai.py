@@ -24,7 +24,7 @@ def do_request(data):
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     return requests.post(YOUDAO_URL, data=data, headers=headers)
 
-class youdao_translator:
+class YoudaoTranslator:
     def __init__(self):
         pass
 

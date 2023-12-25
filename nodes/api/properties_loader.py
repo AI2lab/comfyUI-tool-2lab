@@ -1,11 +1,12 @@
 import json
 import os
 from pathlib import Path
-from ..constants import get_name,get_category
+from ..constants import get_name, get_category, project_root
 
-cur_path = Path(__file__)
-root_path = cur_path.parent.parent.parent
-print("root_path = ",root_path)
+# cur_path = Path(__file__)
+# root_path = cur_path.parent.parent.parent
+# root_path = project_root
+# print("root_path = ",root_path)
 
 class LoadProperties:
     key_dict = None
@@ -35,7 +36,7 @@ class LoadProperties:
     def get_key_list(cls):
         if cls.key_dict is None:
             try:
-                config_path = os.path.join(root_path, 'properties.json')
+                config_path = os.path.join(project_root, 'properties.json')
                 print("config_path = ",config_path)
                 with open(config_path, 'r') as f:
                     cls.key_dict = json.load(f)

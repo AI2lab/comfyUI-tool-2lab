@@ -1,7 +1,7 @@
-import openai
+
 from ..constants import get_name,get_category
 
-class Openai_chatGPT:
+class OpenaiGPT:
     def __init__(self):
         pass
 
@@ -26,6 +26,8 @@ class Openai_chatGPT:
     FUNCTION = "doWork"
 
     def doWork(self, secret_key, model, prompt, image_url=None):
+        # 要使用时才import
+        import openai
         client = openai.OpenAI(
             api_key=secret_key
         )

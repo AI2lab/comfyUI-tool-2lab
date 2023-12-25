@@ -1,13 +1,12 @@
 import json
 import os
-from openai import AzureOpenAI
 from pathlib import Path
 from ..constants import get_name,get_category
 
 cur_path = Path(__file__)
 root_path = cur_path.parent.parent
 
-class Azure_openai_gpt:
+class AzureOpenaiGpt:
     deployments = None
     versions = None
 
@@ -33,12 +32,8 @@ class Azure_openai_gpt:
     FUNCTION = "doWork"
 
     def doWork(self, key,endpoint, deployment,version, prompt):
-        print(key)
-        print(endpoint)
-        print(deployment)
-        print(version)
-        print(prompt)
-
+        # 要使用时才import
+        from openai import AzureOpenAI
         client = AzureOpenAI(
             api_key=key,
             api_version=version,

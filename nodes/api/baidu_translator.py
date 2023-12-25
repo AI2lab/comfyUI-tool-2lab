@@ -6,7 +6,7 @@ from ..constants import get_name,get_category
 
 url_api_baidu_translator = "http://api.fanyi.baidu.com/api/trans/vip/translate" # 百度翻译API的URL
 
-class baidu_translator:
+class BaiduTranslator:
     def __init__(self):
         pass
 
