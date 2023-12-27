@@ -2,16 +2,16 @@ import hashlib
 import json
 import time
 import uuid
-from ..constants import get_name,get_category
+from ..constants import get_project_name,get_project_category
 import requests
 
 YOUDAO_URL = 'https://openapi.youdao.com/api'
+NODE_CATEGORY = get_project_category("llm")
 
 def encrypt(signStr):
     hash_algorithm = hashlib.sha256()
     hash_algorithm.update(signStr.encode('utf-8'))
     return hash_algorithm.hexdigest()
-
 
 def truncate(q):
     if q is None:
@@ -25,9 +25,6 @@ def do_request(data):
     return requests.post(YOUDAO_URL, data=data, headers=headers)
 
 class YoudaoTranslator:
-    def __init__(self):
-        pass
-
     @classmethod
     def INPUT_TYPES(s):
         return {
@@ -39,8 +36,8 @@ class YoudaoTranslator:
             },
         }
 
-    NAME = get_name('youdao_translator')
-    CATEGORY = get_category("api")
+    NAME = get_project_name('youdao_translator')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     FUNCTION = "doWork"

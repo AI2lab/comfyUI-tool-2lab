@@ -1,8 +1,10 @@
-from ..constants import get_name,get_category
+from ..constants import get_project_name,get_project_category
+
+NODE_CATEGORY = get_project_category("util/text")
 
 class Text:
-    NAME = get_name('text')
-    CATEGORY = get_category("util/text")
+    NAME = get_project_name('text')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     OUTPUT_NODE = True
@@ -20,8 +22,8 @@ class Text:
         return (text+" ",)
 
 class ConcatText:
-    NAME = get_name('concat_text')
-    CATEGORY = get_category("util/text")
+    NAME = get_project_name('concat_text')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     OUTPUT_NODE = True
@@ -30,8 +32,8 @@ class ConcatText:
     @ classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "text1": ("STRING", {"multiline": True, "defaultBehavior": "input"}),
-            "text2": ("STRING", {"multiline": True, "defaultBehavior": "input"}),
+            "text1": ("STRING", {"multiline": True, "forceInput": True}),
+            "text2": ("STRING", {"multiline": True, "forceInput": True}),
             "separator": ("STRING", {"multiline": False, "default": ","}),
         }}
 
@@ -40,8 +42,8 @@ class ConcatText:
         return (text1 + separator + text2,)
 
 class TrimText:
-    NAME = get_name('trim_text')
-    CATEGORY = get_category("util/text")
+    NAME = get_project_name('trim_text')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     OUTPUT_NODE = True
@@ -50,15 +52,15 @@ class TrimText:
     @ classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "text": ("STRING", {"multiline": False, "defaultBehavior": "input"}),
+            "text": ("STRING", {"multiline": True, "forceInput": True}),
         }}
 
     def doWork(self, text):
         return (text.strip(),)
 
 class ReplaceText:
-    NAME = get_name('replace_text')
-    CATEGORY = get_category("util/text")
+    NAME = get_project_name('replace_text')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     OUTPUT_NODE = True
@@ -67,7 +69,7 @@ class ReplaceText:
     @ classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "text": ("STRING", {"multiline": True, "defaultBehavior": "input"}),
+            "text": ("STRING", {"multiline": True, "forceInput": True}),
             "old": ("STRING", {"multiline": False}),
             "new": ("STRING", {"multiline": False})
         }}

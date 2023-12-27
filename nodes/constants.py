@@ -2,10 +2,11 @@
 from pathlib import Path
 
 PROJECT_NAME= '2lab'
-def get_name(name):
+
+def get_project_name(name):
     return '{} ({})'.format(name, PROJECT_NAME)
 
-def get_category(sub_dirs = None):
+def get_project_category(sub_dirs = None):
     start = "🦊" + PROJECT_NAME
     if sub_dirs is None:
         return start
@@ -14,4 +15,4 @@ def get_category(sub_dirs = None):
 
 # PATH
 project_root = Path(__file__).parent.parent
-print("project_root = ",project_root)
+# print("project_root = ",project_root)

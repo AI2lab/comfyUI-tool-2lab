@@ -1,9 +1,10 @@
-from ..constants import get_name, get_category
+from ..constants import get_project_name, get_project_category
 
+NODE_CATEGORY = get_project_category("util/number")
 
 class Seed:
-    NAME = get_name('Int')
-    CATEGORY = get_category("util/number")
+    NAME = get_project_name('Seed')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("INT",)
     RETURN_NAMES = ("seed",)
     OUTPUT_NODE = True
@@ -26,8 +27,8 @@ class Seed:
 
 
 class Int:
-    NAME = get_name('Int')
-    CATEGORY = get_category("util/number")
+    NAME = get_project_name('Int')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("INT",)
     RETURN_NAMES = ("int",)
     OUTPUT_NODE = True
@@ -50,8 +51,8 @@ class Int:
 
 
 class Float:
-    NAME = get_name('Float')
-    CATEGORY = get_category("util/number")
+    NAME = get_project_name('Float')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("FLOAT",)
     RETURN_NAMES = ("float",)
     OUTPUT_NODE = True
@@ -74,8 +75,8 @@ class Float:
 
 
 class FloatToInt:
-    NAME = get_name('FloatToInt')
-    CATEGORY = get_category("util/number")
+    NAME = get_project_name('FloatToInt')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("INT",)
     RETURN_NAMES = ("int",)
     OUTPUT_NODE = True
@@ -85,7 +86,7 @@ class FloatToInt:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "float": ("FLOAT", {"default": 0.0, "min": 0.0, "max": 0xffffffffffffffff, "defaultBehavior": "input"}),
+                "float": ("FLOAT", {"default": 0.0, "min": 0.0, "max": 0xffffffffffffffff, "forceInput": True}),
             }
         }
 
@@ -94,8 +95,8 @@ class FloatToInt:
 
 
 class IntToFloat:
-    NAME = get_name('IntToFloat')
-    CATEGORY = get_category("util/number")
+    NAME = get_project_name('IntToFloat')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("FLOAT",)
     RETURN_NAMES = ("float",)
     OUTPUT_NODE = True
@@ -104,7 +105,7 @@ class IntToFloat:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "int": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "defaultBehavior": "input"}),
+            "int": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "forceInput": True}),
         }
         }
 
@@ -113,8 +114,8 @@ class IntToFloat:
 
 
 class IntToText:
-    NAME = get_name('IntToText')
-    CATEGORY = get_category("util/number")
+    NAME = get_project_name('IntToText')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("string",)
     OUTPUT_NODE = True
@@ -124,7 +125,7 @@ class IntToText:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "int": ("INT", {"default": 0.0, "min": 0.0, "max": 0xffffffffffffffff, "defaultBehavior": "input"}),
+                "int": ("INT", {"default": 0.0, "min": 0.0, "max": 0xffffffffffffffff, "forceInput": True}),
             }
         }
 
@@ -133,8 +134,8 @@ class IntToText:
 
 
 class FloatToText:
-    NAME = get_name('FloatToText')
-    CATEGORY = get_category("util/number")
+    NAME = get_project_name('FloatToText')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("string",)
     OUTPUT_NODE = True
@@ -144,7 +145,7 @@ class FloatToText:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "float": ("FLOAT", {"default": 0.0, "min": 0.0, "max": 0xffffffffffffffff, "defaultBehavior": "input"}),
+                "float": ("FLOAT", {"default": 0.0, "min": 0.0, "max": 0xffffffffffffffff, "forceInput": True}),
             }
         }
 

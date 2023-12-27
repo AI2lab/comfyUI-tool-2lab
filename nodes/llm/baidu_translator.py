@@ -2,13 +2,14 @@ import hashlib
 import json
 import time
 import requests
-from ..constants import get_name,get_category
+from ..constants import get_project_name,get_project_category
 
 url_api_baidu_translator = "http://api.fanyi.baidu.com/api/trans/vip/translate" # 百度翻译API的URL
 
+NODE_CATEGORY = get_project_category("llm")
+
 class BaiduTranslator:
-    def __init__(self):
-        pass
+
 
     @classmethod
     def INPUT_TYPES(s):
@@ -21,8 +22,8 @@ class BaiduTranslator:
             },
         }
 
-    NAME = get_name('baidu_translator')
-    CATEGORY = get_category("api")
+    NAME = get_project_name('baidu_translator')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     FUNCTION = "doWork"
@@ -69,3 +70,12 @@ class BaiduTranslator:
             translate_result = "baidu translator server fail"
 
         return {"result": (translate_result,)}
+
+NODE_CLASS_MAPPINGS = {
+    BaiduTranslator.NAME: BaiduTranslator,
+}
+
+# display name
+NODE_DISPLAY_NAME_MAPPINGS = {
+    BaiduTranslator.NAME: "Baidu translator 百度翻译",
+}

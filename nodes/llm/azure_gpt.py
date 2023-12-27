@@ -1,17 +1,17 @@
 import json
 import os
-from pathlib import Path
-from ..constants import get_name,get_category
+from ..constants import get_project_name,get_project_category,project_root
 
-cur_path = Path(__file__)
-root_path = cur_path.parent.parent
+# cur_path = Path(__file__)
+root_path = project_root
+
+NODE_CATEGORY = get_project_category("llm")
 
 class AzureOpenaiGpt:
     deployments = None
     versions = None
 
-    def __init__(self):
-        pass
+
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -25,8 +25,8 @@ class AzureOpenaiGpt:
             }
         }
 
-    NAME = get_name('Azure_Openai_GPT')
-    CATEGORY = get_category("api")
+    NAME = get_project_name('Azure_Openai_GPT')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     FUNCTION = "doWork"

@@ -29,6 +29,11 @@ pip install openai
 
 You need to register and configure the deployment in Azure OpenAI Studio (https://oai.azure.com/portal).
 
+# Factx API
+Factx API是收费服务，仅供Factx订阅用户使用。通过Factx API，只要Factx的api_id和api_key，可以直接访问各类第三方api，不需要这些网站的账号。
+
+Factx API is a paid service, available only to Factx subscribers. Through the Factx API, with just the Factx api_id and api_key, you can directly access various third-party APIs without needing accounts for these websites.
+
 # 例子 example
 见workflow目录
 
@@ -44,3 +49,5 @@ See the workflow directory
 ![workflows/baidu-translate-example.png](workflows/baidu-translate-example.png)
 ## 有道翻译 youdao translator
 ![workflows/youdao-translate-example.png](workflows/youdao-translate-example.png)
+## 百度翻译 baidu translator (通过Factx api连接)
+![workflows/factx-api-baidu-translate-example.png](workflows/factx-api-baidu-translate-example.png)

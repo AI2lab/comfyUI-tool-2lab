@@ -1,6 +1,5 @@
 # learn from https://github.com/ZHO-ZHO-ZHO/ComfyUI-Text_Image-Composite/
 
-from pathlib import Path
 from typing import cast
 from typing import List, Union
 import numpy as np
@@ -8,7 +7,8 @@ import torch
 from PIL import Image, ImageDraw, ImageFont
 import math
 
-from ..constants import get_name,get_category,project_root
+from ..constants import get_project_name,get_project_category,project_root
+NODE_CATEGORY = get_project_category("image")
 
 # ----------------------------------------------------------------------------
 # here = Path(__file__).parent.absolute()
@@ -152,10 +152,7 @@ class Txt2Img:
             log.debug(f"Using cached fonts (count: {len(cls.fonts)})")
         return {
             "required": {
-                "text": (
-                    "STRING",
-                    {"default": ""},
-                ),
+                "text": ("STRING", {"forceInput": True}),
                 "selected_font": ((sorted(cls.fonts.keys())),),
                 "align": (["left", "center", "right"],
                           ),
@@ -212,8 +209,8 @@ class Txt2Img:
             }
         }
 
-    NAME = get_name('text to image')
-    CATEGORY = get_category("image")
+    NAME = get_project_name('text to image')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("image",)
     FUNCTION = "doWork"
@@ -367,10 +364,7 @@ class Txt2ImgMultiline:
             log.debug(f"Using cached fonts (count: {len(cls.fonts)})")
         return {
             "required": {
-                "text": (
-                    "STRING",
-                    {"default": "", "multiline": True},
-                ),
+                "text": ("STRING", {"forceInput": True}),
                 "selected_font": ((sorted(cls.fonts.keys())),),
                 "align": (["left", "center", "right"],
                           ),
@@ -422,8 +416,8 @@ class Txt2ImgMultiline:
             }
         }
 
-    NAME = get_name('text to image')
-    CATEGORY = get_category("image")
+    NAME = get_project_name('text to image multiline')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("image",)
     FUNCTION = "doWork"

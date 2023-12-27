@@ -17,7 +17,7 @@ app.registerExtension({
           ),
           nodeName = `${nodeData.name}_${ShowText.length}`;
 
-        console.log(`Create ${nodeData.name}: ${nodeName}`);
+//        console.log(`Create ${nodeData.name}: ${nodeName}`);
 
         const wi = ComfyWidgets.STRING(
           this,

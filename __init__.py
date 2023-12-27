@@ -5,16 +5,18 @@ import sys
 import __main__
 
 from .nodes.constants import PROJECT_NAME
-from .nodes.api.baidu_translator import BaiduTranslator
-from .nodes.api.youdao_ai import YoudaoTranslator
-from .nodes.api.properties_loader import LoadProperties
+from .nodes.properties_loader import LoadProperties
+from .nodes.llm.baidu_translator import BaiduTranslator
+from .nodes.llm.youdao_ai import YoudaoTranslator
+from .nodes.llm.openai_gpt import OpenaiGPT
+from .nodes.llm.azure_gpt import AzureOpenaiGpt
+from .nodes.llm.chatglm_gpt import ChatGLMGpt
+from .nodes.factxApi.llm import FactxApiBaiduTranslator,FactxApiYoudaoTranslator
 from .nodes.tool.preview import ShowText,ShowWebImage
 from .nodes.tool.number_input import Int,Float,FloatToInt,IntToFloat,IntToText,FloatToText,Seed
 from .nodes.tool.text import Text,ConcatText,ReplaceText,TrimText
-from .nodes.api.openai_gpt import OpenaiGPT
-from .nodes.api.azure_gpt import AzureOpenaiGpt
-from .nodes.api.chatglm_gpt import ChatGLMGpt
 from .nodes.image.image_mask import MaskInvert
+from .nodes.image.image_process import WatermarkOffset,ImageScale_Side,CropImage
 from .nodes.image.txt_to_image import Txt2Img,Txt2ImgMultiline
 
 python = sys.executable
@@ -49,9 +51,16 @@ NODE_CLASS_MAPPINGS = {
     ChatGLMGpt.NAME: ChatGLMGpt,
     BaiduTranslator.NAME: BaiduTranslator,
     YoudaoTranslator.NAME: YoudaoTranslator,
+    FactxApiBaiduTranslator.NAME: FactxApiBaiduTranslator,
+    FactxApiYoudaoTranslator.NAME: FactxApiYoudaoTranslator,
+
     ShowText.NAME: ShowText,
     ShowWebImage.NAME: ShowWebImage,
     MaskInvert.NAME: MaskInvert,
+    WatermarkOffset.NAME: WatermarkOffset,
+    ImageScale_Side.NAME: ImageScale_Side,
+    CropImage.NAME: CropImage,
+
     Txt2Img.NAME: Txt2Img,
     Txt2ImgMultiline.NAME: Txt2ImgMultiline,
     Int.NAME: Int,
@@ -75,14 +84,21 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     ChatGLMGpt.NAME: "ChatGLM chatGPT 智谱AI",
     BaiduTranslator.NAME: "Baidu translator 百度翻译",
     YoudaoTranslator.NAME: "Youdao translator 有道翻译",
+    FactxApiBaiduTranslator.NAME: "Baidu translator 百度翻译 (Factx API)",
+    FactxApiYoudaoTranslator.NAME: "Youdao translator 有道翻译 (Factx API)",
+
     ShowText.NAME: "show text 显示文字",
     ShowWebImage.NAME: "show web image 显示网图",
     MaskInvert.NAME: "Mask Invert 蒙版反转",
+    WatermarkOffset.NAME: "calculate watermark offset 计算水印在主图上的坐标",
+    ImageScale_Side.NAME: "upscale image to side 放大图片",
+    CropImage.NAME: "crop image 剪裁图片",
+
     Txt2Img.NAME: "text to image 文字转图片",
     Txt2ImgMultiline.NAME: "multiline text to image 多行文字转图片",
     Int.NAME: "input int 输入整数",
     Float.NAME: "input float 输入浮点数",
-    IntToText.NAME: "input to text 整数变成字符串",
+    IntToText.NAME: "int to text 整数变成字符串",
     FloatToText.NAME: "float to text 浮点数变成字符串",
     IntToFloat.NAME: "int to float 整数变成浮点数",
     FloatToInt.NAME: "float to int 浮点数变成整数",

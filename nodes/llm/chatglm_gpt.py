@@ -1,9 +1,10 @@
 
-from ..constants import get_name,get_category
+from ..constants import get_project_name,get_project_category
+
+NODE_CATEGORY = get_project_category("llm")
 
 class ChatGLMGpt:
-    def __init__(self):
-        pass
+
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -16,8 +17,8 @@ class ChatGLMGpt:
             },
         }
 
-    NAME = get_name('ChatGLM_GPT')
-    CATEGORY = get_category("api")
+    NAME = get_project_name('ChatGLM_GPT')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING", )
     RETURN_NAMES = ("text", )
     FUNCTION = "doWork"

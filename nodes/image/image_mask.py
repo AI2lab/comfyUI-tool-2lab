@@ -1,19 +1,18 @@
-from ..constants import get_name,get_category
+from ..constants import get_project_name,get_project_category
+
+NODE_CATEGORY = get_project_category("image")
 
 class MaskInvert:
-    def __init__(self):
-        pass
-
     @classmethod
     def INPUT_TYPES(cls):
         return {
-                    "required": {
-                        "masks": ("MASK",),
-                    }
-                }
+            "required": {
+                "masks": ("MASK",),
+            }
+        }
 
-    NAME = get_name('mask_invert')
-    CATEGORY = get_category("image")
+    NAME = get_project_name('mask_invert')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("MASK",)
     RETURN_NAMES = ("MASKS",)
     FUNCTION = "doWork"

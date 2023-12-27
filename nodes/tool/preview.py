@@ -3,12 +3,11 @@ import requests
 import torch
 from PIL import Image
 from io import BytesIO
-from ..constants import get_name,get_category
+from ..constants import get_project_name,get_project_category
+
+NODE_CATEGORY = get_project_category("util/preview")
 
 class ShowText:
-    def __init__(self):
-        pass
-
     @classmethod
     def INPUT_TYPES(s):
         return {
@@ -20,8 +19,8 @@ class ShowText:
                 "extra_pnginfo": "EXTRA_PNGINFO",},
         }
 
-    NAME = get_name('show_text')
-    CATEGORY = get_category("util/preview")
+    NAME = get_project_name('show_text')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
     OUTPUT_NODE = True
@@ -31,9 +30,6 @@ class ShowText:
         return {"ui": {"string": [text, ]}, "result": (text,)}
 
 class ShowWebImage:
-    def __init__(self):
-        pass
-
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -43,8 +39,8 @@ class ShowWebImage:
             },
         }
 
-    NAME = get_name('show_web_image')
-    CATEGORY = get_category("util/preview")
+    NAME = get_project_name('show_web_image')
+    CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("IMAGE", "MASK","TEXT")
     RETURN_NAMES = ("image", "mask","image_url")
     OUTPUT_NODE = True
