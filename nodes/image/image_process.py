@@ -132,8 +132,8 @@ class WatermarkOffset:
         _,  main_height,main_width, _ = image.shape
         _,  watermark_height,watermark_width, _ = watermarkImage.shape
 
-        print(main_width, main_height)
-        print(watermark_width, watermark_height)
+        # print(main_width, main_height)
+        # print(watermark_width, watermark_height)
 
         # 计算水印的偏移量
         if location == "top-left":
@@ -154,12 +154,11 @@ class WatermarkOffset:
         else:
             return {"result": (None, None,)}
 
-        print(location, xOffset, yOffset)
+        # print(location, xOffset, yOffset)
 
         # 检查偏移量是否合理
         if xOffset > 0 or main_width < xOffset or yOffset < 0 or yOffset > main_height:
             print("wrong x/y or x/yOffset")
             return {"result": (None, None,)}
-
 
         return {"result": (xOffset, yOffset,)}

@@ -2,7 +2,7 @@ from ..constants import get_project_name,get_project_category
 
 NODE_CATEGORY = get_project_category("util/text")
 
-class Text:
+class TextNode:
     NAME = get_project_name('text')
     CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)

@@ -13,8 +13,10 @@ from .nodes.llm.azure_gpt import AzureOpenaiGpt
 from .nodes.llm.chatglm_gpt import ChatGLMGpt
 from .nodes.factxApi.llm import FactxApiBaiduTranslator,FactxApiYoudaoTranslator
 from .nodes.tool.preview import ShowText,ShowWebImage
-from .nodes.tool.number_input import Int,Float,FloatToInt,IntToFloat,IntToText,FloatToText,Seed
-from .nodes.tool.text import Text,ConcatText,ReplaceText,TrimText
+from .nodes.tool.number_input import IntNode,FloatNode,BooleanNode
+from .nodes.tool.loader import ParamHub,StringHub9
+from .nodes.tool.batch import ImageBatch9,LatentBatch9
+from .nodes.tool.text import TextNode,ConcatText,ReplaceText,TrimText
 from .nodes.image.image_mask import MaskInvert
 from .nodes.image.image_process import WatermarkOffset,ImageScale_Side,CropImage
 from .nodes.image.txt_to_image import Txt2Img,Txt2ImgMultiline
@@ -63,17 +65,18 @@ NODE_CLASS_MAPPINGS = {
 
     Txt2Img.NAME: Txt2Img,
     Txt2ImgMultiline.NAME: Txt2ImgMultiline,
-    Int.NAME: Int,
-    Float.NAME: Float,
-    IntToText.NAME: IntToText,
-    FloatToText.NAME: FloatToText,
-    IntToFloat.NAME: IntToFloat,
-    FloatToInt.NAME: FloatToInt,
-    Seed.NAME: Seed,
-    Text.NAME: Text,
+    IntNode.NAME: IntNode,
+    FloatNode.NAME: FloatNode,
+    BooleanNode.NAME: BooleanNode,
+    TextNode.NAME: TextNode,
     ConcatText.NAME: ConcatText,
     ReplaceText.NAME: ReplaceText,
     TrimText.NAME: TrimText,
+    ParamHub.NAME: ParamHub,
+    StringHub9.NAME: StringHub9,
+    ImageBatch9.NAME: ImageBatch9,
+    LatentBatch9.NAME: LatentBatch9,
+
 }
 
 # display name
@@ -96,17 +99,17 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 
     Txt2Img.NAME: "text to image 文字转图片",
     Txt2ImgMultiline.NAME: "multiline text to image 多行文字转图片",
-    Int.NAME: "input int 输入整数",
-    Float.NAME: "input float 输入浮点数",
-    IntToText.NAME: "int to text 整数变成字符串",
-    FloatToText.NAME: "float to text 浮点数变成字符串",
-    IntToFloat.NAME: "int to float 整数变成浮点数",
-    FloatToInt.NAME: "float to int 浮点数变成整数",
-    Seed.NAME: "seed 输入种子",
-    Text.NAME: "text 输入文本",
+    IntNode.NAME: "input or convert int 输入或转换整数",
+    FloatNode.NAME: "input or convert float 输入或转换浮点数",
+    BooleanNode.NAME: "input or convert boolean 输入或转换布尔值",
+    TextNode.NAME: "text 输入文本",
     ConcatText.NAME: "concat text 合并文本",
     ReplaceText.NAME: "replace text 替换文本",
     TrimText.NAME: "trim text 消除文本前后空格",
+    ParamHub.NAME: "parameter hub 参数集中输入框",
+    StringHub9.NAME: "string hub 文本集中输入框",
+    ImageBatch9.NAME: "image batch 图片批处理",
+    LatentBatch9.NAME: "latent batch 潜空间批处理",
 }
 
 __all__ = [NODE_CLASS_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS]

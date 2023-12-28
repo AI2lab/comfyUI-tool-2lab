@@ -6,9 +6,14 @@ FLOAT = ("FLOAT", {"default": 1,
                    "min": -sys.float_info.max,
                    "max": sys.float_info.max,
                    "step": 0.01})
-# BOOL = ("BOOL", {"default": False})
+BOOL_TRUE = ("BOOLEAN", {"default": True})
+BOOL_FALSE = ("BOOLEAN", {"default": False})
 INT = ("INT", {"default": 1,
                "min": -sys.maxsize,
+               "max": sys.maxsize,
+               "step": 1})
+INT_POSITIVE = ("INT", {"default": 1,
+               "min": 1,
                "max": sys.maxsize,
                "step": 1})
 STRING = ("STRING", {"default": ""})

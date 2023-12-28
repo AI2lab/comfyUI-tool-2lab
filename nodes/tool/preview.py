@@ -12,7 +12,7 @@ class ShowText:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "text": ("STRING", {"forceInput": True}),
+                "string": ("STRING", {"forceInput": True}),
             },
             "hidden": {
                 "unique_id": "UNIQUE_ID",
@@ -22,12 +22,12 @@ class ShowText:
     NAME = get_project_name('show_text')
     CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("text",)
+    RETURN_NAMES = ("string",)
     OUTPUT_NODE = True
     FUNCTION = "doWork"
 
-    def doWork(self, text, unique_id=None, extra_pnginfo=None):
-        return {"ui": {"string": [text, ]}, "result": (text,)}
+    def doWork(self, string, unique_id=None, extra_pnginfo=None):
+        return {"ui": {"string": [string, ]}, "result": (string,)}
 
 class ShowWebImage:
     @classmethod
