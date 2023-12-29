@@ -11,15 +11,14 @@ from .nodes.llm.youdao_ai import YoudaoTranslator
 from .nodes.llm.openai_gpt import OpenaiGPT
 from .nodes.llm.azure_gpt import AzureOpenaiGpt
 from .nodes.llm.chatglm_gpt import ChatGLMGpt
-from .nodes.factxApi.llm import FactxApiBaiduTranslator,FactxApiYoudaoTranslator
+from .nodes.factxApi.llm import FactxApiBaiduTranslator, FactxApiYoudaoTranslator, FactxAzureOpenaiGPT, FactxChatGlmGPT
 from .nodes.tool.preview import ShowText,ShowWebImage
 from .nodes.tool.number_input import IntNode,FloatNode,BooleanNode
-from .nodes.tool.loader import ParamHub,StringHub9
+from .nodes.tool.loader import ParamHub,StringHub9,VideoParamHub
 from .nodes.tool.batch import ImageBatch9,LatentBatch9
 from .nodes.tool.text import TextNode,ConcatText,ReplaceText,TrimText
 from .nodes.image.image_mask import MaskInvert
 from .nodes.image.image_process import WatermarkOffset,ImageScale_Side,CropImage
-from .nodes.image.txt_to_image import Txt2Img,Txt2ImgMultiline
 
 python = sys.executable
 
@@ -55,6 +54,8 @@ NODE_CLASS_MAPPINGS = {
     YoudaoTranslator.NAME: YoudaoTranslator,
     FactxApiBaiduTranslator.NAME: FactxApiBaiduTranslator,
     FactxApiYoudaoTranslator.NAME: FactxApiYoudaoTranslator,
+    FactxAzureOpenaiGPT.NAME: FactxAzureOpenaiGPT,
+    FactxChatGlmGPT.NAME: FactxChatGlmGPT,
 
     ShowText.NAME: ShowText,
     ShowWebImage.NAME: ShowWebImage,
@@ -63,8 +64,6 @@ NODE_CLASS_MAPPINGS = {
     ImageScale_Side.NAME: ImageScale_Side,
     CropImage.NAME: CropImage,
 
-    Txt2Img.NAME: Txt2Img,
-    Txt2ImgMultiline.NAME: Txt2ImgMultiline,
     IntNode.NAME: IntNode,
     FloatNode.NAME: FloatNode,
     BooleanNode.NAME: BooleanNode,
@@ -73,6 +72,7 @@ NODE_CLASS_MAPPINGS = {
     ReplaceText.NAME: ReplaceText,
     TrimText.NAME: TrimText,
     ParamHub.NAME: ParamHub,
+    VideoParamHub.NAME: VideoParamHub,
     StringHub9.NAME: StringHub9,
     ImageBatch9.NAME: ImageBatch9,
     LatentBatch9.NAME: LatentBatch9,
@@ -89,6 +89,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     YoudaoTranslator.NAME: "Youdao translator 有道翻译",
     FactxApiBaiduTranslator.NAME: "Baidu translator 百度翻译 (Factx API)",
     FactxApiYoudaoTranslator.NAME: "Youdao translator 有道翻译 (Factx API)",
+    FactxAzureOpenaiGPT.NAME: "Azure OpenAI GPT (Factx API)",
+    FactxChatGlmGPT.NAME: "ChatGLM chatGPT 智谱AI (Factx API)",
 
     ShowText.NAME: "show text 显示文字",
     ShowWebImage.NAME: "show web image 显示网图",
@@ -97,8 +99,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     ImageScale_Side.NAME: "upscale image to side 放大图片",
     CropImage.NAME: "crop image 剪裁图片",
 
-    Txt2Img.NAME: "text to image 文字转图片",
-    Txt2ImgMultiline.NAME: "multiline text to image 多行文字转图片",
     IntNode.NAME: "input or convert int 输入或转换整数",
     FloatNode.NAME: "input or convert float 输入或转换浮点数",
     BooleanNode.NAME: "input or convert boolean 输入或转换布尔值",

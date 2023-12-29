@@ -4,10 +4,8 @@ import torch
 
 from ..common import fields
 from ..constants import get_project_name, get_project_category
-
 NODE_CATEGORY = get_project_category("util/batch")
 import comfy.utils  # comfyUI内部包
-
 
 class ImageBatch9:
     NAME = get_project_name('ImageBatch9')
@@ -39,8 +37,6 @@ class ImageBatch9:
 
     def doWork(self, image1, image2, image3=None, image4=None, image5=None, image6=None, image7=None, image8=None,
                image9=None):
-        print(image1)
-        print(image3)
 
         if image1.shape[1:] != image2.shape[1:]:
             image2 = comfy.utils.common_upscale(image2.movedim(-1, 1), image1.shape[2], image1.shape[1], "bilinear",

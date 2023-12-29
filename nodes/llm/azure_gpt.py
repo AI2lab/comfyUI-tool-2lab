@@ -2,16 +2,11 @@ import json
 import os
 from ..constants import get_project_name,get_project_category,project_root
 
-# cur_path = Path(__file__)
 root_path = project_root
 
 NODE_CATEGORY = get_project_category("llm")
 
 class AzureOpenaiGpt:
-    deployments = None
-    versions = None
-
-
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -32,6 +27,9 @@ class AzureOpenaiGpt:
     FUNCTION = "doWork"
 
     def doWork(self, key,endpoint, deployment,version, prompt):
+        print(prompt)
+        print(deployment)
+
         # 要使用时才import
         from openai import AzureOpenAI
         client = AzureOpenAI(

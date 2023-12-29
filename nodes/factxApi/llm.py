@@ -27,6 +27,70 @@ def submit(command: str, data: str) -> FactxResponse:
     print(factxResponse)
     return factxResponse
 
+class FactxChatGlmGPT:
+    NAME = get_project_name('FactxChatGlmGPT')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("text",)
+    FUNCTION = "doWork"
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "api_id": ("KEY", {"forceInput": True}),
+                "api_key": ("KEY", {"forceInput": True}),
+                "prompt": ("STRING", {"multiline": True}),
+            },
+        }
+
+    def doWork(self, api_id, api_key, prompt):
+        command = "app_factxApi_ChatGLM_GPT"
+        paramMap = {
+            "api_id": api_id,
+            "api_key": api_key,
+            "prompt": prompt,
+        }
+        responseJson = submit(command, json.dumps(paramMap))
+        if responseJson['success']==True:
+            translate_result = responseJson['data']['result']
+            return {"result": (translate_result,)}
+        else:
+            return {"result": (responseJson['message'],)}
+
+class FactxAzureOpenaiGPT:
+    NAME = get_project_name('FactxAzureOpenaiGPT')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("text",)
+    FUNCTION = "doWork"
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "api_id": ("KEY", {"forceInput": True}),
+                "api_key": ("KEY", {"forceInput": True}),
+                "prompt": ("STRING", {"multiline": True}),
+                "deployment": ("KEY", {"multiline": False, "default": ""}),
+            },
+        }
+
+    def doWork(self, api_id, api_key, prompt, deployment):
+        command = "app_factxApi_Azure_GPT"
+        paramMap = {
+            "api_id": api_id,
+            "api_key": api_key,
+            "prompt": prompt,
+            "deployment": deployment
+        }
+        responseJson = submit(command, json.dumps(paramMap))
+        if responseJson['success']==True:
+            translate_result = responseJson['data']['result']
+            return {"result": (translate_result,)}
+        else:
+            return {"result": (responseJson['message'],)}
+
 class FactxApiBaiduTranslator:
     NAME = get_project_name('factx_api_baidu_translator')
     CATEGORY = NODE_CATEGORY

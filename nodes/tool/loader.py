@@ -6,11 +6,35 @@ from ..constants import get_project_name, get_project_category
 NODE_CATEGORY = get_project_category("util/loader")
 
 
+class VideoParamHub:
+    NAME = get_project_name('VideoParamHub')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ( "INT", "INT",)
+    RETURN_NAMES = ("frames", "fps",)
+    OUTPUT_NODE = True
+    FUNCTION = "doWork"
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "frames": ([14,25], {"default": 14,}),
+                "fps": ("INT", {"default": 5,
+                       "min": 1,
+                       "max": 1000,
+                       "step": 1}),
+            }
+        }
+
+    def doWork(self, frames, fps):
+        return {"result": (frames, fps)}
+
 class ParamHub:
     NAME = get_project_name('ParamHub')
     CATEGORY = NODE_CATEGORY
-    RETURN_TYPES = ("STRING", "STRING", "INT", "BOOLEAN", "STRING", "STRING",)
-    RETURN_NAMES = ("prompt", "negativePrompt", "seed", "addWatermark", "watermark", "segment")
+    RETURN_TYPES = ("STRING", "STRING", "INT", "INT", "INT", "INT", "BOOLEAN", "STRING", "STRING",)
+    RETURN_NAMES = (
+    "prompt", "negativePrompt", "width", "height", "seed", "steps", "addWatermark", "watermark", "segment")
     OUTPUT_NODE = True
     FUNCTION = "doWork"
 
@@ -20,22 +44,33 @@ class ParamHub:
             "required": {
                 "prompt": fields.STRING_ML,
                 "negativePrompt": fields.STRING_ML,
+                "width": ("INT", {"default": 1024,
+                       "min": 256,
+                       "max": 2048,
+                       "step": 1}),
+                "height": ("INT", {"default": 1024,
+                       "min": 256,
+                       "max": 2048,
+                       "step": 1}),
                 "seed": ("INT", {
                     "default": 0,
                     "min": -1,
                     "max": sys.maxsize,
                 }),
+                "steps": ("INT", {"default": 25,
+                       "min": 1,
+                       "max": 1000,
+                       "step": 1}),
                 "addWatermark": fields.BOOL_TRUE,
                 "watermark": fields.STRING,
                 "segment": fields.STRING,
             }
         }
 
-    def doWork(self, prompt, negativePrompt, seed, addWatermark, watermark, segment):
-        if addWatermark==False:
+    def doWork(self, prompt, negativePrompt, width, height, seed, steps, addWatermark, watermark, segment):
+        if addWatermark == False:
             watermark = ''
-        return {"result": (prompt, negativePrompt, seed, addWatermark, watermark, segment)}
-
+        return {"result": (prompt, negativePrompt, width, height, seed, steps, addWatermark, watermark, segment)}
 
 class StringHub9:
     NAME = get_project_name('StringHub9')

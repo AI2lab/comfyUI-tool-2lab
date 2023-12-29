@@ -4,7 +4,6 @@ NODE_CATEGORY = get_project_category("llm")
 
 
 class OpenaiGPT:
-
     @classmethod
     def INPUT_TYPES(cls):
         return {
