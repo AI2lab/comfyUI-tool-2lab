@@ -32,9 +32,9 @@ class VideoParamHub:
 class ParamHub:
     NAME = get_project_name('ParamHub')
     CATEGORY = NODE_CATEGORY
-    RETURN_TYPES = ("STRING", "STRING", "INT", "INT", "INT", "INT", "BOOLEAN", "STRING", "STRING",)
+    RETURN_TYPES = ("STRING", "STRING", "INT", "INT", "INT", "INT", "BOOLEAN", "STRING", "STRING", "INT",)
     RETURN_NAMES = (
-    "prompt", "negativePrompt", "width", "height", "seed", "steps", "addWatermark", "watermark", "segment")
+    "prompt", "negativePrompt", "width", "height", "seed", "steps", "addWatermark", "watermark", "segment", "batchSize")
     OUTPUT_NODE = True
     FUNCTION = "doWork"
 
@@ -64,13 +64,14 @@ class ParamHub:
                 "addWatermark": fields.BOOL_TRUE,
                 "watermark": fields.STRING,
                 "segment": fields.STRING,
+                "batchSize": fields.INT_POSITIVE,
             }
         }
 
-    def doWork(self, prompt, negativePrompt, width, height, seed, steps, addWatermark, watermark, segment):
+    def doWork(self, prompt, negativePrompt, width, height, seed, steps, addWatermark, watermark, segment, batchSize):
         if addWatermark == False:
             watermark = ''
-        return {"result": (prompt, negativePrompt, width, height, seed, steps, addWatermark, watermark, segment)}
+        return {"result": (prompt, negativePrompt, width, height, seed, steps, addWatermark, watermark, segment, batchSize)}
 
 class StringHub9:
     NAME = get_project_name('StringHub9')
