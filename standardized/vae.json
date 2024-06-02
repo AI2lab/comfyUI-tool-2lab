@@ -1,0 +1,43 @@
+[
+  {
+    "name": "sdxl_vae.safetensors",
+    "type": "VAE",
+    "base": "SDXL VAE",
+    "save_path": "default",
+    "description": "SDXL-VAE",
+    "reference": "https://huggingface.co/stabilityai/sdxl-vae",
+    "filename": "sdxl_vae.safetensors",
+    "url": "https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors"
+  },
+  {
+    "name": "vae-ft-mse-840000-ema-pruned",
+    "type": "VAE",
+    "base": "SD1.5 VAE",
+    "save_path": "default",
+    "description": "vae-ft-mse-840000-ema-pruned",
+    "reference": "https://huggingface.co/stabilityai/sd-vae-ft-mse-original",
+    "filename": "vae-ft-mse-840000-ema-pruned.safetensors",
+    "url": "https://huggingface.co/stabilityai/sd-vae-ft-mse-original/resolve/main/vae-ft-mse-840000-ema-pruned.safetensors"
+  },
+  {
+    "name": "clearvaeSD15_v23",
+    "type": "VAE",
+    "base": "SD1.5 VAE",
+    "save_path": "default",
+    "description": "This is a merged VAE that is slightly more vivid than animevae and does not bleed like kl-f8-anime2.",
+    "reference": "https://civitai.com/models/22354/",
+    "filename": "clearvaeSD15_v23.safetensors",
+    "url": "https://civitai.com/api/download/models/88156"
+  },
+  {
+    "name": "previewer",
+    "type": "VAE",
+    "base": "stable-cascade VAE",
+    "save_path": "default",
+    "description": "previewer vae for stable-cascade",
+    "reference": "https://huggingface.co/stabilityai/sd-vae-ft-mse-original",
+    "filename": "previewer.safetensors",
+    "url": "https://huggingface.co/stabilityai/stable-cascade/resolve/main/previewer.safetensors"
+  }
+]
+

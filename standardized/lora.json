@@ -1,0 +1,182 @@
+[
+  {
+    "name": "CLAYMATE",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "CLAYMATE_V2.03_",
+    "reference": "https://civitai.com/models/208168?modelVersionId=236248",
+    "filename": "CLAYMATE_V2.03_.safetensors",
+    "url": "https://civitai.com/api/download/models/236248"
+  },
+  {
+    "name": "Doctor Diffusion's Claymation Style LoRA",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "Doctor Diffusion's Claymation Style LoRA",
+    "reference": "https://civitai.com/models/181962?modelVersionId=207020",
+    "filename": "DD-made-of-clay-XL-v2.safetensors",
+    "url": "https://civitai.com/api/download/models/207020"
+  },
+  {
+    "name": "Ghibli_v6",
+    "type": "lora",
+    "base": "SD 1.5",
+    "save_path": "sd15",
+    "description": "GHIBLI_Background",
+    "reference": "https://civitai.com/models/54233?modelVersionId=125985",
+    "filename": "Ghibli_v6.safetensors",
+    "url": "https://civitai.com/api/download/models/125985"
+  },
+  {
+    "name": "PE Pencil Drawing [Style]",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "Pencil Style",
+    "reference": "https://civitai.com/models/132383?modelVersionId=145610",
+    "filename": "PE_PencilDrawing.safetensors",
+    "url": "https://civitai.com/api/download/models/145610"
+  },
+  {
+    "name": "blindbox/大概是盲盒",
+    "type": "lora",
+    "base": "SD 1.5",
+    "save_path": "sd15",
+    "description": "blind box",
+    "reference": "https://civitai.com/models/25995?modelVersionId=32988",
+    "filename": "blindbox_v1_mix.safetensors",
+    "url": "https://civitai.com/api/download/models/32988"
+  },
+  {
+    "name": "Stickers.Redmond - Stickers Lora for SD XL",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "Stickers",
+    "reference": "https://civitai.com/models/144142?modelVersionId=160130",
+    "filename": "StickersRedmond.safetensors",
+    "url": "https://civitai.com/api/download/models/160130"
+  },
+  {
+    "name": "XL - Designer_BlindBox",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "blind box",
+    "reference": "https://civitai.com/models/127819?modelVersionId=139870",
+    "filename": "Designer_BlindBox-000015.safetensors",
+    "url": "https://civitai.com/api/download/models/139870"
+  },
+  {
+    "name": "【油条Rare model】3D卡通风格化场景-抢先体验版",
+    "type": "lora",
+    "base": "SD 1.5",
+    "save_path": "sd15",
+    "description": "【油条Rare model】3D卡通风格化场景",
+    "reference": "https://civitai.com/models/127526?modelVersionId=139534",
+    "filename": "YouTiao-3DCartoon scene.safetensors",
+    "url": "https://civitai.com/api/download/models/139534"
+  },
+  {
+    "name": "吴冠中Wu Guanzhong",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "吴冠中绘画风格",
+    "reference": "https://civitai.com/models/272089?modelVersionId=306687",
+    "filename": "wuguanzhong.safetensors",
+    "url": "https://civitai.com/api/download/models/306687"
+  },
+  {
+    "name": "add details? / 加点细节？Style Lora",
+    "type": "lora",
+    "base": "SD 1.5",
+    "save_path": "sd15",
+    "description": "add details",
+    "reference": "https://civitai.com/models/109775?modelVersionId=118311",
+    "filename": "addDetails.safetensors",
+    "url": "https://civitai.com/api/download/models/118311"
+  },
+  {
+    "name": "Aether Ghost",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "Aether Ghost",
+    "reference": "https://civitai.com/models/133412?modelVersionId=147350",
+    "filename": "Aether_Ghost_v1.1_LoRA.safetensors",
+    "url": "https://civitai.com/api/download/models/147350"
+  },
+  {
+    "name": "Aether Cloud",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "Aether Cloud",
+    "reference": "https://civitai.com/models/141029?modelVersionId=156328",
+    "filename": "Aether_Cloud_v1.safetensors",
+    "url": "https://civitai.com/api/download/models/156328"
+  },
+  {
+    "name": "Cosmetics",
+    "type": "lora",
+    "base": "SD 1.5",
+    "save_path": "sd15",
+    "description": "Cosmetics",
+    "reference": "https://civitai.com/models/94300?modelVersionId=100594",
+    "filename": "cosmetics_v2.safetensors",
+    "url": "https://civitai.com/api/download/models/100594"
+  },
+  {
+    "name": "Juggernaut Cinematic XL LoRA",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "Juggernaut Cinematic XL LoRA",
+    "reference": "https://civitai.com/models/120663?modelVersionId=131991",
+    "filename": "JuggerCineXL2.safetensors",
+    "url": "https://civitai.com/api/download/models/131991"
+  },
+  {
+    "name": "ip-adapter-faceid_sd15_lora",
+    "type": "lora",
+    "base": "SD 1.5",
+    "save_path": "sd15",
+    "description": "SD1.5 FaceID LoRA",
+    "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+    "filename": "ip-adapter-faceid_sd15_lora.safetensors",
+    "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid_sd15_lora.safetensors"
+  },
+  {
+    "name": "ip-adapter-faceid-plusv2_sd15_lora",
+    "type": "lora",
+    "base": "SD 1.5",
+    "save_path": "sd15",
+    "description": "SD1.5 FaceID LoRA",
+    "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+    "filename": "ip-adapter-faceid-plusv2_sd15_lora.safetensors",
+    "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-plusv2_sd15_lora.safetensors"
+  },
+  {
+    "name": "ip-adapter-faceid_sdxl_lora",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "SDXL FaceID LoRA",
+    "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+    "filename": "ip-adapter-faceid_sdxl_lora.safetensors",
+    "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid_sdxl_lora.safetensors"
+  },
+  {
+    "name": "ip-adapter-faceid-plusv2_sdxl_lora",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "SDXL plus v2 LoRA",
+    "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+    "filename": "ip-adapter-faceid-plusv2_sdxl_lora.safetensors",
+    "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-plusv2_sdxl_lora.safetensors"
+  }
+]

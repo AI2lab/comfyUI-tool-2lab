@@ -1,0 +1,439 @@
+[
+  {
+    "custom_node": "ComfyUI_IPAdapter_plus",
+    "reference": "https://github.com/cubiq/ComfyUI_IPAdapter_plus",
+    "models": {
+      "files": [
+        {
+          "name": "CLIP-ViT-H-14-laion2B-s32B-b79K",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "clip_vision",
+          "description": "image encoder for SD1.5",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
+        },
+        {
+          "name": "CLIP-ViT-bigG-14-laion2B-39B-b160k",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "clip_vision",
+          "description": "image encoder for SDXL",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "CLIP-ViT-bigG-14-laion2B-39B-b160k.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors"
+        },
+        {
+          "name": "ip-adapter_sd15",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "Basic model, average strength",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter_sd15.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15.safetensors"
+        },
+        {
+          "name": "ip-adapter_sd15_light_v11",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "ipadapter",
+          "description": "Light impact model",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter_sd15_light_v11.bin",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15_light_v11.bin"
+        },
+        {
+          "name": "ip-adapter-plus_sd15",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "ipadapter",
+          "description": "Plus model, very strong",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter-plus_sd15.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus_sd15.safetensors"
+        },
+        {
+          "name": "ip-adapter-plus-face_sd15",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "ipadapter",
+          "description": "Face model, portraits",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter-plus-face_sd15.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus-face_sd15.safetensors"
+        },
+        {
+          "name": "ip-adapter-full-face_sd15",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "ipadapter",
+          "description": "Stronger face model, not necessarily better",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter-full-face_sd15.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-full-face_sd15.safetensors"
+        },
+        {
+          "name": "ip-adapter_sd15_vit-G",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "ipadapter",
+          "description": "Base model, requires bigG clip vision encoder",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter_sd15_vit-G.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15_vit-G.safetensors"
+        },
+        {
+          "name": "ip-adapter_sdxl_vit-h",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "SDXL model",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter_sdxl_vit-h.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter_sdxl_vit-h.safetensors"
+        },
+        {
+          "name": "ip-adapter-plus_sdxl_vit-h",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "SDXL plus model",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter-plus_sdxl_vit-h.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors"
+        },
+        {
+          "name": "ip-adapter-plus-face_sdxl_vit-h",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "SDXL face model",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter-plus-face_sdxl_vit-h.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus-face_sdxl_vit-h.safetensors"
+        },
+        {
+          "name": "ip-adapter_sdxl",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "vit-G SDXL model, requires bigG clip vision encoder",
+          "reference": "https://huggingface.co/h94/IP-Adapter",
+          "filename": "ip-adapter_sdxl.safetensors",
+          "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter_sdxl.safetensors"
+        },
+        {
+          "name": "ip-adapter-faceid_sd15.bin",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "ipadapter",
+          "description": "IP-Adapter-FaceID Model (SD1.5)",
+          "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+          "filename": "ip-adapter-faceid_sd15.bin",
+          "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid_sd15.bin"
+        },
+        {
+          "name": "ip-adapter-faceid-plusv2_sd15",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "ipadapter",
+          "description": "FaceID plus v2",
+          "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+          "filename": "ip-adapter-faceid-plusv2_sd15.bin",
+          "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-plusv2_sd15.bin"
+        },
+        {
+          "name": "ip-adapter-faceid-portrait-v11_sd15",
+          "type": "IP-Adapter",
+          "base": "SD1.5",
+          "save_path": "ipadapter",
+          "description": "text prompt style transfer for portraits",
+          "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+          "filename": "ip-adapter-faceid-portrait-v11_sd15.bin",
+          "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-portrait-v11_sd15.bin"
+        },
+        {
+          "name": "ip-adapter-faceid_sdxl",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "SDXL base FaceID",
+          "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+          "filename": "ip-adapter-faceid_sdxl.bin",
+          "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid_sdxl.bin"
+        },
+        {
+          "name": "ip-adapter-faceid-plusv2_sdxl",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "SDXL plus v2",
+          "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+          "filename": "ip-adapter-faceid-plusv2_sdxl.bin",
+          "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-plusv2_sdxl.bin"
+        },
+        {
+          "name": "ip-adapter-faceid-portrait_sdxl",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "SDXL text prompt style transfer",
+          "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+          "filename": "ip-adapter-faceid-portrait_sdxl.bin",
+          "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-portrait_sdxl.bin"
+        },
+        {
+          "name": "ip-adapter-faceid-portrait_sdxl_unnorm",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "SDXL text prompt style transfer",
+          "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+          "filename": "ip-adapter-faceid-portrait_sdxl_unnorm.bin",
+          "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-portrait_sdxl_unnorm.bin"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI_InstantID",
+    "reference": "https://github.com/cubiq/ComfyUI_InstantID",
+    "models": {
+      "files": [
+        {
+          "name": "instantid/ip-adapter.bin",
+          "type": "instantid",
+          "base": "",
+          "save_path": "instantid",
+          "description": "InstantID: Zero-shot Identity-Preserving Generation in Seconds",
+          "reference": "https://huggingface.co/InstantX/InstantID",
+          "filename": "ip-adapter.bin",
+          "url": "https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin"
+        },
+        {
+          "name": "instantid/diffusion_pytorch_model.safetensors",
+          "type": "controlnet",
+          "base": "",
+          "save_path": "controlnet/instantid",
+          "description": "controlnet for instantid",
+          "reference": "https://huggingface.co/InstantX/InstantID",
+          "filename": "diffusion_pytorch_model.safetensors",
+          "url": "https://huggingface.co/InstantX/InstantID/resolve/main/ControlNetModel/diffusion_pytorch_model.safetensors"
+        },
+        {
+          "name": "antelopev2",
+          "type": "insightface",
+          "base": "",
+          "save_path": "insightface/models/antelopev2",
+          "description": "InsightFace model",
+          "reference": "https://huggingface.co/MonsterMMORPG",
+          "filename": "antelopev2.zip",
+          "url": "https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "PuLID_ComfyUI",
+    "reference": "https://github.com/cubiq/PuLID_ComfyUI",
+    "models": {
+      "files": [
+        {
+          "name": "pulid/ip-adapter_pulid_sdxl_fp16",
+          "type": "pulid",
+          "base": "SDXL",
+          "save_path": "pulid",
+          "description": "PuLID pre-trained model, Chenlei Hu for converting them into IPAdapter format",
+          "reference": "https://huggingface.co/huchenlei/ipadapter_pulid",
+          "filename": "ip-adapter_pulid_sdxl_fp16.safetensors",
+          "url": "https://huggingface.co/huchenlei/ipadapter_pulid/resolve/main/ip-adapter_pulid_sdxl_fp16.safetensors"
+        },
+        {
+          "name": "antelopev2",
+          "type": "insightface",
+          "base": "",
+          "save_path": "insightface/models/antelopev2",
+          "description": "InsightFace model",
+          "reference": "https://huggingface.co/MonsterMMORPG",
+          "filename": "antelopev2.zip",
+          "url": "https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI-IC-Light",
+    "reference": "https://github.com/kijai/ComfyUI-IC-Light",
+    "models": {
+      "files": [
+        {
+          "name": "IC-Light/fc",
+          "type": "IC-Light",
+          "base": "SD1.5",
+          "save_path": "unet/IC-Light",
+          "description": "The default relighting model, conditioned on text and foreground",
+          "reference": "https://huggingface.co/lllyasviel/ic-light",
+          "filename": "iclight_sd15_fc.safetensors",
+          "url": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fc.safetensors"
+        },
+        {
+          "name": "IC-Light/fbc",
+          "type": "IC-Light",
+          "base": "SD1.5",
+          "save_path": "unet/IC-Light",
+          "description": "Relighting model conditioned with text, foreground, and background",
+          "reference": "https://huggingface.co/lllyasviel/ic-light",
+          "filename": "iclight_sd15_fbc.safetensors",
+          "url": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fbc.safetensors"
+        },
+        {
+          "name": "IC-Light/fcon",
+          "type": "IC-Light",
+          "base": "SD1.5",
+          "save_path": "unet/IC-Light",
+          "description": "Same as iclight_sd15_fc.safetensors, but trained with offset noise",
+          "reference": "https://huggingface.co/lllyasviel/ic-light",
+          "filename": "iclight_sd15_fcon.safetensors",
+          "url": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fcon.safetensors"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI-SUPIR",
+    "reference": "https://github.com/kijai/ComfyUI-SUPIR",
+    "models": {
+      "files": [
+        {
+          "name": "SUPIR/SUPIR-v0F_fp16.safetensors",
+          "type": "SUPIR",
+          "base": "SUPIR",
+          "save_path": "checkpoints/SUPIR",
+          "description": "Training with light degradation settings. Stage1 encoder of SUPIR-v0F remains more details when facing light degradations",
+          "reference": "https://huggingface.co/Kijai/SUPIR_pruned",
+          "filename": "SUPIR-v0F_fp16.safetensors",
+          "url": "https://huggingface.co/Kijai/SUPIR_pruned/resolve/main/SUPIR-v0F_fp16.safetensors"
+        },
+        {
+          "name": "SUPIR/SUPIR-v0Q_fp16.safetensors",
+          "type": "SUPIR",
+          "base": "SUPIR",
+          "save_path": "checkpoints/SUPIR",
+          "description": "Default training settings with paper. High generalization and high image quality in most cases",
+          "reference": "https://huggingface.co/Kijai/SUPIR_pruned",
+          "filename": "SUPIR-v0Q_fp16.safetensors",
+          "url": "https://huggingface.co/Kijai/SUPIR_pruned/resolve/main/SUPIR-v0Q_fp16.safetensors"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI-ELLA",
+    "reference": "https://github.com/TencentQQGYLab/ComfyUI-ELLA",
+    "models": {
+      "files": [
+        {
+          "name": "ella/ella-sd1.5-tsc-t5xl.safetensors",
+          "type": "ella",
+          "base": "SD1.5",
+          "save_path": "ella",
+          "description": "ELLA Models",
+          "reference": "https://huggingface.co/QQGYLab/ELLA",
+          "filename": "ella-sd1.5-tsc-t5xl.safetensors",
+          "url": "https://huggingface.co/QQGYLab/ELLA/resolve/main/ella-sd1.5-tsc-t5xl.safetensors"
+        },
+        {
+          "name": "ella/ella_encoder/config.json",
+          "type": "ella",
+          "base": "SD1.5",
+          "save_path": "ella_encoder/models--google--flan-t5-xl--text_encoder",
+          "description": "ELLA encoder folder",
+          "reference": "https://huggingface.co/QQGYLab/ELLA",
+          "filename": "config.json",
+          "url": "https://huggingface.co/QQGYLab/ELLA/resolve/main/models--google--flan-t5-xl--text_encoder/config.json"
+        },
+        {
+          "name": "ella/ella_encoder/model.safetensors",
+          "type": "ella",
+          "base": "SD1.5",
+          "save_path": "ella_encoder/models--google--flan-t5-xl--text_encoder",
+          "description": "ELLA encoder folder",
+          "reference": "https://huggingface.co/QQGYLab/ELLA",
+          "filename": "model.safetensors",
+          "url": "https://huggingface.co/QQGYLab/ELLA/resolve/main/models--google--flan-t5-xl--text_encoder/model.safetensors"
+        },
+        {
+          "name": "ella/ella_encoder/special_tokens_map.json",
+          "type": "ella",
+          "base": "SD1.5",
+          "save_path": "ella_encoder/models--google--flan-t5-xl--text_encoder",
+          "description": "ELLA encoder folder",
+          "reference": "https://huggingface.co/QQGYLab/ELLA",
+          "filename": "special_tokens_map.json",
+          "url": "https://huggingface.co/QQGYLab/ELLA/resolve/main/models--google--flan-t5-xl--text_encoder/special_tokens_map.json"
+        },
+        {
+          "name": "ella/ella_encoder/spiece.model",
+          "type": "ella",
+          "base": "SD1.5",
+          "save_path": "ella_encoder/models--google--flan-t5-xl--text_encoder",
+          "description": "ELLA encoder folder",
+          "reference": "https://huggingface.co/QQGYLab/ELLA",
+          "filename": "spiece.model",
+          "url": "https://huggingface.co/QQGYLab/ELLA/resolve/main/models--google--flan-t5-xl--text_encoder/spiece.model"
+        },
+        {
+          "name": "ella/ella_encoder/tokenizer.json",
+          "type": "ella",
+          "base": "SD1.5",
+          "save_path": "ella_encoder/models--google--flan-t5-xl--text_encoder",
+          "description": "ELLA encoder folder",
+          "reference": "https://huggingface.co/QQGYLab/ELLA",
+          "filename": "tokenizer.json",
+          "url": "https://huggingface.co/QQGYLab/ELLA/resolve/main/models--google--flan-t5-xl--text_encoder/tokenizer.json"
+        },
+        {
+          "name": "ella/ella_encoder/tokenizer_config.json",
+          "type": "ella",
+          "base": "SD1.5",
+          "save_path": "ella_encoder/models--google--flan-t5-xl--text_encoder",
+          "description": "ELLA encoder folder",
+          "reference": "https://huggingface.co/QQGYLab/ELLA",
+          "filename": "tokenizer_config.json",
+          "url": "https://huggingface.co/QQGYLab/ELLA/resolve/main/models--google--flan-t5-xl--text_encoder/tokenizer_config.json"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI-YoloWorld-EfficientSAM",
+    "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-YoloWorld-EfficientSAM",
+    "models": {
+      "files": [
+        {
+          "name": "EfficientSAM/efficient_sam_s_cpu.jit",
+          "type": "EfficientSAM",
+          "base": "",
+          "save_path": "custom_nodes/ComfyUI-YoloWorld-EfficientSAM",
+          "description": "Efficient SAM",
+          "reference": "https://huggingface.co/camenduru/YoloWorld-EfficientSAM",
+          "filename": "efficient_sam_s_cpu.jit",
+          "url": "https://huggingface.co/camenduru/YoloWorld-EfficientSAM/resolve/main/efficient_sam_s_cpu.jit"
+        },
+        {
+          "name": "EfficientSAM/efficient_sam_s_gpu.jit",
+          "type": "EfficientSAM",
+          "base": "",
+          "save_path": "custom_nodes/ComfyUI-YoloWorld-EfficientSAM",
+          "description": "Efficient SAM",
+          "reference": "https://huggingface.co/camenduru/YoloWorld-EfficientSAM",
+          "filename": "efficient_sam_s_gpu.jit",
+          "url": "https://huggingface.co/camenduru/YoloWorld-EfficientSAM/resolve/main/efficient_sam_s_gpu.jit"
+        }
+      ]
+    }
+  }
+]
+
