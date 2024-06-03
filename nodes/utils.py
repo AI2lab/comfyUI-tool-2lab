@@ -41,7 +41,7 @@ def auto_download_model():
                     continue
 def download_huggingface_model(url, save_full_path, filename) ->str:
     try:
-        tempfilename = "temp_"+filename
+        tempfilename = filename+".temp"
         temp_file_path = os.path.join(save_full_path, tempfilename)
         file_path = os.path.join(save_full_path,filename)
 
