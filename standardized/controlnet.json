@@ -243,7 +243,7 @@
       "name": "xinsir/controlnet-openpose-sdxl-1.0",
       "type": "controlnet",
       "base": "SDXL",
-      "save_path": "sdxl",
+      "save_path": "sdxl/xinsir",
       "description": "controlnet-openpose-sdxl-1.0",
       "reference": "https://huggingface.co/xinsir/",
       "filename": "controlnet-openpose-sdxl-1.0.safetensors",
@@ -253,7 +253,7 @@
       "name": "xinsir/controlnet-scribble-sdxl-1.0",
       "type": "controlnet",
       "base": "SDXL",
-      "save_path": "sdxl",
+      "save_path": "sdxl/xinsir",
       "description": "controlnet-scribble-sdxl-1.0",
       "reference": "https://huggingface.co/xinsir/",
       "filename": "controlnet-scribble-sdxl-1.0.safetensors",
@@ -263,7 +263,7 @@
       "name": "xinsir/controlnet-canny-sdxl-1.0",
       "type": "controlnet",
       "base": "SDXL",
-      "save_path": "sdxl",
+      "save_path": "sdxl/xinsir",
       "description": "controlnet-canny-sdxl-1.0",
       "reference": "https://huggingface.co/xinsir/",
       "filename": "controlnet-canny-sdxl-1.0.safetensors",
@@ -273,11 +273,21 @@
       "name": "TheMistoAI/mistoLine_rank256",
       "type": "controlnet",
       "base": "SDXL",
-      "save_path": "sdxl",
+      "save_path": "sdxl/misto",
       "description": "mistoLine_rank256",
       "reference": "https://huggingface.co/TheMistoAI/MistoLine",
       "filename": "mistoLine_rank256.safetensors",
       "url": "https://huggingface.co/TheMistoAI/MistoLine/resolve/main/mistoLine_rank256.safetensors"
+    },
+    {
+      "name": "TTPlanet/TTPLanet_SDXL_Controlnet_Tile_Realistic",
+      "type": "controlnet",
+      "base": "SDXL",
+      "save_path": "sdxl/TTPlanet",
+      "description": "TTPLANET_Controlnet_Tile_realistic_v2_fp16",
+      "reference": "https://huggingface.co/TTPlanet/TTPLanet_SDXL_Controlnet_Tile_Realistic",
+      "filename": "TTPLANET_Controlnet_Tile_realistic_v2_fp16.safetensors",
+      "url": "https://huggingface.co/TTPlanet/TTPLanet_SDXL_Controlnet_Tile_Realistic/resolve/main/TTPLANET_Controlnet_Tile_realistic_v2_fp16.safetensors"
     }
 ]
 

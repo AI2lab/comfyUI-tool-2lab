@@ -187,5 +187,6 @@ def filter_list(origin_list, filter_list):
 
 def print_console(text):
     print(f"\033[36m{text}\033[0m")
+
 def print_error(text):
-    print(f"\033[31m{text}\033[0m")
+    print(f"\033[31m[error] \033[0m{text}")
