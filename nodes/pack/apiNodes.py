@@ -278,6 +278,7 @@ class OutputImage:
     NAME = get_project_name('OutputImage')
     CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("prompt",)
     FUNCTION = "doWork"
     OUTPUT_NODE = True
 
@@ -286,11 +287,7 @@ class OutputImage:
         # print("filename_prefix = ",filename_prefix)
         full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(
             filename_prefix, self.output_dir, images[0].shape[1], images[0].shape[0])
-        # print("full_output_folder = ",full_output_folder)
-        # print("filename = ",filename)
-        # print("counter = ",counter)
-        # print("subfolder = ",subfolder)
-        # print("filename_prefix = ",filename_prefix)
+
         results = list()
         for (batch_number, image) in enumerate(images):
             i = 255. * image.cpu().numpy()
@@ -314,7 +311,7 @@ class OutputImage:
             })
             counter += 1
 
-        return {"ui": {"images": results}, "prompt": (json.dumps(prompt))}
+        return {"ui": {"images": results}, "result": (json.dumps(prompt),)}
 
 
 class CheckpointLoader:
@@ -475,7 +472,7 @@ class VAELoader:
         else:
             vae_path = folder_paths.get_full_path("vae", vae_name)
             simple_vae_name = truncate_string(vae_name)
-            if simple_vae_name in loras:
+            if simple_vae_name in vaes:
                 print("simple_vae_name in vaes")
             else:
                 msg = f"checkpoint '{simple_vae_name}' not in available list, please check vae.json"

@@ -434,6 +434,42 @@
         }
       ]
     }
+  },
+  {
+    "custom_node": "ComfyUI-ToonCrafter",
+    "reference": "https://github.com/AIGODLIKE/ComfyUI-ToonCrafter",
+    "models": {
+      "files": [
+        {
+          "name": "ToonCrafter/tooncrafter_512_interp-fp16.safetensors",
+          "type": "ToonCrafter",
+          "base": "",
+          "save_path": "custom_nodes/ComfyUI-ToonCrafter/ToonCrafter/checkpoints/tooncrafter_512_interp_v1",
+          "description": "tooncrafter_512_interp-fp16",
+          "reference": "https://huggingface.co/Kijai/DynamiCrafter_pruned",
+          "filename": "tooncrafter_512_interp-fp16.safetensors",
+          "url": "https://huggingface.co/Kijai/DynamiCrafter_pruned/resolve/main/tooncrafter_512_interp-fp16.safetensors"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI-Anyline",
+    "reference": "https://github.com/TheMistoAI/ComfyUI-Anyline",
+    "models": {
+      "files": [
+        {
+          "name": "TheMistoAI/MTEED.pth",
+          "type": "misto",
+          "base": "",
+          "save_path": "custom_nodes/ComfyUI-Anyline/checkpoints/Anyline",
+          "description": "tooncrafter_512_interp-fp16",
+          "reference": "https://huggingface.co/TheMistoAI/MistoLine",
+          "filename": "MTEED.pth",
+          "url": "https://huggingface.co/TheMistoAI/MistoLine/resolve/main/Anyline/MTEED.pth"
+        }
+      ]
+    }
   }
 ]
 

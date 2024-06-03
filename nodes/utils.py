@@ -17,10 +17,15 @@ def auto_download_model():
                 url = file['url']
                 save_path = file['save_path']
                 filename = file['filename']
-                save_full_path = os.path.join(comfyUI_models_root,save_path)
+                if save_path.startswith('custom_nodes/'):
+                    node_save_path = save_path.replace('custom_nodes/',"")
+                    save_full_path = os.path.join(custom_nodes_root,node_save_path)
+                else:
+                    save_full_path = os.path.join(comfyUI_models_root,save_path)
+                # print(f"save_full_path = {save_full_path}  ")
                 file_path = os.path.join(save_full_path,filename)
                 if os.path.exists(file_path):
-                    print(f"{file_path} already exists")
+                    # print(f"{file_path} already exists")
                     continue
                 if not os.path.exists(save_full_path):
                     os.makedirs(save_full_path)
@@ -187,6 +192,5 @@ def filter_list(origin_list, filter_list):
 
 def print_console(text):
     print(f"\033[36m{text}\033[0m")
-
 def print_error(text):
-    print(f"\033[31m[error] \033[0m{text}")
+    print(f"\033[31m{text}\033[0m")
