@@ -8,7 +8,6 @@ import requests
 from PIL import Image
 from .constants import project_root, models, custom_nodes_root, comfyUI_models_root, config
 
-
 def auto_download_model():
     custom_nodes_dirs = [name for name in os.listdir(custom_nodes_root) if os.path.isdir(os.path.join(custom_nodes_root, name)) and name != '__pycache__']
 
@@ -37,6 +36,7 @@ def auto_download_model():
                     if url.startswith('https://huggingface.co/'):
                         url = url.replace('https://huggingface.co/', 'https://hf-mirror.com/')
                 if url.startswith('https://huggingface.co/') or url.startswith('https://hf-mirror.com/'):
+                    url = url +"?download=true"
                     success = download_huggingface_model(url,save_full_path,filename)
                     if success=='KeyboardInterrupt':
                         print_error("Keyboard Interrupt")
@@ -51,14 +51,12 @@ def auto_download_model():
 def download_huggingface_model(url, save_full_path, filename) -> str:
     try:
         ssl_https_context = ssl._create_default_https_context
-        print("ssl_https_context = ",ssl_https_context)
         ssl._create_default_https_context = ssl._create_unverified_context
 
         tempfilename = filename+".temp"
         temp_file_path = os.path.join(save_full_path, tempfilename)
         file_path = os.path.join(save_full_path,filename)
 
-        temp_file_path = os.path.join(save_full_path, url.split('/')[-1])
         resume_header = {}
         file_mode = 'wb'
         resume_byte_pos = 0
@@ -68,7 +66,8 @@ def download_huggingface_model(url, save_full_path, filename) -> str:
             resume_header = {'Range': f'bytes={resume_byte_pos}-'}
             file_mode = 'ab'
 
-        response = requests.get(url, headers=resume_header, stream=True)
+        print("url = ",url)
+        response = requests.get(url, headers=resume_header, stream=True, verify=False)
         total_size = int(response.headers.get('content-length', 0)) + resume_byte_pos
 
         with open(temp_file_path, file_mode) as file, tqdm(

@@ -1,5 +1,4 @@
 import filecmp
-import platform
 import json
 import shutil
 import os
@@ -14,9 +13,7 @@ from .nodes.constants import PROJECT_NAME, userKey_file, project_root, read_user
 from .nodes.api.llm import LLMChat,  Translator
 from .nodes.pack.apiNodes import InputImage, InputSeed, InputText, InputChoice, OutputText, OutputImage, \
     PublishWorkflow, CheckpointLoader, LoraLoader, ControlNetLoader, VAELoader
-
 python = sys.executable
-os_type = platform.system()
 
 print_console("[comfyUI-tool-2lab] start")
 
