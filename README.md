@@ -50,12 +50,6 @@
 本项目使用的checkpoint、lora、vae、controlnet模型可以从下面的链接下载：
 https://pan.baidu.com/s/1uJagXopHfEak1exT69gH9w?pwd=2lab
 
-# 安装
-## windows
-模型自动下载功能需要使用wget程序，Linux和MacOS会自带wget，而windows系统没有wget，所以需要下载安装。
-官方下载网址  https://sourceforge.net/projects/gnuwin32/files/wget/1.11.4-1/wget-1.11.4-1-setup.exe/download
-安装wget请注意把wget添加到系统路径中
-
 # 技术客服企业微信
 ![service](./asset/image/kefuQR.png)
 
