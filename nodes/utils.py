@@ -56,7 +56,7 @@ def download_huggingface_model(url, save_full_path, filename) ->str:
             '-O', temp_file_path,
             url
         ]
-        # print("wget command : ",wget_command)
+        print("wget command : ",wget_command)
         wget_process = subprocess.run(wget_command, check=True)
 
         # 构建修改文件名的命令

@@ -45,10 +45,16 @@
 - china_mirror代表是否使用国内镜像下载模型，默认为True。当为True时，从hf-mirror.com下载模型；为False时，从huggingface.co下载模型。
 
 目前已经支持自动模型的插件列表保存在standardized目录的model.json文件中，目前已经支持ComfyUI_IPAdapter_plus、ComfyUI_InstantID、PuLID_ComfyUI、ComfyUI-IC-Light、ComfyUI-SUPIR、ComfyUI-ELLA、ComfyUI-YoloWorld-EfficientSAM等插件
- 
+
 ## checkpoint、lora、vae、controlnet模型（手动下载，未来将改为自动下载）
 本项目使用的checkpoint、lora、vae、controlnet模型可以从下面的链接下载：
 https://pan.baidu.com/s/1uJagXopHfEak1exT69gH9w?pwd=2lab
+
+# 安装
+## windows
+模型自动下载功能需要使用wget程序，Linux和MacOS会自带wget，而windows系统没有wget，所以需要下载安装。
+官方下载网址  https://sourceforge.net/projects/gnuwin32/files/wget/1.11.4-1/wget-1.11.4-1-setup.exe/download
+安装wget请注意把wget添加到系统路径中
 
 # 技术客服企业微信
 ![service](./asset/image/kefuQR.png)
