@@ -1,7 +1,10 @@
 import os.path
+import ssl
 import subprocess
+from tqdm import tqdm
 import traceback
 import qrcode
+import requests
 from PIL import Image
 from .constants import project_root, models, custom_nodes_root, comfyUI_models_root, config
 
@@ -44,20 +47,46 @@ def auto_download_model():
                 else:
                     print("unsuppoted url : ",url)
                     continue
-def download_huggingface_model(url, save_full_path, filename) ->str:
+
+def download_huggingface_model(url, save_full_path, filename) -> str:
     try:
+        ssl_https_context = ssl._create_default_https_context
+        print("ssl_https_context = ",ssl_https_context)
+        ssl._create_default_https_context = ssl._create_unverified_context
+
         tempfilename = filename+".temp"
         temp_file_path = os.path.join(save_full_path, tempfilename)
         file_path = os.path.join(save_full_path,filename)
 
-        wget_command = [
-            'wget',
-            '-c',
-            '-O', temp_file_path,
-            url
-        ]
-        print("wget command : ",wget_command)
-        wget_process = subprocess.run(wget_command, check=True)
+        temp_file_path = os.path.join(save_full_path, url.split('/')[-1])
+        resume_header = {}
+        file_mode = 'wb'
+        resume_byte_pos = 0
+
+        if os.path.exists(temp_file_path):
+            resume_byte_pos = os.path.getsize(temp_file_path)
+            resume_header = {'Range': f'bytes={resume_byte_pos}-'}
+            file_mode = 'ab'
+
+        response = requests.get(url, headers=resume_header, stream=True)
+        total_size = int(response.headers.get('content-length', 0)) + resume_byte_pos
+
+        with open(temp_file_path, file_mode) as file, tqdm(
+                desc=temp_file_path,
+                total=total_size,
+                unit='B',
+                unit_scale=True,
+                unit_divisor=1024,
+                initial=resume_byte_pos,
+                ascii=True,
+                miniters=1
+        ) as bar:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    file.write(chunk)
+                    bar.update(len(chunk))
+
+        ssl._create_default_https_context = ssl_https_context
 
         # 构建修改文件名的命令
         rename_command = [
@@ -88,7 +117,51 @@ def download_huggingface_model(url, save_full_path, filename) ->str:
         print(traceback.format_exc())
         return 'Fail'
 
-
+# def download_huggingface_model(url, save_full_path, filename) ->str:
+#     try:
+#         tempfilename = filename+".temp"
+#         temp_file_path = os.path.join(save_full_path, tempfilename)
+#         file_path = os.path.join(save_full_path,filename)
+#
+#         wget_command = [
+#             'wget',
+#             '-c',
+#             '-O', temp_file_path,
+#             url
+#         ]
+#         print("wget command : ",wget_command)
+#         wget_process = subprocess.run(wget_command, check=True)
+#
+#         # 构建修改文件名的命令
+#         rename_command = [
+#             'mv',
+#             temp_file_path,
+#             file_path
+#         ]
+#         rename_process = subprocess.run(rename_command, check=True)
+#
+#         # run unzip for zip file
+#         if filename.endswith('.zip'):
+#             unzip_command = ['unzip', file_path, '-d', save_full_path]
+#             unzip_process = subprocess.run(unzip_command, check=True)
+#
+#         return 'success'
+#     except KeyboardInterrupt:
+#         print("命令执行被用户中断。")
+#         return 'KeyboardInterrupt'
+#     except subprocess.TimeoutExpired:
+#         print("命令执行超时。")
+#         return 'Fail'
+#     except subprocess.CalledProcessError as e:
+#         print(f"命令执行失败，退出码：{e.returncode}")
+#         print(f"输出：{e.output}")
+#         print(f"错误输出：{e.stderr}")
+#         return 'Fail'
+#     except:
+#         print(traceback.format_exc())
+#         return 'Fail'
+#
+#
 def execute_command(command, working_dir)->bool:
     try:
         # 执行Git命令
