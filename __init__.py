@@ -40,17 +40,22 @@ if result.left_only or result.diff_files:
         shutil.copy(src_file, dst_file)
 
 # 如果user key不存在，创建
+userKey = None
 if not os.path.exists(userKey_file):
-    # allocate user key from server
-    command = "engine_wx2lab_create_user_key"
-    paramMap = {}
-    responseJson = submit(command, json.dumps(paramMap))
-    print(responseJson)
-    if responseJson['success'] and responseJson['data']:
-        userKey = responseJson['data']['userKey']
-        # 覆盖userKey
-        with open(userKey_file, 'w', encoding='utf-8') as file:
-            file.write(userKey)
+    try:
+        # allocate user key from server
+        command = "engine_wx2lab_create_user_key"
+        paramMap = {}
+        responseJson = submit(command, json.dumps(paramMap))
+        print("create new user key : ",responseJson)
+        if responseJson and responseJson['success'] and responseJson['data']:
+            userKey = responseJson['data']['userKey']
+            # 覆盖userKey
+            with open(userKey_file, 'w', encoding='utf-8') as file:
+                file.write(userKey)
+    except:
+        print(traceback.format_exc())
+        pass
 else:
     userKey = read_user_key()
 
@@ -58,9 +63,8 @@ else:
 qr_file_path = os.path.join(project_root, "2lab_key.png")
 if userKey is not None and not os.path.exists(qr_file_path):
     url = "https://www.2lab.cn/wx2lab/bind/" + userKey
-    print("QR key not found. creating : ",url)
+    print("creating QR code picture : ",url)
     create_qr_code(url, qr_file_path)
-
 
 # 如果config中指定自动下载模型，则执行下载
 if config['auto_download_model']:

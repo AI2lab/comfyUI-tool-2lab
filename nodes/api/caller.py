@@ -1,5 +1,7 @@
 
 import json
+import traceback
+
 import requests
 
 api_server_url = "http://api.factx.cn/api/v4";
@@ -24,4 +26,5 @@ def submit(command: str, data: str) -> FactxResponse:
         return factxResponse
     except:
         print("call api failed")
-        raise Exception("调用api接口失败 : ",submitUrl)
+        print(traceback.format_exc())
+        return None
