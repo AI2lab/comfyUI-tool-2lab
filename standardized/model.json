@@ -454,6 +454,34 @@
     }
   },
   {
+    "custom_node": "ComfyUI-DynamiCrafterWrapper",
+    "reference": "https://github.com/kijai/ComfyUI-DynamiCrafterWrapper",
+    "models": {
+      "files": [
+        {
+          "name": "DynamiCrafter/dynamicrafter_1024_v1_bf16.safetensors",
+          "type": "DynamiCrafter",
+          "base": "",
+          "save_path": "checkpoints",
+          "description": "dynamicrafter_1024_v1_bf16",
+          "reference": "https://huggingface.co/Kijai/DynamiCrafter_pruned",
+          "filename": "dynamicrafter_1024_v1_bf16.safetensors",
+          "url": "https://huggingface.co/Kijai/DynamiCrafter_pruned/resolve/main/dynamicrafter_1024_v1_bf16.safetensors"
+        },
+        {
+          "name": "DynamiCrafter/dynamicrafter_512_interp_v1_bf16.safetensors",
+          "type": "DynamiCrafter",
+          "base": "",
+          "save_path": "checkpoints",
+          "description": "dynamicrafter_512_interp_v1_bf16",
+          "reference": "https://huggingface.co/Kijai/DynamiCrafter_pruned",
+          "filename": "dynamicrafter_512_interp_v1_bf16.safetensors",
+          "url": "https://huggingface.co/Kijai/DynamiCrafter_pruned/resolve/main/dynamicrafter_512_interp_v1_bf16.safetensors"
+        }
+      ]
+    }
+  },
+  {
     "custom_node": "ComfyUI-Anyline",
     "reference": "https://github.com/TheMistoAI/ComfyUI-Anyline",
     "models": {
