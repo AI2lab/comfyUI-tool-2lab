@@ -47,8 +47,12 @@ def auto_download_model():
                 filename = file['filename']
                 if save_path.startswith('custom_nodes/'):
                     node_save_path = save_path.replace('custom_nodes/',"")
+                    if platform.system() == 'Windows':
+                        node_save_path = node_save_path.replace('/','\\')
                     save_full_path = os.path.join(custom_nodes_root,node_save_path)
                 else:
+                    if platform.system() == 'Windows':
+                        save_path = save_path.replace('/','\\')
                     save_full_path = os.path.join(comfyUI_models_root,save_path)
                 # print(f"save_full_path = {save_full_path}  ")
                 file_path = os.path.join(save_full_path,filename)
@@ -66,10 +70,6 @@ def auto_download_model():
                 if url.startswith('https://huggingface.co/') or url.startswith('https://hf-mirror.com/'):
                     print("start download : ",filename)
                     success = download_huggingface_model_web(url,save_full_path,filename)
-                    # if platform.system() != 'Windows':
-                    #     success = download_huggingface_model_web(url,save_full_path,filename)
-                    # else:
-                    #     success = download_huggingface_model_wget(url,save_full_path,filename)
 
                     if success=='KeyboardInterrupt':
                         print_error("Keyboard Interrupt")
@@ -215,11 +215,19 @@ def download_huggingface_model_web(url, save_full_path, filename) ->str:
                     bar.update(len(chunk))
 
         # 构建修改文件名的命令
-        rename_command = [
-            'mv',
-            temp_file_path,
-            file_path
-        ]
+
+        if platform.system() != 'Windows':
+            rename_command = [
+                'ren',
+                temp_file_path,
+                file_path
+            ]
+        else:
+            rename_command = [
+                'mv',
+                temp_file_path,
+                file_path
+            ]
         rename_process = subprocess.run(rename_command, check=True)
 
         # run unzip for zip file
