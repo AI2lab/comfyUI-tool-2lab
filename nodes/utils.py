@@ -216,7 +216,7 @@ def download_huggingface_model_web(url, save_full_path, filename) ->str:
 
         # 构建修改文件名的命令
 
-        if platform.system() != 'Windows':
+        if platform.system() == 'Windows':
             rename_command = [
                 'ren',
                 temp_file_path,
