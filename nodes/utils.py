@@ -1,12 +1,38 @@
 import os.path
 import ssl
 import subprocess
-from tqdm import tqdm
 import traceback
+import random
 import qrcode
 import requests
+from tqdm import tqdm
 from PIL import Image
 from .constants import project_root, models, custom_nodes_root, comfyUI_models_root, config
+import platform
+from torchvision.datasets.utils import download_url
+
+user_agents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1 Safari/605.1.15",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Safari/605.1.15",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+]
 
 def auto_download_model():
     custom_nodes_dirs = [name for name in os.listdir(custom_nodes_root) if os.path.isdir(os.path.join(custom_nodes_root, name)) and name != '__pycache__']
@@ -14,7 +40,7 @@ def auto_download_model():
     # check nodes to download
     for key,value in models.items():
         if key in custom_nodes_dirs:
-            print(f"start download model file for {key}")
+            print(f"checking existed model file for {key}")
             for file in value['models']['files']:
                 url = file['url']
                 save_path = file['save_path']
@@ -36,8 +62,13 @@ def auto_download_model():
                     if url.startswith('https://huggingface.co/'):
                         url = url.replace('https://huggingface.co/', 'https://hf-mirror.com/')
                 if url.startswith('https://huggingface.co/') or url.startswith('https://hf-mirror.com/'):
-                    url = url +"?download=true"
-                    success = download_huggingface_model(url,save_full_path,filename)
+                    print("start download : ",filename)
+                    success = download_huggingface_model_web(url,save_full_path,filename)
+                    # if platform.system() != 'Windows':
+                    #     success = download_huggingface_model_web(url,save_full_path,filename)
+                    # else:
+                    #     success = download_huggingface_model_wget(url,save_full_path,filename)
+
                     if success=='KeyboardInterrupt':
                         print_error("Keyboard Interrupt")
                         break
@@ -48,44 +79,71 @@ def auto_download_model():
                     print("unsuppoted url : ",url)
                     continue
 
-def download_huggingface_model(url, save_full_path, filename) -> str:
+# torchvision.datasets.utils.download_url()，不支持断点续传
+def download_huggingface_model_torchvision(url, save_full_path, filename) -> str:
     try:
-        ssl_https_context = ssl._create_default_https_context
-        ssl._create_default_https_context = ssl._create_unverified_context
+        tempfilename = filename+".tempt"
+        temp_file_path = os.path.join(save_full_path, tempfilename)
+        file_path = os.path.join(save_full_path,filename)
+        print("temp_file_path = ",temp_file_path)
+        print("file_path = ",file_path)
+        if os.path.isfile(temp_file_path):
+            os.remove(temp_file_path)
 
-        tempfilename = filename+".temp"
+        download_url(url, temp_file_path)
+
+        # 构建修改文件名的命令
+        rename_command = [
+            'mv',
+            temp_file_path,
+            file_path
+        ]
+        rename_process = subprocess.run(rename_command, check=True)
+
+        # run unzip for zip file
+        if filename.endswith('.zip'):
+            unzip_command = ['unzip', file_path, '-d', save_full_path]
+            unzip_process = subprocess.run(unzip_command, check=True)
+
+        return 'success'
+    except KeyboardInterrupt:
+        print("命令执行被用户中断。")
+        if os.path.isfile(temp_file_path):
+            os.remove(temp_file_path)
+        return 'KeyboardInterrupt'
+    except subprocess.TimeoutExpired:
+        print("命令执行超时。")
+        if os.path.isfile(temp_file_path):
+            os.remove(temp_file_path)
+        return 'Fail'
+    except subprocess.CalledProcessError as e:
+        print(f"命令执行失败，退出码：{e.returncode}")
+        print(f"输出：{e.output}")
+        print(f"错误输出：{e.stderr}")
+        if os.path.isfile(temp_file_path):
+            os.remove(temp_file_path)
+        return 'Fail'
+    except:
+        print(traceback.format_exc())
+        if os.path.isfile(temp_file_path):
+            os.remove(temp_file_path)
+        return 'Fail'
+
+# wget，可以断点续传，但windows不带wget
+def download_huggingface_model_wget(url, save_full_path, filename) ->str:
+    try:
+        tempfilename = filename+".tempg"
         temp_file_path = os.path.join(save_full_path, tempfilename)
         file_path = os.path.join(save_full_path,filename)
 
-        resume_header = {}
-        file_mode = 'wb'
-        resume_byte_pos = 0
-
-        if os.path.exists(temp_file_path):
-            resume_byte_pos = os.path.getsize(temp_file_path)
-            resume_header = {'Range': f'bytes={resume_byte_pos}-'}
-            file_mode = 'ab'
-
-        print("url = ",url)
-        response = requests.get(url, headers=resume_header, stream=True, verify=False)
-        total_size = int(response.headers.get('content-length', 0)) + resume_byte_pos
-
-        with open(temp_file_path, file_mode) as file, tqdm(
-                desc=temp_file_path,
-                total=total_size,
-                unit='B',
-                unit_scale=True,
-                unit_divisor=1024,
-                initial=resume_byte_pos,
-                ascii=True,
-                miniters=1
-        ) as bar:
-            for chunk in response.iter_content(chunk_size=1024):
-                if chunk:
-                    file.write(chunk)
-                    bar.update(len(chunk))
-
-        ssl._create_default_https_context = ssl_https_context
+        wget_command = [
+            'wget',
+            '-c',
+            '-O', temp_file_path,
+            url
+        ]
+        print("wget command : ",wget_command)
+        wget_process = subprocess.run(wget_command, check=True)
 
         # 构建修改文件名的命令
         rename_command = [
@@ -116,51 +174,75 @@ def download_huggingface_model(url, save_full_path, filename) -> str:
         print(traceback.format_exc())
         return 'Fail'
 
-# def download_huggingface_model(url, save_full_path, filename) ->str:
-#     try:
-#         tempfilename = filename+".temp"
-#         temp_file_path = os.path.join(save_full_path, tempfilename)
-#         file_path = os.path.join(save_full_path,filename)
-#
-#         wget_command = [
-#             'wget',
-#             '-c',
-#             '-O', temp_file_path,
-#             url
-#         ]
-#         print("wget command : ",wget_command)
-#         wget_process = subprocess.run(wget_command, check=True)
-#
-#         # 构建修改文件名的命令
-#         rename_command = [
-#             'mv',
-#             temp_file_path,
-#             file_path
-#         ]
-#         rename_process = subprocess.run(rename_command, check=True)
-#
-#         # run unzip for zip file
-#         if filename.endswith('.zip'):
-#             unzip_command = ['unzip', file_path, '-d', save_full_path]
-#             unzip_process = subprocess.run(unzip_command, check=True)
-#
-#         return 'success'
-#     except KeyboardInterrupt:
-#         print("命令执行被用户中断。")
-#         return 'KeyboardInterrupt'
-#     except subprocess.TimeoutExpired:
-#         print("命令执行超时。")
-#         return 'Fail'
-#     except subprocess.CalledProcessError as e:
-#         print(f"命令执行失败，退出码：{e.returncode}")
-#         print(f"输出：{e.output}")
-#         print(f"错误输出：{e.stderr}")
-#         return 'Fail'
-#     except:
-#         print(traceback.format_exc())
-#         return 'Fail'
-#
-#
+# requests.get 可以断点续传
+def download_huggingface_model_web(url, save_full_path, filename) ->str:
+    try:
+        tempfilename = filename+".temp"
+        temp_file_path = os.path.join(save_full_path, tempfilename)
+        file_path = os.path.join(save_full_path,filename)
+
+        user_agent = random.choice(user_agents)
+        resume_header = {
+            'User-Agent': user_agent
+        }
+
+        file_mode = 'wb'
+        resume_byte_pos = 0
+
+        if os.path.exists(temp_file_path):
+            resume_byte_pos = os.path.getsize(temp_file_path)
+            resume_header = {'Range': f'bytes={resume_byte_pos}-'}
+            file_mode = 'ab'
+
+        response = requests.get(url, headers=resume_header, stream=True)
+        total_size = int(response.headers.get('content-length', 0)) + resume_byte_pos
+
+        with open(temp_file_path, file_mode) as file, tqdm(
+                desc=temp_file_path,
+                total=total_size,
+                unit='B',
+                unit_scale=True,
+                unit_divisor=1024,
+                initial=resume_byte_pos,
+                ascii=True,
+                miniters=1
+        ) as bar:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    file.write(chunk)
+                    bar.update(len(chunk))
+
+        # 构建修改文件名的命令
+        rename_command = [
+            'mv',
+            temp_file_path,
+            file_path
+        ]
+        rename_process = subprocess.run(rename_command, check=True)
+
+        # run unzip for zip file
+        if filename.endswith('.zip'):
+            unzip_command = ['unzip', file_path, '-d', save_full_path]
+            unzip_process = subprocess.run(unzip_command, check=True)
+
+        return 'success'
+    except KeyboardInterrupt:
+        print("命令执行被用户中断。")
+        return 'KeyboardInterrupt'
+    except subprocess.TimeoutExpired:
+        print("命令执行超时。")
+        return 'Fail'
+    except subprocess.CalledProcessError as e:
+        print(f"命令执行失败，退出码：{e.returncode}")
+        print(f"输出：{e.output}")
+        print(f"错误输出：{e.stderr}")
+        return 'Fail'
+    except:
+        print(traceback.format_exc())
+        return 'Fail'
+
+
+
 def execute_command(command, working_dir)->bool:
     try:
         # 执行Git命令
@@ -263,6 +345,6 @@ def filter_list(origin_list, filter_list):
 
 
 def print_console(text):
-    print(f"\033[36m{text}\033[0m")
+    print(f"\033[34m[INFO]\033[0m {text}")
 def print_error(text):
-    print(f"\033[31m{text}\033[0m")
+    print(f"\033[31m[ERROR]\033[0m {text}")
