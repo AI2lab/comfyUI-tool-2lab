@@ -53,8 +53,10 @@ def auto_download_model():
                 # print(f"save_full_path = {save_full_path}  ")
                 file_path = os.path.join(save_full_path,filename)
                 if os.path.exists(file_path):
-                    # print(f"{file_path} already exists")
+                    print(f"{file_path} already exists")
                     continue
+                else:
+                    print(f"{file_path} not exists")
                 if not os.path.exists(save_full_path):
                     os.makedirs(save_full_path)
                 if config['china_mirror']:
