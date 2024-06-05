@@ -1,5 +1,5 @@
 import os.path
-import ssl
+import zipfile
 import subprocess
 import traceback
 import random
@@ -10,6 +10,8 @@ from PIL import Image
 from .constants import project_root, models, custom_nodes_root, comfyUI_models_root, config
 import platform
 from torchvision.datasets.utils import download_url
+
+print("platform.system() = ", platform.system())
 
 user_agents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
@@ -214,26 +216,17 @@ def download_huggingface_model_web(url, save_full_path, filename) ->str:
                     file.write(chunk)
                     bar.update(len(chunk))
 
-        # 构建修改文件名的命令
-
-        if platform.system() == 'Windows':
-            rename_command = [
-                'ren',
-                temp_file_path,
-                file_path
-            ]
-        else:
-            rename_command = [
-                'mv',
-                temp_file_path,
-                file_path
-            ]
-        rename_process = subprocess.run(rename_command, check=True)
+        # 修改文件名
+        try:
+            os.rename(temp_file_path, file_path)
+        except OSError as e:
+            print(f"rename failed: {e.strerror}")
 
         # run unzip for zip file
         if filename.endswith('.zip'):
-            unzip_command = ['unzip', file_path, '-d', save_full_path]
-            unzip_process = subprocess.run(unzip_command, check=True)
+            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                # 解压缩所有内容到当前目录
+                zip_ref.extractall(save_full_path)
 
         return 'success'
     except KeyboardInterrupt:
@@ -250,8 +243,6 @@ def download_huggingface_model_web(url, save_full_path, filename) ->str:
     except:
         print(traceback.format_exc())
         return 'Fail'
-
-
 
 def execute_command(command, working_dir)->bool:
     try:
@@ -275,7 +266,7 @@ def create_qr_code(url, file_path='2lab_key.png'):
         # 假设你想要二维码的宽度为300像素，那么每个小方块的像素大小就是300 / 21（版本1的二维码大小）
         # 这里我们使用版本1的二维码，因为它是21x21的方块
         box_size = qr_width_pixels // 21
-        print(f"box_size: {box_size} pixels")
+        # print(f"box_size: {box_size} pixels")
 
         # 创建二维码实例
         qr = qrcode.QRCode(
@@ -319,8 +310,8 @@ def create_qr_code(url, file_path='2lab_key.png'):
             width_bg = width_qr
             height_bg = height_qr + height_text + int(height_qr / 20)
             background = Image.new('RGB', (width_qr, height_bg), background_color)
-            print(f"background width: {width_bg} pixels")
-            print(f"background height: {height_bg} pixels")
+            # print(f"background width: {width_bg} pixels")
+            # print(f"background height: {height_bg} pixels")
 
             # 在新的图片中嵌入QR码
             background.paste(img_qr, (0, 0))
