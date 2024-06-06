@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-tool-2lab"
+description = "A toolkit that can conveniently publish comfyUI workflows as web applications"
+version = "1.0.0"
+license = "LICENSE"
+dependencies = ["qrcode", "Pillow", "numpy", "torch"]
+
+[project.urls]
+Repository = "https://github.com/AI2lab/comfyUI-tool-2lab"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "ai2lab"
+DisplayName = "comfyUI-tool-2lab"
+Icon = "asset/image/logo.jpg"
