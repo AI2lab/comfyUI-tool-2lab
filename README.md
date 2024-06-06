@@ -56,6 +56,6 @@
 https://pan.baidu.com/s/1uJagXopHfEak1exT69gH9w?pwd=2lab
 
 # 技术客服企业微信
-![service](./asset/image/kefuQR.png)
+![service](./asset/image/kefuQR.jpg)
 
 
