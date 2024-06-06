@@ -498,6 +498,264 @@
         }
       ]
     }
+  },
+  {
+    "custom_node": "ComfyUI-AnyText",
+    "reference": "https://github.com/zmwv823/ComfyUI-AnyText",
+    "models": {
+      "files": [
+        {
+          "name": "AnyText/anytext_v1.1.ckpt",
+          "type": "",
+          "base": "",
+          "save_path": "checkpoints/15",
+          "description": "anytext_v1.1.ckpt",
+          "reference": "https://modelscope.cn/models/iic/cv_anytext_text_generation_editing",
+          "filename": "anytext_v1.1.ckpt",
+          "url": "https://modelscope.cn/models/iic/cv_anytext_text_generation_editing/file/view/master?fileName=anytext_v1.1.ckpt&status=2"
+        },
+        {
+          "name": "AnyText/pytorch_model.fp16.safetensors",
+          "type": "",
+          "base": "",
+          "save_path": "checkpoints/15",
+          "description": "pytorch_model.fp16",
+          "reference": "https://huggingface.co/Sanster/AnyText",
+          "filename": "pytorch_model.fp16.safetensors",
+          "url": "https://huggingface.co/Sanster/AnyText/blob/main/pytorch_model.fp16.safetensors"
+        },
+        {
+          "name": "AnyText/SourceHanSansSC-Medium.otf",
+          "type": "",
+          "base": "",
+          "save_path": "fonts",
+          "description": "SourceHanSansSC-Medium",
+          "reference": "https://huggingface.co/Sanster/AnyText",
+          "filename": "SourceHanSansSC-Medium.otf",
+          "url": "https://huggingface.co/Sanster/AnyText/blob/main/SourceHanSansSC-Medium.otf"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/config.json",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "config.json",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/config.json"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/flax_model.msgpack",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "flax_model.msgpack",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/flax_model.msgpack"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/merges.txt",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "merges.txt",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/merges.txt"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/pytorch_model.bin",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "pytorch_model.bin",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/pytorch_model.bin"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/pytorch_model.bin",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "pytorch_model.bin",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/pytorch_model.bin"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/special_tokens_map.json",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "special_tokens_map.json",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/special_tokens_map.json"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/tf_model.h5",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "tf_model.h5",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/tf_model.h5"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/tokenizer.json",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "tokenizer.json",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/tokenizer.json"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/tokenizer_config.json",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "tokenizer_config.json",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/tokenizer_config.json"
+        },
+        {
+          "name": "AnyText/clip-vit-large-patch14/vocab.json",
+          "type": "",
+          "base": "",
+          "save_path": "clip/openai--clip-vit-large-patch14",
+          "description": "openai--clip-vit-large-patch14",
+          "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
+          "filename": "vocab.json",
+          "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/vocab.json"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/tftf_ckpts/checkpoint",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en/tftf_ckpts",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "checkpoint",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=tf_ckpts%2Fcheckpoint"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/tftf_ckpts/ckpt-0.data-00000-of-00001",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2e/tftf_ckptsn",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "ckpt-0.data-00000-of-00001",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=tf_ckpts%2Fckpt-0.data-00000-of-00001"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/tftf_ckpts/ckpt-0.index",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en/tftf_ckpts",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "ckpt-0.index",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=tf_ckpts%2Fckpt-0.index"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/tftf_ckpts/ckpt-0.meta",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en/tftf_ckpts",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "ckpt-0.meta",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=tf_ckpts%2Fckpt-0.meta"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/bpe.en",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "bpe.en",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=bpe.en"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/bpe.zh",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "bpe.zh",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=bpe.zh"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/configuration.json",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "configuration.json",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=configuration.json"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/README.md",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "README.md",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=README.md"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/src_vocab.txt",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "src_vocab.txt",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=src_vocab.txt"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/train.en",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "train.en",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=train.en"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/train.zh",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "train.zh",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=train.zh"
+        },
+        {
+          "name": "AnyText/nlp_csanmt_translation_zh2en/trg_vocab.txt",
+          "type": "",
+          "base": "",
+          "save_path": "prompt_generator/nlp_csanmt_translation_zh2en",
+          "description": "nlp_csanmt_translation_zh2en",
+          "reference": "https://www.modelscope.cn/models/iic/nlp_csanmt_translation_zh2en",
+          "filename": "trg_vocab.txt",
+          "url": "https://www.modelscope.cn/api/v1/models/iic/nlp_csanmt_translation_zh2en/repo?Revision=master&FilePath=trg_vocab.txt"
+        }
+      ]
+    }
   }
 ]
 
