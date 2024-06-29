@@ -50,7 +50,7 @@ userKey_file = os.path.join(project_root, '2lab_key.txt')
 def read_user_key()->str:
     if os.path.exists(userKey_file):
         with open(userKey_file, 'r', encoding='utf-8') as file:
-            userKey = file.read()
+            userKey = file.read().rstrip('\n')  # Remove the trailing newline
             return userKey
     return ""
 

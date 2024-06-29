@@ -39,17 +39,22 @@
 - 不支持use everywhere式无线连接，例如cg-use-everywhere
 - 只支持本项目提供的模型列表，包括checkpoint、lora、vae、controlnet，清单在standardized目录中。如果希望增加支持的模型，可以在github中提交对standardized目录中的模型列表的修改，或者直接跟项目技术客服沟通）
 
-# 模型下载
-
-## 插件所需模型（自动下载）
+# 插件所需模型下载
 本插件可以检查comfyUI中已经安装了哪些插件，并且检查需要的模型是否已经下载。如果没有下载，将会自动启动下载。此功能还在测试中，默认为关闭
 下载模型有时会遇到网络问题，如果连接失败，可以重启comfyUI以继续采集。如果下载中断了，系统在下次下载时会自动断点续传
+目前已经支持自动模型的插件列表保存在standardized目录的model.json文件中，目前已经支持ComfyUI_IPAdapter_plus、ComfyUI_InstantID、PuLID_ComfyUI、ComfyUI-IC-Light、ComfyUI-SUPIR、ComfyUI-ELLA、ComfyUI-YoloWorld-EfficientSAM等插件
 
+## 自动下载
 安装完本插件后第一次启动后，插件目录中会出现config.json
 - auto_download_model代表是否自动安装插件所需要的模型文件到指定位置，默认为False
 - china_mirror代表是否使用国内镜像下载模型，默认为True。当为True时，从hf-mirror.com下载模型；为False时，从huggingface.co下载模型。
 
-目前已经支持自动模型的插件列表保存在standardized目录的model.json文件中，目前已经支持ComfyUI_IPAdapter_plus、ComfyUI_InstantID、PuLID_ComfyUI、ComfyUI-IC-Light、ComfyUI-SUPIR、ComfyUI-ELLA、ComfyUI-YoloWorld-EfficientSAM等插件
+## 手动下载
+如果不希望使用自动下载，可以手动下载插件所需模型，不必将config.json中auto_download_model改为True
+如果要检查model.json文件中全部插件：
+- 到本项目文件中，执行python downloadModelForNode.py
+如果只要检查某个插件的模型
+- 到本项目文件中，执行python downloadModelForNode.py --node <node_name>, 例如python downloadModelForNode.py --node ComfyUI_IPAdapter_plus
 
 ## checkpoint、lora、vae、controlnet模型（手动下载，未来将改为自动下载）
 本项目使用的checkpoint、lora、vae、controlnet模型可以从下面的链接下载：

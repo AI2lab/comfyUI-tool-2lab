@@ -2,3 +2,5 @@ qrcode
 Pillow
 numpy
 torch
+requests
+tqdm

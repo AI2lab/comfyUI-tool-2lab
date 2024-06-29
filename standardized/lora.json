@@ -140,6 +140,16 @@
     "url": "https://civitai.com/api/download/models/131991"
   },
   {
+    "name": "Gloss_Tweaker_V2",
+    "type": "lora",
+    "base": "SD 1.5",
+    "save_path": "sd15",
+    "description": "光泽调节器/Gloss_Tweaker/光沢調整器",
+    "reference": "https://civitai.com/models/116404?modelVersionId=138948",
+    "filename": "Gloss_Tweaker_V2.safetensors",
+    "url": "https://civitai.com/api/download/models/138948"
+  },
+  {
     "name": "ip-adapter-faceid_sd15_lora",
     "type": "lora",
     "base": "SD 1.5",
@@ -178,5 +188,25 @@
     "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
     "filename": "ip-adapter-faceid-plusv2_sdxl_lora.safetensors",
     "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-plusv2_sdxl_lora.safetensors"
+  },
+  {
+    "name": "lcm-lora-sdv1-5",
+    "type": "lora",
+    "base": "SD15",
+    "save_path": "sd15",
+    "description": "lcm-lora-sdv1-5",
+    "reference": "https://huggingface.co/latent-consistency/lcm-lora-sdv1-5",
+    "filename": "lcm-lora-sdv1-5.safetensors",
+    "url": "https://huggingface.co/latent-consistency/lcm-lora-sdv1-5/resolve/main/pytorch_lora_weights.safetensors"
+  },
+  {
+    "name": "lcm-lora-sdxl",
+    "type": "lora",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "lcm-lora-sdxl",
+    "reference": "https://huggingface.co/latent-consistency/lcm-lora-sdxl",
+    "filename": "lcm-lora-sdxl.safetensors",
+    "url": "https://huggingface.co/latent-consistency/lcm-lora-sdxl/resolve/main/pytorch_lora_weights.safetensors"
   }
 ]

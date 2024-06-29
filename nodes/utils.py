@@ -36,52 +36,85 @@ user_agents = [
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
 ]
 
-def auto_download_model():
+def auto_download_model(node):
     custom_nodes_dirs = [name for name in os.listdir(custom_nodes_root) if os.path.isdir(os.path.join(custom_nodes_root, name)) and name != '__pycache__']
 
     # check nodes to download
     for key,value in models.items():
         if key in custom_nodes_dirs:
+            if node!='' and node!=key: #如果指定了custom node，则只检查该custom node
+                print("node = ",node)
+                continue
             print(f"checking existed model file for {key}")
             for file in value['models']['files']:
                 url = file['url']
                 save_path = file['save_path']
+                if 'save_path_2' in file:
+                    save_path_2 = file['save_path_2']
+                else:
+                    save_path_2 = None
+                node_save_path_2 = None
                 filename = file['filename']
                 if save_path.startswith('custom_nodes/'):
                     node_save_path = save_path.replace('custom_nodes/',"")
+                    if save_path_2:
+                        node_save_path_2 = save_path_2.replace('custom_nodes/',"")
                     if platform.system() == 'Windows':
                         node_save_path = node_save_path.replace('/','\\')
+                        if node_save_path_2:
+                            node_save_path_2 = node_save_path_2.replace('/','\\')
                     save_full_path = os.path.join(custom_nodes_root,node_save_path)
+                    if node_save_path_2:
+                        save_full_path_2 = os.path.join(custom_nodes_root,node_save_path_2)
+                    else:
+                        save_full_path_2 = None
                 else:
                     if platform.system() == 'Windows':
                         save_path = save_path.replace('/','\\')
+                        if save_path_2:
+                            save_path_2 = save_path_2.replace('/','\\')
                     save_full_path = os.path.join(comfyUI_models_root,save_path)
+                    if save_path_2:
+                        save_full_path_2 = os.path.join(comfyUI_models_root,save_path_2)
+                    else:
+                        save_full_path_2 = None
+
                 # print(f"save_full_path = {save_full_path}  ")
                 file_path = os.path.join(save_full_path,filename)
                 if os.path.exists(file_path):
                     print(f"{file_path} already exists")
                     continue
+                elif save_full_path_2 and os.path.exists(os.path.join(save_full_path_2,filename)):
+                    print(f"{file_path} already exists")
+                    continue
                 else:
                     print(f"{file_path} not exists")
-                if not os.path.exists(save_full_path):
-                    os.makedirs(save_full_path)
-                if config['china_mirror']:
-                    # huggingface 换成国内镜像站
-                    if url.startswith('https://huggingface.co/'):
-                        url = url.replace('https://huggingface.co/', 'https://hf-mirror.com/')
-                if url.startswith('https://huggingface.co/') or url.startswith('https://hf-mirror.com/'):
-                    print("start download : ",filename)
-                    success = download_huggingface_model_web(url,save_full_path,filename)
 
-                    if success=='KeyboardInterrupt':
-                        print_error("Keyboard Interrupt")
-                        break
-                    elif success=='fail':
-                        print_error("download failed : "+url)
+                try:
+                    # 如果模型文件不存在，启动下载
+                    if not os.path.exists(save_full_path):
+                        os.makedirs(save_full_path)
+                    if config['china_mirror']:
+                        # huggingface 换成国内镜像站
+                        if url.startswith('https://huggingface.co/'):
+                            url = url.replace('https://huggingface.co/', 'https://hf-mirror.com/')
+                    if url.startswith('https://huggingface.co/') or url.startswith('https://hf-mirror.com/'):
+                        print("start download : ",filename)
+                        success = download_huggingface_model_web(url,save_full_path,filename)
+
+                        if success=='KeyboardInterrupt':
+                            print_error("Keyboard Interrupt")
+                            break
+                        elif success=='fail':
+                            print_error("download failed : "+url)
+                            continue
+                    else:
+                        print("unsuppoted url : ",url)
                         continue
-                else:
-                    print("unsuppoted url : ",url)
-                    continue
+                except:
+                    print("download file fail : ",url)
+                    print(traceback.format_exc())
+
 
 # torchvision.datasets.utils.download_url()，不支持断点续传
 def download_huggingface_model_torchvision(url, save_full_path, filename) -> str:

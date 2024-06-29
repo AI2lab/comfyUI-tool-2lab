@@ -11,7 +11,7 @@ import torch
 import hashlib
 from ..api.caller import submit
 
-from ..constants import get_project_name, get_project_category, userKey_file, read_user_key, myWorkflow_folder, \
+from ..constants import get_project_name, get_project_category, read_user_key, myWorkflow_folder, \
     checkpoints, loras, vaes, controlnets
 from PIL.PngImagePlugin import PngInfo
 
@@ -388,8 +388,8 @@ class LoraLoader:
             simple_file_name = truncate_string(lora_path_item)
             if simple_file_name == simple_lora_name:
                 lora_name = lora_path_item
-                # print("simple_file_name = ",simple_file_name)
-                # print("lora_name full = ",lora_name)
+                print("simple_file_name = ",simple_file_name)
+                print("lora_name full = ",lora_name)
                 break
 
         lora_path = folder_paths.get_full_path("loras", lora_name)
@@ -463,7 +463,7 @@ class VAELoader:
 
     RETURN_TYPES = ("VAE",)
     FUNCTION = "doWork"
-    NAME = get_project_name('LoraLoader')
+    NAME = get_project_name('VaeLoader')
     CATEGORY = NODE_CATEGORY
 
     def doWork(self, vae_name):
@@ -555,7 +555,7 @@ class PublishWorkflow:
                 file.write(json.dumps(workflow))
 
             userKey = read_user_key()
-            print("userKey = ", userKey)
+            print(f"userKey = [{userKey}]")
             if userKey == '':
                 text = '未找到开发密钥，请把example目录中的 input_key.png拖入comfyUI界面，输入开发密钥后，点击浮动菜单上的Queue Prompt按钮保存密钥到2lab_key.txt'
             else:
@@ -580,7 +580,7 @@ class PublishWorkflow:
                     raise ValueError(f'工作流上传完成，终止工作流运行。如果要正常运行工作流，请把publish改回false')
                 else:
                     msg =  f'发布失败，原因：{resJson["message"]}'
-                    raise ValueError(f'发布失败，原因：{msg}')
+                    raise ValueError(msg)
         else:
             text = '项目未发布。如果要发布本工作流到网页，请把参数publish设为True'
 

@@ -756,6 +756,392 @@
         }
       ]
     }
+  },
+  {
+    "custom_node": "ComfyUI-AnimateDiff-Evolved",
+    "reference": "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved",
+    "models": {
+      "files": [
+        {
+          "name": "AnimateDiff/mm_sd_v14",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "mm_sd_v14.ckpt",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "mm_sd_v14.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/mm_sd_v14.ckpt"
+        },
+        {
+          "name": "AnimateDiff/mm_sd_v15",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "mm_sd_v15.ckpt",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "mm_sd_v15.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/mm_sd_v15.ckpt"
+        },
+        {
+          "name": "AnimateDiff/mm_sd_v15_v2",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "mm_sd_v15_v2.ckpt",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "mm_sd_v15_v2.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/mm_sd_v15_v2.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v3_sd15_mm",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "v3_sd15_mm.ckpt",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v3_sd15_mm.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/v3_sd15_mm.ckpt"
+        },
+        {
+          "name": "AnimateDiff/mm-Stabilized_high",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "Stabilized finetunes of mm_sd_v14",
+          "reference": "https://huggingface.co/manshoety/AD_Stabilized_Motion",
+          "filename": "mm-Stabilized_high.pth",
+          "url": "https://huggingface.co/manshoety/AD_Stabilized_Motion/resolve/main/mm-Stabilized_high.pth"
+        },
+        {
+          "name": "AnimateDiff/mm-Stabilized_mid",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "Stabilized finetunes of mm_sd_v14",
+          "reference": "https://huggingface.co/manshoety/AD_Stabilized_Motion",
+          "filename": "mm-Stabilized_mid.pth",
+          "url": "https://huggingface.co/manshoety/AD_Stabilized_Motion/resolve/main/mm-Stabilized_mid.pth"
+        },
+        {
+          "name": "AnimateDiff/mm-p_0.5",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "Finetunes of mm_sd_v15_v2",
+          "reference": "https://huggingface.co/manshoety/beta_testing_models",
+          "filename": "mm-p_0.5.pth",
+          "url": "https://huggingface.co/manshoety/beta_testing_models/resolve/main/mm-p_0.5.pth"
+        },
+        {
+          "name": "AnimateDiff/mm-p_0.75",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "Finetunes of mm_sd_v15_v2",
+          "reference": "https://huggingface.co/manshoety/beta_testing_models",
+          "filename": "mm-p_0.75.pth",
+          "url": "https://huggingface.co/manshoety/beta_testing_models/resolve/main/mm-p_0.75.pth"
+        },
+        {
+          "name": "AnimateDiff/temporaldiff-v1-animatediff",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_models",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+          "description": "Higher resolution finetune",
+          "reference": "https://huggingface.co/CiaraRowles/TemporalDiff",
+          "filename": "temporaldiff-v1-animatediff.safetensors",
+          "url": "https://huggingface.co/CiaraRowles/TemporalDiff/resolve/main/temporaldiff-v1-animatediff.safetensors"
+        },
+        {
+          "name": "AnimateDiff/v2_lora_PanLeft",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v2_lora_PanLeft.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_PanLeft.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v2_lora_PanRight",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v2_lora_PanRight.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_PanRight.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v2_lora_RollingAnticlockwise",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v2_lora_RollingAnticlockwise.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_RollingAnticlockwise.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v2_lora_RollingClockwise",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v2_lora_RollingClockwise.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_RollingClockwise.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v2_lora_TiltDown",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v2_lora_TiltDown.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_TiltDown.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v2_lora_ZoomIn",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v2_lora_ZoomIn.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_ZoomIn.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v2_lora_ZoomOut",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v2_lora_ZoomOut.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_ZoomOut.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v3_sd15_adapter",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v3_sd15_adapter.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_adapter.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v3_sd15_mm",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v3_sd15_mm.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_mm.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v3_sd15_sparsectrl_rgb",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v3_sd15_sparsectrl_rgb.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_sparsectrl_rgb.ckpt"
+        },
+        {
+          "name": "AnimateDiff/v3_sd15_sparsectrl_scribble",
+          "type": "AnimateDiff",
+          "base": "",
+          "save_path": "animatediff_motion_lora",
+          "save_path_2": "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+          "description": "Motion LoRAs to influence movement of v2-based motion models like mm_sd_v15_v2",
+          "reference": "https://huggingface.co/guoyww/animatediff",
+          "filename": "v3_sd15_sparsectrl_scribble.ckpt",
+          "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_sparsectrl_scribble.ckpt"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI-BRIA_AI-RMBG",
+    "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-BRIA_AI-RMBG",
+    "models": {
+      "files": [
+        {
+          "name": "BRIA/model",
+          "type": "BRIA",
+          "base": "",
+          "save_path": "custom_nodes/ComfyUI-BRIA_AI-RMBG/RMBG-1.4",
+          "description": "BRIA Background Removal v1.4 Model",
+          "reference": "https://huggingface.co/briaai/RMBG-1.4",
+          "filename": "model.pth",
+          "url": "https://huggingface.co/briaai/RMBG-1.4/resolve/main/model.pth"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "Comfyui-MusePose",
+    "reference": "https://github.com/TMElyralab/Comfyui-MusePose",
+    "models": {
+      "files": [
+        {
+          "name": "MusePose/denoising_unet",
+          "type": "MusePose",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/MusePose",
+          "save_path_2": "",
+          "description": "MusePose models",
+          "reference": "https://huggingface.co/TMElyralab/MusePose",
+          "filename": "denoising_unet.pth",
+          "url": "https://huggingface.co/TMElyralab/MusePose/resolve/main/MusePose/denoising_unet.pth"
+        },
+        {
+          "name": "MusePose/motion_module",
+          "type": "MusePose",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/MusePose",
+          "save_path_2": "",
+          "description": "MusePose models",
+          "reference": "https://huggingface.co/TMElyralab/MusePose",
+          "filename": "motion_module.pth",
+          "url": "https://huggingface.co/TMElyralab/MusePose/resolve/main/MusePose/motion_module.pth"
+        },
+        {
+          "name": "MusePose/pose_guider",
+          "type": "MusePose",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/MusePose",
+          "save_path_2": "",
+          "description": "MusePose models",
+          "reference": "https://huggingface.co/TMElyralab/MusePose",
+          "filename": "pose_guider.pth",
+          "url": "https://huggingface.co/TMElyralab/MusePose/resolve/main/MusePose/pose_guider.pth"
+        },
+        {
+          "name": "MusePose/reference_unet",
+          "type": "MusePose",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/MusePose",
+          "save_path_2": "",
+          "description": "MusePose models",
+          "reference": "https://huggingface.co/TMElyralab/MusePose",
+          "filename": "reference_unet.pth",
+          "url": "https://huggingface.co/TMElyralab/MusePose/resolve/main/MusePose/reference_unet.pth"
+        },
+        {
+          "name": "dwpose/dw-ll_ucoco_384",
+          "type": "dwpose",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/dwpose",
+          "save_path_2": "",
+          "description": "dwpose models",
+          "reference": "https://huggingface.co/yzd-v/DWPose",
+          "filename": "dw-ll_ucoco_384.pth",
+          "url": "https://huggingface.co/yzd-v/DWPose/resolve/main/dw-ll_ucoco_384.pth"
+        },
+        {
+          "name": "dwpose/yolox_l_8x8_300e_coco",
+          "type": "dwpose",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/dwpose",
+          "save_path_2": "",
+          "description": "yolox models",
+          "reference": "https://openmmlab.com/",
+          "filename": "yolox_l_8x8_300e_coco.pth",
+          "url": "https://download.openmmlab.com/mmdetection/v2.0/yolox/yolox_l_8x8_300e_coco/yolox_l_8x8_300e_coco_20211126_140236-d3bd2b23.pth"
+        },
+        {
+          "name": "sd-image-variations-diffusers/unet/config.json",
+          "type": "",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/sd-image-variations-diffusers/unet",
+          "save_path_2": "",
+          "description": "Stable Diffusion Image Variations Model",
+          "reference": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers",
+          "filename": "config.json",
+          "url": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers/resolve/main/unet/config.json"
+        },
+        {
+          "name": "sd-image-variations-diffusers/unet/diffusion_pytorch_model.bin",
+          "type": "",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/sd-image-variations-diffusers/unet",
+          "save_path_2": "",
+          "description": "Stable Diffusion Image Variations Model",
+          "reference": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers",
+          "filename": "diffusion_pytorch_model.bin",
+          "url": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers/resolve/main/unet/diffusion_pytorch_model.bin"
+        },
+        {
+          "name": "sd-image-variations-diffusers/image_encoder/config.json",
+          "type": "",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/image_encoder",
+          "save_path_2": "",
+          "description": "Stable Diffusion Image Variations Model",
+          "reference": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers",
+          "filename": "config.json",
+          "url": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers/resolve/main/image_encoder/config.json"
+        },
+        {
+          "name": "sd-image-variations-diffusers/image_encoder/pytorch_model.bin",
+          "type": "",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/image_encoder",
+          "save_path_2": "",
+          "description": "Stable Diffusion Image Variations Model",
+          "reference": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers",
+          "filename": "pytorch_model.bin",
+          "url": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers/resolve/main/image_encoder/pytorch_model.bin"
+        },
+        {
+          "name": "sd-vae-ft-mse/config.json",
+          "type": "",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/sd-vae-ft-mse",
+          "save_path_2": "",
+          "description": "Stable Diffusion Vae",
+          "reference": "https://huggingface.co/stabilityai/sd-vae-ft-mse",
+          "filename": "config.json",
+          "url": "https://huggingface.co/lambdalabs/sd-image-variations-diffusers/resolve/main/image_encoder/config.json"
+        },
+        {
+          "name": "sd-vae-ft-mse/diffusion_pytorch_model.bin",
+          "type": "",
+          "base": "",
+          "save_path": "custom_nodes/Comfyui-MusePose/pretrained_weights/sd-vae-ft-mse",
+          "save_path_2": "",
+          "description": "Stable Diffusion Vae",
+          "reference": "https://huggingface.co/stabilityai/sd-vae-ft-mse",
+          "filename": "diffusion_pytorch_model.bin",
+          "url": "https://huggingface.co/stabilityai/sd-vae-ft-mse/resolve/main/diffusion_pytorch_model.bin"
+        }
+      ]
+    }
   }
 ]
 

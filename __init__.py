@@ -5,11 +5,16 @@ import os
 import sys
 import __main__
 import traceback
+from .nodes.constants import PROJECT_NAME, userKey_file, project_root, read_user_key, config_file, config_template_file, \
+    config
+
+config_file_path = os.path.join(project_root, "config.json")
+if not os.path.exists(config_file_path):
+    config_template_file_path = os.path.join(project_root, "config_template.json")
+    shutil.copy(config_template_file_path, config_file_path)
 
 from .nodes.api.caller import submit
 from .nodes.utils import create_qr_code, auto_download_model, print_console
-from .nodes.constants import PROJECT_NAME, userKey_file, project_root, read_user_key, config_file, config_template_file, \
-    config
 from .nodes.api.llm import LLMChat,  Translator
 from .nodes.pack.apiNodes import InputImage, InputSeed, InputText, InputChoice, OutputText, OutputImage, \
     PublishWorkflow, CheckpointLoader, LoraLoader, ControlNetLoader, VAELoader
@@ -68,7 +73,7 @@ if userKey is not None and not os.path.exists(qr_file_path):
 
 # 如果config中指定自动下载模型，则执行下载
 if config['auto_download_model']:
-    auto_download_model()
+    auto_download_model('')
 
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
