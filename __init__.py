@@ -116,7 +116,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     OutputImage.NAME: "output image"+" ("+PROJECT_NAME+")",
     PublishWorkflow.NAME: "publish workflow to 2lab"+" ("+PROJECT_NAME+")",
 
-    SwitchPrompt.NAME: "Switch Prompt",
+    SwitchPrompt.NAME: "Switch Prompt"+" ("+PROJECT_NAME+")",
 }
 
 __all__ = [NODE_CLASS_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS]
