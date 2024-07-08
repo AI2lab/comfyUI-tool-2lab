@@ -11,7 +11,7 @@ from .constants import project_root, models, custom_nodes_root, comfyUI_models_r
 import platform
 from torchvision.datasets.utils import download_url
 
-print("platform.system() = ", platform.system())
+# print("platform.system() = ", platform.system())
 
 user_agents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
@@ -364,19 +364,33 @@ def truncate_string(s):
     else:
         return s  # 如果没有找到分隔符，返回原字符串
 
-def filter_list(origin_list, filter_list):
+# def filter_list(origin_list, filter_list):
+#     map = {}
+#     for item in origin_list:
+#         key = truncate_string(item)
+#         value = item
+#         map[key] = value
+#     # print("filter map :",map)
+#     filtered_list = []
+#     for key, value in map.items():
+#         if key in filter_list:
+#             filtered_list.append(value)
+#     # print("filtered_list :",filtered_list)
+#     return filtered_list
+
+def filter_map(origin_list, filter_list):
     map = {}
     for item in origin_list:
         key = truncate_string(item)
         value = item
         map[key] = value
-
-    filtered_list = []
+    # print("filter map :",map)
+    filtered_map = {}
     for key, value in map.items():
         if key in filter_list:
-            filtered_list.append(value)
-    return filtered_list
-
+            filtered_map[key] = value
+    # print("filtered_map :",filtered_map)
+    return filtered_map
 
 def print_console(text):
     print(f"\033[34m[INFO]\033[0m {text}")

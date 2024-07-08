@@ -178,5 +178,25 @@
     "reference": "https://civitai.com/models/132632?modelVersionId=429454",
     "filename": "epicphotogasm_ultimateFidelity.safetensors",
     "url": "https://huggingface.co/AI2lab/SD15-Models/resolve/main/epicphotogasm_ultimateFidelity.safetensors"
+  },
+  {
+    "name": "Mann-E Dreams",
+    "type": "checkpoints",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "Mann-E Dreams",
+    "reference": "https://civitai.com/models/548796?modelVersionId=610545",
+    "filename": "mannEDreams_v004.safetensors",
+    "url": "https://huggingface.co/AI2lab/SDXL-Models/resolve/main/mannEDreams_v004.safetensors"
+  },
+  {
+    "name": "xuerOneCyanTenColorXL_v3VAE",
+    "type": "checkpoints",
+    "base": "SDXL",
+    "save_path": "sdxl",
+    "description": "xuerOneCyanTenColorXL_v3VAE",
+    "reference": "https://civitai.com/models/416205?modelVersionId=594394",
+    "filename": "xuerOneCyanTenColorXL_v3VAE.safetensors",
+    "url": "https://huggingface.co/AI2lab/SDXL-Models/resolve/main/xuerOneCyanTenColorXL_v3VAE.safetensors"
   }
 ]

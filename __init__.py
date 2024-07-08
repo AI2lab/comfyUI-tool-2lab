@@ -17,7 +17,8 @@ from .nodes.api.caller import submit
 from .nodes.utils import create_qr_code, auto_download_model, print_console
 from .nodes.api.llm import LLMChat,  Translator
 from .nodes.pack.apiNodes import InputImage, InputSeed, InputText, InputChoice, OutputText, OutputImage, \
-    PublishWorkflow, CheckpointLoader, LoraLoader, ControlNetLoader, VAELoader
+    PublishWorkflow, CheckpointLoader, LoraLoader, ControlNetLoader, VAELoader, SwitchPrompt
+
 python = sys.executable
 
 print_console("[comfyUI-tool-2lab] start")
@@ -94,6 +95,7 @@ NODE_CLASS_MAPPINGS = {
     OutputImage.NAME: OutputImage,
     PublishWorkflow.NAME: PublishWorkflow,
 
+    SwitchPrompt.NAME: SwitchPrompt,
 }
 
 # display name
@@ -113,6 +115,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     OutputText.NAME: "output text"+" ("+PROJECT_NAME+")",
     OutputImage.NAME: "output image"+" ("+PROJECT_NAME+")",
     PublishWorkflow.NAME: "publish workflow to 2lab"+" ("+PROJECT_NAME+")",
+
+    SwitchPrompt.NAME: "Switch Prompt",
 }
 
 __all__ = [NODE_CLASS_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS]

@@ -149,6 +149,7 @@
     "filename": "Gloss_Tweaker_V2.safetensors",
     "url": "https://civitai.com/api/download/models/138948"
   },
+
   {
     "name": "ip-adapter-faceid_sd15_lora",
     "type": "lora",

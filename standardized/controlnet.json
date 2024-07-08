@@ -439,6 +439,16 @@
       "url": "https://huggingface.co/xinsir/controlnet-depth-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
     },
     {
+      "name": "xinsir/controlnet-union-sdxl-1.0",
+      "type": "controlnet",
+      "base": "SDXL",
+      "save_path": "sdxl/xinsir",
+      "description": "controlnet-union-sdxl-1.0",
+      "reference": "https://huggingface.co/xinsir/",
+      "filename": "controlnet-union-sdxl-1.0.safetensors",
+      "url": "https://huggingface.co/xinsir/controlnet-union-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
+    },
+    {
       "name": "TheMistoAI/mistoLine_rank256",
       "type": "controlnet",
       "base": "SDXL",

@@ -15,7 +15,7 @@ from ..constants import get_project_name, get_project_category, read_user_key, m
     checkpoints, loras, vaes, controlnets
 from PIL.PngImagePlugin import PngInfo
 
-from ..utils import truncate_string, filter_list
+from ..utils import truncate_string, filter_map
 
 NODE_CATEGORY = get_project_category("pack")
 
@@ -313,14 +313,13 @@ class OutputImage:
 
         return {"ui": {"images": results}, "result": (json.dumps(prompt),)}
 
-
 class CheckpointLoader:
     def __init__(self):
         # for test
         ckpts = folder_paths.get_filename_list("checkpoints")
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"ckpt_name": (filter_list(folder_paths.get_filename_list("checkpoints"),checkpoints),),
+        return {"required": {"ckpt_name": (list(filter_map(folder_paths.get_filename_list("checkpoints"),checkpoints)),),
                              }
                 }
 
@@ -339,18 +338,20 @@ class CheckpointLoader:
 
         ckptList = folder_paths.get_filename_list("checkpoints")
         # print("ckptList = ",ckptList)
-        for ckpt_path_item in ckptList:
-            simple_file_name = truncate_string(ckpt_path_item)
-            if simple_file_name == simple_ckpt_name:
-                ckpt_name = ckpt_path_item
-                # print("simple_file_name = ",simple_file_name)
-                # print("ckpt_name full = ",ckpt_name)
-                break
+        filtered_map = filter_map(ckptList,checkpoints)
+        if simple_ckpt_name in filtered_map:
+            ckpt_name = filtered_map[simple_ckpt_name]
+        # for ckpt_path_item in ckptList:
+        #     simple_file_name = truncate_string(ckpt_path_item)
+        #     if simple_file_name == simple_ckpt_name:
+        #         ckpt_name = ckpt_path_item
+        #         # print("simple_file_name = ",simple_file_name)
+        #         # print("ckpt_name full = ",ckpt_name)
+        #         break
         ckpt_path = folder_paths.get_full_path("checkpoints", ckpt_name)
         out = comfy.sd.load_checkpoint_guess_config(ckpt_path, output_vae=True, output_clip=True,
                                                     embedding_directory=folder_paths.get_folder_paths("embeddings"))
         return out[:3]
-
 
 class LoraLoader:
     def __init__(self):
@@ -360,7 +361,7 @@ class LoraLoader:
     def INPUT_TYPES(s):
         return {"required": {"model": ("MODEL",),
                              "clip": ("CLIP",),
-                             "lora_name": (filter_list(folder_paths.get_filename_list("loras"),loras),),
+                             "lora_name": (list(filter_map(folder_paths.get_filename_list("loras"),loras)),),
                              "strength_model": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
                              "strength_clip": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
                              }
@@ -375,22 +376,20 @@ class LoraLoader:
         if strength_model == 0 and strength_clip == 0:
             return (model, clip)
 
+        # print("lora_name = ",lora_name)
         simple_lora_name = truncate_string(lora_name)
+        # print("simple_lora_name = ",simple_lora_name)
         if simple_lora_name in loras:
             print("simple_ckpt_name in loras")
         else:
-            msg = f"checkpoint '{simple_lora_name}' not in available list, please check lora.json"
+            msg = f"lora '{simple_lora_name}' not in available list, please check lora.json"
             raise ValueError(msg)
 
         loraList = folder_paths.get_filename_list("loras")
         # print("loraList = ",loraList)
-        for lora_path_item in loraList:
-            simple_file_name = truncate_string(lora_path_item)
-            if simple_file_name == simple_lora_name:
-                lora_name = lora_path_item
-                print("simple_file_name = ",simple_file_name)
-                print("lora_name full = ",lora_name)
-                break
+        filtered_map = filter_map(loraList,loras)
+        if simple_lora_name in filtered_map:
+            lora_name = filtered_map[simple_lora_name]
 
         lora_path = folder_paths.get_full_path("loras", lora_name)
         lora = None
@@ -408,6 +407,15 @@ class LoraLoader:
 
         model_lora, clip_lora = comfy.sd.load_lora_for_models(model, clip, lora, strength_model, strength_clip)
         return (model_lora, clip_lora)
+
+    @classmethod
+    def IS_CHANGED(s, lora_name):
+        from datetime import datetime
+        # 获取当前时间
+        current_time = datetime.now()
+        # 格式化当前时间为字符串
+        current_time_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
+        return current_time_str
 
 
 class VAELoader:
@@ -459,7 +467,9 @@ class VAELoader:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"vae_name": (filter_list(s.vae_list(),vaes),)}}
+        return {"required": {
+            "vae_name": (list(filter_map(s.vae_list(),vaes)),)
+                             }}
 
     RETURN_TYPES = ("VAE",)
     FUNCTION = "doWork"
@@ -475,7 +485,7 @@ class VAELoader:
             if simple_vae_name in vaes:
                 print("simple_vae_name in vaes")
             else:
-                msg = f"checkpoint '{simple_vae_name}' not in available list, please check vae.json"
+                msg = f"vae '{simple_vae_name}' not in available list, please check vae.json"
                 raise ValueError(msg)
             sd = comfy.utils.load_torch_file(vae_path)
         vae = comfy.sd.VAE(sd=sd)
@@ -485,7 +495,7 @@ class VAELoader:
 class ControlNetLoader:
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"control_net_name": (filter_list(folder_paths.get_filename_list("controlnet"),controlnets),)} }
+        return {"required": {"control_net_name": (list(filter_map(folder_paths.get_filename_list("controlnet"),controlnets)),)} }
 
     RETURN_TYPES = ("CONTROL_NET",)
     NAME = get_project_name('ControlNetLoader')
@@ -498,11 +508,14 @@ class ControlNetLoader:
         if simple_cn_name in controlnets:
             print("simple_cn_name in controlnets")
         else:
-            msg = f"checkpoint '{simple_cn_name}' not in available list, please check controlnet.json"
+            msg = f"control net model '{simple_cn_name}' not in available list, please check controlnet.json"
             raise ValueError(msg)
 
         cnList = folder_paths.get_filename_list("controlnet")
         # print("cnList = ",cnList)
+        filtered_map = filter_map(cnList,loras)
+        if simple_cn_name in filtered_map:
+            control_net_name = filtered_map[simple_cn_name]
         for cn_path_item in cnList:
             simple_file_name = truncate_string(cn_path_item)
             if simple_file_name == simple_cn_name:
@@ -514,9 +527,6 @@ class ControlNetLoader:
         controlnet_path = folder_paths.get_full_path("controlnet", control_net_name)
         controlnet = comfy.controlnet.load_controlnet(controlnet_path)
         return (controlnet,)
-
-
-
 
 class PublishWorkflow:
     def __init__(s):
@@ -585,3 +595,37 @@ class PublishWorkflow:
             text = '项目未发布。如果要发布本工作流到网页，请把参数publish设为True'
 
         return {"ui": {"text": [text, ]}, "result": (publish, id,)}
+
+
+class SwitchPrompt:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "case": ("STRING", {"default": '1'}),
+                "prompts": ("STRING",
+                                   {
+                                       "multiline": True,
+                                   }),
+            }
+        }
+
+    NAME = get_project_name('SwitchPrompt')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ("STRING",)
+    FUNCTION = "doWork"
+
+    # 运行的函数
+    def doWork(self, case, prompts):
+        words = prompts.split("\n")
+
+        promptList = []
+        for word in words:
+            word = word.strip()
+            promptList.append(word)
+
+        index = int(case)
+        prompt = promptList[index]
+
+        # return (new_prompt)
+        return {"ui": {"prompt": prompt}, "result": (prompt,)}
