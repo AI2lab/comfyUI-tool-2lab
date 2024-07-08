@@ -602,7 +602,7 @@ class SwitchPrompt:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "line": ("STRING", {"default": '1',"min": 1}),
+                "line": ("STRING", {"default": '1'}),
                 "prompts": ("STRING",
                                    {
                                        "multiline": True,
