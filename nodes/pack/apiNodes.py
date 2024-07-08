@@ -602,7 +602,7 @@ class SwitchPrompt:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "case": ("STRING", {"default": '1',"min": 0}),
+                "line": ("STRING", {"default": '1',"min": 1}),
                 "prompts": ("STRING",
                                    {
                                        "multiline": True,
@@ -616,16 +616,11 @@ class SwitchPrompt:
     FUNCTION = "doWork"
 
     # 运行的函数
-    def doWork(self, case, prompts):
+    def doWork(self, line, prompts):
         words = prompts.split("\n")
-
         promptList = []
         for word in words:
-            word = word.strip()
-            promptList.append(word)
-
-        index = int(case)
+            promptList.append(word.strip())
+        index = int(line) - 1
         prompt = promptList[index]
-
-        # return (new_prompt)
         return {"ui": {"prompt": prompt}, "result": (prompt,)}
