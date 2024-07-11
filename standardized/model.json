@@ -1142,6 +1142,118 @@
         }
       ]
     }
+  },
+  {
+    "custom_node": "ComfyUI-KwaiKolorsWrapper",
+    "reference": "https://github.com/kijai/ComfyUI-KwaiKolorsWrapper",
+    "models": {
+      "files": [
+        {
+          "name": "KwaiKolorsWrapper/chatglm3-4bit",
+          "type": "Kolors",
+          "base": "",
+          "save_path": "LLM",
+          "save_path_2": "",
+          "description": "chatglm3 4bit model",
+          "reference": "https://huggingface.co/Kijai/ChatGLM3-safetensors",
+          "filename": "chatglm3-4bit.safetensors",
+          "url": "https://huggingface.co/Kijai/ChatGLM3-safetensors/resolve/main/chatglm3-4bit.safetensors"
+        },
+        {
+          "name": "KwaiKolorsWrapper/chatglm3-8bit",
+          "type": "Kolors",
+          "base": "",
+          "save_path": "LLM",
+          "save_path_2": "",
+          "description": "chatglm3 8bit model",
+          "reference": "https://huggingface.co/Kijai/ChatGLM3-safetensors",
+          "filename": "chatglm3-8bit.safetensors",
+          "url": "https://huggingface.co/Kijai/ChatGLM3-safetensors/resolve/main/chatglm3-8bit.safetensors"
+        },
+        {
+          "name": "KwaiKolorsWrapper/chatglm3-fp16",
+          "type": "Kolors",
+          "base": "",
+          "save_path": "LLM",
+          "save_path_2": "",
+          "description": "chatglm3 fp16 model",
+          "reference": "https://huggingface.co/Kijai/ChatGLM3-safetensors",
+          "filename": "chatglm3-fp16.safetensors",
+          "url": "https://huggingface.co/Kijai/ChatGLM3-safetensors/resolve/main/chatglm3-fp16.safetensors"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI-Kolors-MZ",
+    "reference": "https://github.com/MinusZoneAI/ComfyUI-Kolors-MZ",
+    "models": {
+      "files": [
+        {
+          "name": "KwaiKolorsWrapper/chatglm3-4bit",
+          "type": "Kolors",
+          "base": "",
+          "save_path": "LLM",
+          "save_path_2": "",
+          "description": "chatglm3 4bit model",
+          "reference": "https://huggingface.co/Kijai/ChatGLM3-safetensors",
+          "filename": "chatglm3-4bit.safetensors",
+          "url": "https://huggingface.co/Kijai/ChatGLM3-safetensors/resolve/main/chatglm3-4bit.safetensors"
+        },
+        {
+          "name": "KwaiKolorsWrapper/chatglm3-8bit",
+          "type": "Kolors",
+          "base": "",
+          "save_path": "LLM",
+          "save_path_2": "",
+          "description": "chatglm3 8bit model",
+          "reference": "https://huggingface.co/Kijai/ChatGLM3-safetensors",
+          "filename": "chatglm3-8bit.safetensors",
+          "url": "https://huggingface.co/Kijai/ChatGLM3-safetensors/resolve/main/chatglm3-8bit.safetensors"
+        },
+        {
+          "name": "KwaiKolorsWrapper/chatglm3-fp16",
+          "type": "Kolors",
+          "base": "",
+          "save_path": "LLM",
+          "save_path_2": "",
+          "description": "chatglm3 fp16 model",
+          "reference": "https://huggingface.co/Kijai/ChatGLM3-safetensors",
+          "filename": "chatglm3-fp16.safetensors",
+          "url": "https://huggingface.co/Kijai/ChatGLM3-safetensors/resolve/main/chatglm3-fp16.safetensors"
+        },
+        {
+          "name": "KwaiKolorsWrapper/kolors-unet",
+          "type": "Kolors",
+          "base": "",
+          "save_path": "unet/kolors",
+          "save_path_2": "",
+          "description": "kolors unet model",
+          "reference": "https://huggingface.co/Kwai-Kolors/Kolors",
+          "filename": "kolors-unet.safetensors",
+          "url": "https://huggingface.co/Kwai-Kolors/Kolors/resolve/main/unet/diffusion_pytorch_model.fp16.safetensors"
+        }
+      ]
+    }
+  },
+  {
+    "custom_node": "ComfyUI-AuraSR-ZHO",
+    "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-AuraSR-ZHO",
+    "models": {
+      "files": [
+        {
+          "name": "AuraSR model",
+          "type": "AuraSR",
+          "base": "",
+          "save_path": "aurasr",
+          "save_path_2": "",
+          "description": "AuraSR model",
+          "reference": "https://huggingface.co/fal/AuraSR",
+          "filename": "model.safetensors",
+          "url": "https://huggingface.co/fal/AuraSR/resolve/main/model.safetensors"
+        }
+      ]
+    }
   }
 ]
 
