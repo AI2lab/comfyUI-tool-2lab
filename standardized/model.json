@@ -25,6 +25,16 @@
           "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors"
         },
         {
+          "name": "clip-vit-large-patch14-336",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "clip_vision",
+          "description": "image encoder for kolors",
+          "reference": "https://huggingface.co/Kwai-Kolors/Kolors-IP-Adapter-Plus",
+          "filename": "clip-vit-large-patch14-336.bin",
+          "url": "https://huggingface.co/Kwai-Kolors/Kolors-IP-Adapter-Plus/resolve/main/image_encoder/pytorch_model.bin"
+        },
+        {
           "name": "ip-adapter_sd15",
           "type": "IP-Adapter",
           "base": "SDXL",
@@ -193,6 +203,16 @@
           "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
           "filename": "ip-adapter-faceid-portrait_sdxl_unnorm.bin",
           "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-portrait_sdxl_unnorm.bin"
+        },
+        {
+          "name": "Kolors-IP-Adapter-Plus",
+          "type": "IP-Adapter",
+          "base": "SDXL",
+          "save_path": "ipadapter",
+          "description": "IPAdapter Plus for Kolors model",
+          "reference": "https://huggingface.co/Kwai-Kolors/Kolors-IP-Adapter-Plus",
+          "filename": "Kolors-IP-Adapter-Plus.bin",
+          "url": "https://huggingface.co/Kwai-Kolors/Kolors-IP-Adapter-Plus/resolve/main/ip_adapter_plus_general.bin"
         }
       ]
     }

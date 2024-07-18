@@ -52,9 +52,9 @@
 ## 手动下载
 如果不希望使用自动下载，可以手动下载插件所需模型，不必将config.json中auto_download_model改为True
 如果要检查model.json文件中全部插件：
-- 到本项目文件中，执行python downloadModel.py
+- 到本项目文件中，执行python downloadModelForNode.py
 如果只要检查某个插件的模型
-- 到本项目文件中，执行python downloadModel.py --node <node_name>, 例如python downloadModelForNode.py --node ComfyUI_IPAdapter_plus
+- 到本项目文件中，执行python downloadModelForNode.py --node <node_name>, 例如python downloadModelForNode.py --node ComfyUI_IPAdapter_plus
 
 ## checkpoint、lora、vae、controlnet模型（手动下载，未来将改为自动下载）
 本项目使用的checkpoint、lora、vae、controlnet模型可以从下面的链接下载：

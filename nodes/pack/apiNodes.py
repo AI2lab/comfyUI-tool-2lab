@@ -569,27 +569,20 @@ class PublishWorkflow:
             if userKey == '':
                 text = '未找到开发密钥，请把example目录中的 input_key.png拖入comfyUI界面，输入开发密钥后，点击浮动菜单上的Queue Prompt按钮保存密钥到2lab_key.txt'
             else:
-                body = {
+                paramMap = {
                     'userKey': userKey,
                     'workflow': workflow
                 }
-                print(body)
+                print(paramMap)
 
-                url = "https://api.factx.cn/api/v4/i?c=engine_image_upload_workflow";
-                print("url = ", url)
-                headers = {
-                    'content-type': 'application/json;charset=utf-8',
-                }
-                response = requests.post(url, headers=headers, data=json.dumps(body))
-                print("response = ", response.text)
-                resJson = json.loads(response.text)
-                print("resJson = ", resJson)
-                if resJson["success"]:
+                command = "engine_wx2lab_upload_workflow"
+                responseJson = submit(command, json.dumps(paramMap))
+                if responseJson["success"]:
                     # share_url = resJson["data"]["url"],
                     text = f'工作流已经上传到服务器，请稍后到小程序中使用，服务器处理工作流需要几分钟，请耐心等待。如果有疑问，请请到http://www.2lab.cn/pb/contactus 咨询技术支持。'
                     raise ValueError(f'工作流上传完成，终止工作流运行。如果要正常运行工作流，请把publish改回false')
                 else:
-                    msg =  f'发布失败，原因：{resJson["message"]}'
+                    msg =  f'发布失败，原因：{responseJson["message"]}'
                     raise ValueError(msg)
         else:
             text = '项目未发布。如果要发布本工作流到网页，请把参数publish设为True'
