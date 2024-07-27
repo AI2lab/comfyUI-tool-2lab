@@ -5,8 +5,7 @@ import os
 import sys
 import __main__
 import traceback
-from .nodes.constants import PROJECT_NAME, userKey_file, project_root, read_user_key, config_file, config_template_file, \
-    config
+from .nodes.constants import PROJECT_NAME, userKey_file, project_root, read_user_key, config
 
 config_file_path = os.path.join(project_root, "config.json")
 if not os.path.exists(config_file_path):
@@ -17,7 +16,7 @@ from .nodes.api.caller import submit
 from .nodes.utils import create_qr_code, auto_download_model, print_console
 from .nodes.api.llm import LLMChat,  Translator
 from .nodes.pack.apiNodes import InputImage, InputSeed, InputText, InputChoice, OutputText, OutputImage, \
-    PublishWorkflow, CheckpointLoader, LoraLoader, ControlNetLoader, VAELoader, SwitchPrompt
+    PublishWorkflow, CheckpointLoader, LoraLoader, ControlNetLoader, VAELoader, OutputVideo
 
 python = sys.executable
 
@@ -90,12 +89,11 @@ NODE_CLASS_MAPPINGS = {
     InputImage.NAME: InputImage,
     InputSeed.NAME: InputSeed,
     InputText.NAME: InputText,
-    # InputChoice.NAME: InputChoice,
+    InputChoice.NAME: InputChoice,
     OutputText.NAME: OutputText,
     OutputImage.NAME: OutputImage,
+    OutputVideo.NAME: OutputVideo,
     PublishWorkflow.NAME: PublishWorkflow,
-
-    SwitchPrompt.NAME: SwitchPrompt,
 }
 
 # display name
@@ -111,12 +109,11 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     InputSeed.NAME: "input seed"+" ("+PROJECT_NAME+")",
     InputImage.NAME: "input image"+" ("+PROJECT_NAME+")",
     InputText.NAME: "input Text"+" ("+PROJECT_NAME+")",
-    # InputChoice.NAME: "input Choise"+" ("+PROJECT_NAME+")",
+    InputChoice.NAME: "input Choice"+" ("+PROJECT_NAME+")",
     OutputText.NAME: "output text"+" ("+PROJECT_NAME+")",
     OutputImage.NAME: "output image"+" ("+PROJECT_NAME+")",
+    OutputVideo.NAME: "output video"+" ("+PROJECT_NAME+")",
     PublishWorkflow.NAME: "publish workflow to 2lab"+" ("+PROJECT_NAME+")",
-
-    SwitchPrompt.NAME: "Switch Prompt"+" ("+PROJECT_NAME+")",
 }
 
 __all__ = [NODE_CLASS_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS]

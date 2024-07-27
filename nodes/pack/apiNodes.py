@@ -1,5 +1,8 @@
+import datetime
 import json
 import os
+import subprocess
+
 import requests
 from PIL import Image, ImageOps, ImageSequence
 import numpy as np
@@ -19,7 +22,7 @@ from ..utils import truncate_string, filter_map
 
 NODE_CATEGORY = get_project_category("pack")
 
-MAX_TEXT_LENGTH = 30
+MAX_TEXT_LENGTH = 10
 
 
 class AnyType(str):
@@ -137,9 +140,9 @@ class InputText:
 
     @staticmethod
     def doWork(text, type, desc, export):
-        # 只允许不超过20字的输入，用于seg或艺术字
+        # 只允许不超过xx字的输入，用于seg或艺术字
         # 长prompt应该作为模版输入
-        if len(text) > MAX_TEXT_LENGTH:
+        if type=='short' and len(text) > MAX_TEXT_LENGTH:
             raise ValueError(f"text too long. max length is {MAX_TEXT_LENGTH}")
         return text,
 
@@ -148,11 +151,15 @@ class InputChoice:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
-            "text": ("STRING", {"default": "", "multiline": False}),
-            "options": ("STRING", {"default": "", "multiline": True}),
+            "line": ("INT", {"default": 1, "min": 1, "max": 100}),
+            "options": ("STRING",
+               {
+                   "multiline": True,  # 多行。可以直接为内容，也可以是key:value格式
+               }),
+            "type": (["list","map"], {"default": "list"}),
             "desc": ("STRING", {"default": "选项", "multiline": False}),
             "export": ("BOOLEAN", {"default": True}),
-        },
+            },
         }
 
     NAME = get_project_name('InputChoice')
@@ -162,59 +169,71 @@ class InputChoice:
     FUNCTION = "doWork"
 
     @staticmethod
-    def doWork(text, options, desc, export):
-        print("text = ", text)
-        print("options = ", options)
-        optionList = options.split("|")
-        if text not in optionList:
-            raise ValueError(f"{text} not found in options. options should use '|' as the delimiter")
-        return text,
+    def doWork(line, options, type, desc, export):
+        items = options.split("\n")
+        promptList = []
+        for item in items:
+            promptList.append(item.strip())
+        index = int(line) - 1
+        if not  0 <= index < len(promptList):
+            raise ValueError(f"wrong line num : {line}")
+        item = promptList[index]
+        if type=='list':
+            value = item
+        elif type=='map':
+            # 找到第一个冒号的位置
+            colon_index = item.find(':')
+            # 如果找到了冒号
+            if colon_index != -1:
+                # 提取冒号之后的部分作为值
+                value = item[colon_index + 1:]
+        print(value)
+        return {"ui": {"prompt": value}, "result": (value,)}
 
 
-class InputWildCard:
-    cardMap = {}
-
-    @classmethod
-    def INPUT_TYPES(c):
-        return {"required": {
-            "text": ("STRING", {"default": "", "multiline": False}),
-            "wildcard": (c.get_wildcard_list(),),
-            "desc": ("STRING", {"default": "选项", "multiline": False}),
-            "export": ("BOOLEAN", {"default": True}),
-        },
-        }
-
-    NAME = get_project_name('InputChoice')
-    CATEGORY = NODE_CATEGORY
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("text",)
-    FUNCTION = "doWork"
-
-    @staticmethod
-    def doWork(text, options, desc, export):
-        optionList = options.split("|")
-        if text not in optionList:
-            raise ValueError(f"{text} not found in options. options should use '|' as the delimiter")
-        return text,
-
-    @staticmethod
-    def get_wildcard_list():
-        pass
-
-    def read_wildcard(self, cardId):
-        command = "engine_image_read_wildcard"
-        paramMap = {
-            'cardId': cardId,
-        }
-        responseJson = submit(command, json.dumps(paramMap))
-        # print(responseJson)
-        if responseJson['success'] == True and responseJson['data']:
-            result = responseJson['data']
-            self.cardMap[cardId] = result
-            return result
-        else:
-            return {}
-
+# class InputWildCard:
+#     cardMap = {}
+#
+#     @classmethod
+#     def INPUT_TYPES(c):
+#         return {"required": {
+#             "text": ("STRING", {"default": "", "multiline": False}),
+#             "wildcard": (c.get_wildcard_list(),),
+#             "desc": ("STRING", {"default": "选项", "multiline": False}),
+#             "export": ("BOOLEAN", {"default": True}),
+#         },
+#         }
+#
+#     NAME = get_project_name('InputWildCard')
+#     CATEGORY = NODE_CATEGORY
+#     RETURN_TYPES = ("STRING",)
+#     RETURN_NAMES = ("text",)
+#     FUNCTION = "doWork"
+#
+#     @staticmethod
+#     def doWork(text, options, desc, export):
+#         optionList = options.split("|")
+#         if text not in optionList:
+#             raise ValueError(f"{text} not found in options. options should use '|' as the delimiter")
+#         return text,
+#
+#     @staticmethod
+#     def get_wildcard_list():
+#         pass
+#
+#     def read_wildcard(self, cardId):
+#         command = "engine_image_read_wildcard"
+#         paramMap = {
+#             'cardId': cardId,
+#         }
+#         responseJson = submit(command, json.dumps(paramMap))
+#         # print(responseJson)
+#         if responseJson['success'] == True and responseJson['data']:
+#             result = responseJson['data']
+#             self.cardMap[cardId] = result
+#             return result
+#         else:
+#             return {}
 
 class OutputText:
     @classmethod
@@ -256,7 +275,6 @@ class OutputText:
                     node["widgets_values"] = [text]
 
         return {"ui": {"text": text}, "result": (text,)}
-
 
 class OutputImage:
     def __init__(self):
@@ -312,6 +330,30 @@ class OutputImage:
             counter += 1
 
         return {"ui": {"images": results}, "result": (json.dumps(prompt),)}
+
+class OutputVideo:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required":
+                {"Filenames": ("VHS_FILENAMES",)}
+        }
+    NAME = get_project_name('OutputVideo')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ()
+    RETURN_NAMES = ()
+    FUNCTION = "doWork"
+    OUTPUT_NODE = True
+
+    def doWork(self, Filenames):
+        # 取消
+        # if len(Filenames) < 2:
+        #     return []
+        # file_list = Filenames[1]
+        # mp4_files = [file for file in file_list if isinstance(file, str) and file.endswith('.mp4')]
+        # return mp4_files
+        return ()
+
 
 class CheckpointLoader:
     def __init__(self):
@@ -590,30 +632,3 @@ class PublishWorkflow:
         return {"ui": {"text": [text, ]}, "result": (publish, id,)}
 
 
-class SwitchPrompt:
-    @classmethod
-    def INPUT_TYPES(s):
-        return {
-            "required": {
-                "line": ("STRING", {"default": '1'}),
-                "prompts": ("STRING",
-                                   {
-                                       "multiline": True,
-                                   }),
-            }
-        }
-
-    NAME = get_project_name('SwitchPrompt')
-    CATEGORY = NODE_CATEGORY
-    RETURN_TYPES = ("STRING",)
-    FUNCTION = "doWork"
-
-    # 运行的函数
-    def doWork(self, line, prompts):
-        words = prompts.split("\n")
-        promptList = []
-        for word in words:
-            promptList.append(word.strip())
-        index = int(line) - 1
-        prompt = promptList[index]
-        return {"ui": {"prompt": prompt}, "result": (prompt,)}

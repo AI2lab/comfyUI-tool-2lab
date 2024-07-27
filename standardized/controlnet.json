@@ -477,6 +477,16 @@
       "reference": "https://huggingface.co/TTPlanet/TTPLanet_SDXL_Controlnet_Tile_Realistic",
       "filename": "TTPLANET_Controlnet_Tile_realistic_v2_fp16.safetensors",
       "url": "https://huggingface.co/TTPlanet/TTPLanet_SDXL_Controlnet_Tile_Realistic/resolve/main/TTPLANET_Controlnet_Tile_realistic_v2_fp16.safetensors"
+    },
+    {
+      "name": "anyTest/CN-anytest_v4-marged",
+      "type": "controlnet",
+      "base": "SDXL",
+      "save_path": "sdxl/anyTest",
+      "description": "CN-anytest_v4-marged",
+      "reference": "https://huggingface.co/2vXpSwA7/iroiro-lora",
+      "filename": "CN-anytest_v4-marged.safetensors",
+      "url": "https://huggingface.co/2vXpSwA7/iroiro-lora/resolve/main/test_controlnet2/CN-anytest_v4-marged.safetensors"
     }
 ]
 
