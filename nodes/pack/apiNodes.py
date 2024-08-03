@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+import random
 import subprocess
 
 import requests
@@ -157,6 +158,7 @@ class InputChoice:
                    "multiline": True,  # 多行。可以直接为内容，也可以是key:value格式
                }),
             "type": (["list","map"], {"default": "list"}),
+            "random": ("BOOLEAN", {"default": False}),
             "desc": ("STRING", {"default": "选项", "multiline": False}),
             "export": ("BOOLEAN", {"default": True}),
             },
@@ -169,12 +171,15 @@ class InputChoice:
     FUNCTION = "doWork"
 
     @staticmethod
-    def doWork(line, options, type, desc, export):
+    def doWork(line, options, type,rand, desc, export):
         items = options.split("\n")
         promptList = []
         for item in items:
             promptList.append(item.strip())
-        index = int(line) - 1
+        if rand:
+            index = random.randint(1, len(promptList))
+        else:
+            index = int(line) - 1
         if not  0 <= index < len(promptList):
             raise ValueError(f"wrong line num : {line}")
         item = promptList[index]
@@ -187,7 +192,7 @@ class InputChoice:
             if colon_index != -1:
                 # 提取冒号之后的部分作为值
                 value = item[colon_index + 1:]
-        print(value)
+        # print(value)
         return {"ui": {"prompt": value}, "result": (value,)}
 
 
