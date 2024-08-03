@@ -1,7 +1,7 @@
 import datetime
 import json
 import os
-import random
+import random as rand
 import subprocess
 
 import requests
@@ -171,13 +171,13 @@ class InputChoice:
     FUNCTION = "doWork"
 
     @staticmethod
-    def doWork(line, options, type,rand, desc, export):
+    def doWork(line, options, type,random, desc, export):
         items = options.split("\n")
         promptList = []
         for item in items:
             promptList.append(item.strip())
-        if rand:
-            index = random.randint(1, len(promptList))
+        if random:
+            index = rand.randint(1, len(promptList))
         else:
             index = int(line) - 1
         if not  0 <= index < len(promptList):
