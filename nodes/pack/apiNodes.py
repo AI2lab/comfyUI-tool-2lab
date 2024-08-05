@@ -177,7 +177,7 @@ class InputChoice:
         for item in items:
             promptList.append(item.strip())
         if random:
-            index = rand.randint(1, len(promptList))
+            index = rand.randint(0, len(promptList)-1)
         else:
             index = int(line) - 1
         if not  0 <= index < len(promptList):
@@ -195,6 +195,14 @@ class InputChoice:
         # print(value)
         return {"ui": {"prompt": value}, "result": (value,)}
 
+    @classmethod
+    def IS_CHANGED(s):
+        from datetime import datetime
+        # 获取当前时间
+        current_time = datetime.now()
+        # 格式化当前时间为字符串
+        current_time_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
+        return current_time_str
 
 # class InputWildCard:
 #     cardMap = {}
