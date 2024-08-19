@@ -1,10 +1,10 @@
 import argparse
 
-from nodes.utils import  auto_download_model
+from nodes.utils import  download_model
 
 def main(node):
     print(f"Node: {node}")
-    auto_download_model(node)
+    download_model(node)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="download models for custom node")

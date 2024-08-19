@@ -19,7 +19,8 @@ def submit(command: str, data: str) -> FactxResponse:
     }
     try:
         response = requests.post(submitUrl, headers=headers, data=data)
-        # print(response.text)
+        # print(f"submitUrl = {submitUrl}")
+        # print(f"response = {response.text}")
 
         factxResponse = json.loads(response.text)
         # print(factxResponse)

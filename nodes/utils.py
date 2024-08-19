@@ -7,7 +7,7 @@ import qrcode
 import requests
 from tqdm import tqdm
 from PIL import Image
-from .constants import project_root, models, custom_nodes_root, comfyUI_models_root, config
+from .constants import project_root, models, custom_nodes_root, comfyUI_models_root, china_mirror
 import platform
 from torchvision.datasets.utils import download_url
 
@@ -36,7 +36,7 @@ user_agents = [
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
 ]
 
-def auto_download_model(node):
+def download_model(node):
     custom_nodes_dirs = [name for name in os.listdir(custom_nodes_root) if os.path.isdir(os.path.join(custom_nodes_root, name)) and name != '__pycache__']
 
     # check nodes to download
@@ -94,7 +94,7 @@ def auto_download_model(node):
                     # 如果模型文件不存在，启动下载
                     if not os.path.exists(save_full_path):
                         os.makedirs(save_full_path)
-                    if config['china_mirror']:
+                    if china_mirror:
                         # huggingface 换成国内镜像站
                         if url.startswith('https://huggingface.co/'):
                             url = url.replace('https://huggingface.co/', 'https://hf-mirror.com/')

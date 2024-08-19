@@ -1,38 +1,28 @@
-import datetime
 import json
 import os
 import random as rand
-import subprocess
-
 import requests
+from PIL.PngImagePlugin import PngInfo
 from PIL import Image, ImageOps, ImageSequence
 import numpy as np
+import torch
+import hashlib
+
 import comfy.sd
 import comfy.utils
 from comfy.cli_args import args
+from comfy.model_management import InterruptProcessingException
 import folder_paths
-import torch
-import hashlib
-from ..api.caller import submit
 
-from ..constants import get_project_name, get_project_category, read_user_key, myWorkflow_folder, \
-    checkpoints, loras, vaes, controlnets
-from PIL.PngImagePlugin import PngInfo
-
-from ..utils import truncate_string, filter_map
+from .caller import submit
+from .constants import get_project_name, get_project_category, read_user_key, myWorkflow_folder, \
+    checkpoints, loras, vaes, controlnets, PROJECT_NAME, AnyType
+from .utils import truncate_string, filter_map
 
 NODE_CATEGORY = get_project_category("pack")
-
 MAX_TEXT_LENGTH = 10
 
-
-class AnyType(str):
-    def __ne__(self, __value: object) -> bool:
-        return False
-
-
 any = AnyType("*")
-
 
 class InputImage:
     @classmethod
@@ -96,7 +86,6 @@ class InputImage:
 
         return True
 
-
 class InputSeed:
     def __init__(self):
         pass
@@ -121,7 +110,6 @@ class InputSeed:
     def doWork(seed, export):
         return seed,
 
-
 class InputText:
     @classmethod
     def INPUT_TYPES(s):
@@ -141,12 +129,11 @@ class InputText:
 
     @staticmethod
     def doWork(text, type, desc, export):
-        # 只允许不超过xx字的输入，用于seg或艺术字
+        # 只允许不超过xx字的输入，用于艺术字
         # 长prompt应该作为模版输入
         if type=='short' and len(text) > MAX_TEXT_LENGTH:
-            raise ValueError(f"text too long. max length is {MAX_TEXT_LENGTH}")
+            raise ValueError(f"text too long. max length is {MAX_TEXT_LENGTH} - {text}")
         return text,
-
 
 class InputChoice:
     @classmethod
@@ -203,50 +190,6 @@ class InputChoice:
         # 格式化当前时间为字符串
         current_time_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
         return current_time_str
-
-# class InputWildCard:
-#     cardMap = {}
-#
-#     @classmethod
-#     def INPUT_TYPES(c):
-#         return {"required": {
-#             "text": ("STRING", {"default": "", "multiline": False}),
-#             "wildcard": (c.get_wildcard_list(),),
-#             "desc": ("STRING", {"default": "选项", "multiline": False}),
-#             "export": ("BOOLEAN", {"default": True}),
-#         },
-#         }
-#
-#     NAME = get_project_name('InputWildCard')
-#     CATEGORY = NODE_CATEGORY
-#     RETURN_TYPES = ("STRING",)
-#     RETURN_NAMES = ("text",)
-#     FUNCTION = "doWork"
-#
-#     @staticmethod
-#     def doWork(text, options, desc, export):
-#         optionList = options.split("|")
-#         if text not in optionList:
-#             raise ValueError(f"{text} not found in options. options should use '|' as the delimiter")
-#         return text,
-#
-#     @staticmethod
-#     def get_wildcard_list():
-#         pass
-#
-#     def read_wildcard(self, cardId):
-#         command = "engine_image_read_wildcard"
-#         paramMap = {
-#             'cardId': cardId,
-#         }
-#         responseJson = submit(command, json.dumps(paramMap))
-#         # print(responseJson)
-#         if responseJson['success'] == True and responseJson['data']:
-#             result = responseJson['data']
-#             self.cardMap[cardId] = result
-#             return result
-#         else:
-#             return {}
 
 class OutputText:
     @classmethod
@@ -367,7 +310,6 @@ class OutputVideo:
         # return mp4_files
         return ()
 
-
 class CheckpointLoader:
     def __init__(self):
         # for test
@@ -472,7 +414,6 @@ class LoraLoader:
         current_time_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
         return current_time_str
 
-
 class VAELoader:
     @staticmethod
     def vae_list():
@@ -546,7 +487,6 @@ class VAELoader:
         vae = comfy.sd.VAE(sd=sd)
         return (vae,)
 
-
 class ControlNetLoader:
     @classmethod
     def INPUT_TYPES(s):
@@ -584,8 +524,12 @@ class ControlNetLoader:
         return (controlnet,)
 
 class PublishWorkflow:
-    def __init__(s):
-        pass
+    NAME = get_project_name('PublishWorkflow')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ("BOOLEAN", "STRING",)
+    RETURN_NAMES = ("publish", "id",)
+    FUNCTION = "doWork"
+    OUTPUT_NODE = True
 
     @classmethod
     def INPUT_TYPES(c):
@@ -595,53 +539,144 @@ class PublishWorkflow:
                 "id": ("STRING", {"default": "workflowId", "multiline": False}),
                 "name": ("STRING", {"default": "文生图", "multiline": False}),
                 "desc": ("STRING", {"default": "", "multiline": False}),
+                "category": (["people","pet","design","art","langscape","building","logo","artWord","other"],{"default": "other"}),
                 "publish": ("BOOLEAN", {"default": False}),
             },
             "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"},
         }
 
-    NAME = get_project_name('PublishWorkflow')
-    CATEGORY = NODE_CATEGORY
-    RETURN_TYPES = ("BOOL", "STRING",)
-    RETURN_NAMES = ("publish", "id",)
-    FUNCTION = "doWork"
-    OUTPUT_NODE = True
-
-    def doWork(self, id, name, desc, publish, trigger=None, prompt=None, extra_pnginfo=None):
-        # print("extra_pnginfo = ",extra_pnginfo)
-        # print("prompt = ",prompt)
+    def doWork(self, trigger, id, name, desc, publish, category,prompt=None, extra_pnginfo=None):
+        # print("\nextra_pnginfo = ",extra_pnginfo)
+        # print("\nprompt = ",prompt)
 
         text = ''
         if publish:
-            workflow = prompt
+            workflowStr = json.dumps(prompt)
+            workflowStr = workflowStr.replace('\\n', '\\\\n')
+            # print("\nworkflowStr 2 = ",workflowStr)
+
             # 保存本地备份
             file_path = os.path.join(myWorkflow_folder, id + '.json')
             with open(file_path, 'w', encoding='utf-8') as file:
-                file.write(json.dumps(workflow))
+                file.write(workflowStr)
 
-            userKey = read_user_key()
-            print(f"userKey = [{userKey}]")
-            if userKey == '':
-                text = '未找到开发密钥，请把example目录中的 input_key.png拖入comfyUI界面，输入开发密钥后，点击浮动菜单上的Queue Prompt按钮保存密钥到2lab_key.txt'
+            # 读取 user key，从ini文件或者cookie中。如果读取失败，会弹出excepation
+            userKey = read_user_key(prompt)
+            if userKey=='':
+                raise ValueError('userKey读取失败，请检查ini文件或者通过input user key节点输入user key')
+
+            paramMap = {
+                'userKey': userKey,
+                'workflow': workflowStr
+            }
+
+            command = "engine_wx2lab_upload_workflow"
+            responseJson = submit(command, json.dumps(paramMap))
+            print("\nresponseJson = ",responseJson)
+            if responseJson["success"]:
+                # text = f'工作流已经上传到服务器，请稍后到小程序中使用，服务器处理工作流需要几分钟，请耐心等待。'
+                raise ValueError(f'工作流上传完成，终止工作流运行。如果要正常运行工作流，请把publish改回false')
             else:
-                paramMap = {
-                    'userKey': userKey,
-                    'workflow': workflow
-                }
-                print(paramMap)
-
-                command = "engine_wx2lab_upload_workflow"
-                responseJson = submit(command, json.dumps(paramMap))
-                if responseJson["success"]:
-                    # share_url = resJson["data"]["url"],
-                    text = f'工作流已经上传到服务器，请稍后到小程序中使用，服务器处理工作流需要几分钟，请耐心等待。如果有疑问，请请到http://www.2lab.cn/pb/contactus 咨询技术支持。'
-                    raise ValueError(f'工作流上传完成，终止工作流运行。如果要正常运行工作流，请把publish改回false')
-                else:
-                    msg =  f'发布失败，原因：{responseJson["message"]}'
-                    raise ValueError(msg)
+                msg =  f'发布失败，原因：{responseJson["message"]}'
+                raise ValueError(msg)
         else:
             text = '项目未发布。如果要发布本工作流到网页，请把参数publish设为True'
-
         return {"ui": {"text": [text, ]}, "result": (publish, id,)}
 
+class StopQueue:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "stop": ("BOOLEAN", {"forceInput": True}),
+            },
+        }
 
+    NAME = get_project_name('StopQueue')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ()
+    FUNCTION = "doWork"
+    OUTPUT_NODE = True
+
+    def doWork(self,stop):
+        if stop:
+            raise InterruptProcessingException()
+        return {}
+
+
+# class InputWildCard:
+#     cardMap = {}
+#
+#     @classmethod
+#     def INPUT_TYPES(c):
+#         return {"required": {
+#             "text": ("STRING", {"default": "", "multiline": False}),
+#             "wildcard": (c.get_wildcard_list(),),
+#             "desc": ("STRING", {"default": "选项", "multiline": False}),
+#             "export": ("BOOLEAN", {"default": True}),
+#         },
+#         }
+#
+#     NAME = get_project_name('InputWildCard')
+#     CATEGORY = NODE_CATEGORY
+#     RETURN_TYPES = ("STRING",)
+#     RETURN_NAMES = ("text",)
+#     FUNCTION = "doWork"
+#
+#     @staticmethod
+#     def doWork(text, options, desc, export):
+#         optionList = options.split("|")
+#         if text not in optionList:
+#             raise ValueError(f"{text} not found in options. options should use '|' as the delimiter")
+#         return text,
+#
+#     @staticmethod
+#     def get_wildcard_list():
+#         pass
+#
+#     def read_wildcard(self, cardId):
+#         command = "engine_image_read_wildcard"
+#         paramMap = {
+#             'cardId': cardId,
+#         }
+#         responseJson = submit(command, json.dumps(paramMap))
+#         # print(responseJson)
+#         if responseJson['success'] == True and responseJson['data']:
+#             result = responseJson['data']
+#             self.cardMap[cardId] = result
+#             return result
+#         else:
+#             return {}
+
+NODE_CLASS_MAPPINGS = {
+    CheckpointLoader.NAME: CheckpointLoader,
+    LoraLoader.NAME: LoraLoader,
+    VAELoader.NAME: VAELoader,
+    ControlNetLoader.NAME: ControlNetLoader,
+
+    InputImage.NAME: InputImage,
+    InputSeed.NAME: InputSeed,
+    InputText.NAME: InputText,
+    InputChoice.NAME: InputChoice,
+    OutputText.NAME: OutputText,
+    OutputImage.NAME: OutputImage,
+    OutputVideo.NAME: OutputVideo,
+    PublishWorkflow.NAME: PublishWorkflow,
+    StopQueue.NAME: StopQueue,
+}
+
+NODE_DISPLAY_NAME_MAPPINGS = {
+    CheckpointLoader.NAME: "load available checkpoint"+" ("+PROJECT_NAME+")",
+    LoraLoader.NAME: "load available lora"+" ("+PROJECT_NAME+")",
+    VAELoader.NAME: "load available vae"+" ("+PROJECT_NAME+")",
+    ControlNetLoader.NAME: "load available controlnet"+" ("+PROJECT_NAME+")",
+
+    InputSeed.NAME: "input seed"+" ("+PROJECT_NAME+")",
+    InputImage.NAME: "input image"+" ("+PROJECT_NAME+")",
+    InputText.NAME: "input Text"+" ("+PROJECT_NAME+")",
+    InputChoice.NAME: "input Choice"+" ("+PROJECT_NAME+")",
+    OutputText.NAME: "output text"+" ("+PROJECT_NAME+")",
+    OutputImage.NAME: "output image"+" ("+PROJECT_NAME+")",
+    OutputVideo.NAME: "output video"+" ("+PROJECT_NAME+")",
+    PublishWorkflow.NAME: "publish workflow to 2lab"+" ("+PROJECT_NAME+")",
+    StopQueue.NAME: "stop queue"+" ("+PROJECT_NAME+")",
+}

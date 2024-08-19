@@ -2,7 +2,7 @@ import hashlib
 import json
 
 from .caller import submit
-from ..constants import get_project_name, get_project_category, read_user_key
+from .constants import get_project_name, get_project_category, read_user_key
 
 NODE_CATEGORY = get_project_category("llm")
 
@@ -17,18 +17,21 @@ class LLMChat:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "prompt": ("STRING", {"multiline": True}),
+                "system_prompt": ("STRING", {"multiline": True}),
+                "user_prompt": ("STRING", {"multiline": True}),
             },
         }
 
-    def doWork(self,  prompt):
+    def doWork(self,  system_prompt, user_prompt):
         command = "engine_llm_chat"
+
+        # 读取 user key，从ini文件或者cookie中。如果读取失败，会弹出excepation
         userKey = read_user_key()
-        if userKey == "":
-            raise Exception("还没设置userKey")
+
         paramMap = {
             'userKey': userKey,
-            "prompt": prompt,
+            "system_prompt": system_prompt,
+            "user_prompt": user_prompt,
         }
         responseJson = submit(command, json.dumps(paramMap))
         if responseJson['success']==True:
@@ -46,9 +49,8 @@ class LLMChat:
         m.update(prompt)
         return m.digest().hex()
 
-
-class Translator:
-    NAME = get_project_name('Translator')
+class SimpleTranslator:
+    NAME = get_project_name('SimpleTranslator')
     CATEGORY = NODE_CATEGORY
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("text",)
@@ -65,9 +67,10 @@ class Translator:
 
     def doWork(self,  to_lang, text):
         command = "engine_llm_translate"
+
+        # 读取 user key，从ini文件或者cookie中。如果读取失败，会弹出excepation
         userKey = read_user_key()
-        if userKey == "":
-            raise Exception("还没设置userKey")
+
         paramMap = {
             'userKey': userKey,
             "to_lang": to_lang,
@@ -85,3 +88,14 @@ class Translator:
         m = hashlib.sha256()
         m.update(to_lang+text)
         return m.digest().hex()
+
+
+NODE_CLASS_MAPPINGS = {
+    LLMChat.NAME: LLMChat,
+    SimpleTranslator.NAME: SimpleTranslator,
+}
+
+NODE_DISPLAY_NAME_MAPPINGS = {
+    LLMChat.NAME: "LLM chat",
+    SimpleTranslator.NAME: "simple translator",
+}

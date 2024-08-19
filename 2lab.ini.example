@@ -1,0 +1,7 @@
+[auth]
+user_key = YOUR_API_KEY
+
+[download_models]
+auto_download_model: false,
+china_mirror: true
+
