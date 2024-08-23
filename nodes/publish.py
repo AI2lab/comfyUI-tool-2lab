@@ -142,6 +142,7 @@ class InputChoice:
             "line": ("INT", {"default": 1, "min": 1, "max": 100}),
             "options": ("STRING",
                {
+                   "placeholder":"输入选项内容，一行代表一个选项。可以直接输入选项内容，也可以是key:value格式。",
                    "multiline": True,  # 多行。可以直接为内容，也可以是key:value格式
                }),
             "type": (["list","map"], {"default": "list"}),

@@ -9,6 +9,11 @@ app.registerExtension({
 	name: "Comfy.2lab.nodes",
 
 	async beforeRegisterNodeDef(nodeType, nodeData, app) {
+//	    if(nodeData.name.contains(PROJECT_NAME)){
+//                console.log('beforeRegisterNodeDef() nodeData = ',nodeData.name)
+//        }
+
+
 
         // Adds an upload button to the nodes
         if (nodeData?.input?.required?.image?.[1]?.image_upload === true) {
@@ -16,8 +21,62 @@ app.registerExtension({
         }
 
         if (nodeData.name === "PublishWorkflow"+PROJECT_NAME) {
-            const widgets_count = 5;          //PublishWorkflow初始状态是4个参数
+            const widgets_count = 5;          //PublishWorkflow初始状态是5个参数
             function populate(text) {
+                // 移除在初始状态上增加的widgets
+                if (this.widgets) {
+                    for (let i = widgets_count; i < this.widgets.length; i++) {
+                        this.widgets[i].onRemove?.();
+                    }
+                    this.widgets.length = widgets_count;
+                }
+
+                const v = [...text];
+                var msg = ''
+                if(v.length == 1){      //from class PublishWorkflow
+                    msg = v[0];
+                    const w = ComfyWidgets["STRING"](this, "text", ["STRING", { multiline: true }], app).widget;
+                    console.log('w = ',w)
+                    w.inputEl.readOnly = true;
+                    w.inputEl.style.opacity = 0.6;
+                    w.value = msg;
+
+                    requestAnimationFrame(() => {
+                        const sz = this.computeSize();
+                        if (sz[0] < this.size[0]) {
+                            sz[0] = this.size[0];
+                        }
+                        if (sz[1] < this.size[1]) {
+                            sz[1] = this.size[1];
+                        }
+                        this.onResize?.(sz);
+                        app.graph.setDirtyCanvas(true, false);
+                    });
+               }
+            }
+
+            // When the node is executed we will be sent the input text, display this in the widget
+            const onExecuted = nodeType.prototype.onExecuted;
+            nodeType.prototype.onExecuted = function (message) {
+    //                console.log('message = ',message)
+                onExecuted?.apply(this, arguments);
+                populate.call(this, message.text);
+            };
+
+            const onConfigure = nodeType.prototype.onConfigure;
+            nodeType.prototype.onConfigure = function () {
+                onConfigure?.apply(this, arguments);
+                if (this.widgets_values?.length) {
+                    populate.call(this, this.widgets_values);
+                }
+            };
+        }
+
+        if (nodeData.name === "LLMChat"+PROJECT_NAME) {
+            console.log('beforeRegisterNodeDef() nodeData = ',nodeData.name)
+            const widgets_count = 4;          //LLMChat 初始状态是4个参数
+            function populate(text) {
+                console.log('this.widgets.length = ',this.widgets.length)
                 // 移除在初始状态上增加的widgets
                 if (this.widgets) {
                     for (let i = widgets_count; i < this.widgets.length; i++) {
@@ -83,7 +142,7 @@ app.registerExtension({
                 if(v.length == 1){      //from class PublishWorkflow
                     msg = v[0];
                     const w = ComfyWidgets["STRING"](this, "text", ["STRING", { multiline: true }], app).widget;
-                    console.log('w = ',w)
+//                    console.log('w = ',w)
                     w.inputEl.readOnly = true;
                     w.inputEl.style.opacity = 0.6;
                     w.value = msg;
