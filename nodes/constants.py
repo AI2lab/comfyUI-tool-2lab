@@ -64,15 +64,17 @@ def read_user_key(prompt):
         return USER_KEY
     # 如果ini文件里没有user key，尝试从cookie读取
     try:
-        # 这个url在ini文件里面指定
-        data = {
-            'prompt': json.dumps(prompt),
-        }
-        response = requests.post('http://127.0.0.1:8188/2lab/internal/readUserKey', data=data)
-        print('read_user_key Response status:', response.status_code)
-        print('read_user_key Response Content:', response.text)
-        response.raise_for_status()  # 如果响应状态码不是200，抛出异常
-        return response.text
+        print(f"internal read_user_key_from_prompt - prompt = {prompt}")
+        # promptJson = json.loads(prompt)
+        promptJson = prompt
+
+        for key, value in promptJson.items():
+            if value.get('class_type') == 'InputUserKey (2lab)':
+                user_key = value.get('inputs').get('userkey')
+
+        print(f"internal read_user_key_from_prompt - user_key = {user_key}")
+        if user_key:
+            return user_key
     except:
         print(traceback.format_exc())
     return ''

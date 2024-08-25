@@ -20,7 +20,7 @@ app.registerExtension({
             nodeData.input.required.upload = ["IMAGEUPLOAD"];
         }
 
-        if (nodeData.name === "PublishWorkflow"+PROJECT_NAME) {
+        if (nodeData.name === "PublishWorkflow"+PROJECT_NAME || nodeData.name === "TextConcat"+PROJECT_NAME) {
             const widgets_count = 5;          //PublishWorkflow初始状态是5个参数
             function populate(text) {
                 // 移除在初始状态上增加的widgets
@@ -73,7 +73,6 @@ app.registerExtension({
         }
 
         if (nodeData.name === "LLMChat"+PROJECT_NAME) {
-            console.log('beforeRegisterNodeDef() nodeData = ',nodeData.name)
             const widgets_count = 4;          //LLMChat 初始状态是4个参数
             function populate(text) {
                 console.log('this.widgets.length = ',this.widgets.length)

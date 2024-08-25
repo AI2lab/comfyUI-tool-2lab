@@ -28,8 +28,9 @@ class LLMChat:
     def doWork(self,  system_prompt, user_prompt,max_tokens,temperature ,prompt=None, extra_pnginfo=None):
         command = "engine_llm_chat"
 
-        # 读取 user key，从ini文件或者cookie中。如果读取失败，会弹出excepation
         userKey = read_user_key(prompt)
+        # if userKey=='':
+        #     raise Exception("请使用Input User Key节点，输入用户密钥")
 
         paramMap = {
             'userKey': userKey,
@@ -44,10 +45,10 @@ class LLMChat:
             result = result.strip()
             if result.startswith('"') and result.endswith('"'):
                 result = result[1:-1].strip()
-            return {"ui": {"text": [result, ]}, "result": (result,)}
+            return {"ui": {"text": (result,)}, "result": (result,)}
         else:
             result = responseJson['data']['result']
-            return {"ui": {"text": [result, ]}, "result": ('',)}
+            return {"ui": {"text": (result,)}, "result": ('',)}
 
     @classmethod
     def IS_CHANGED(s, system_prompt, user_prompt,max_tokens,temperature ,prompt=None, extra_pnginfo=None):
@@ -77,6 +78,8 @@ class SimpleTranslator:
 
         # 读取 user key，从ini文件或者cookie中。如果读取失败，会弹出excepation
         userKey = read_user_key(prompt)
+        # if userKey=='':
+        #     raise Exception("请使用Input User Key节点，输入用户密钥")
 
         paramMap = {
             'userKey': userKey,
@@ -103,6 +106,6 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    LLMChat.NAME: "LLM chat"+" ("+PROJECT_NAME+")",
-    SimpleTranslator.NAME: "simple translator"+" ("+PROJECT_NAME+")",
+    LLMChat.NAME: "LLM chat 大模型对话"+" ("+PROJECT_NAME+")",
+    SimpleTranslator.NAME: "simple translator 简单翻译"+" ("+PROJECT_NAME+")",
 }

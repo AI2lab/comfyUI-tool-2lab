@@ -72,7 +72,7 @@ class InputImage:
         return (output_image, output_mask)
 
     @classmethod
-    def IS_CHANGED(s, image):
+    def IS_CHANGED(s, image, desc, export):
         image_path = folder_paths.get_annotated_filepath(image)
         m = hashlib.sha256()
         with open(image_path, 'rb') as f:
@@ -181,10 +181,10 @@ class InputChoice:
                 # 提取冒号之后的部分作为值
                 value = item[colon_index + 1:]
         # print(value)
-        return {"ui": {"prompt": value}, "result": (value,)}
+        return {"ui": {"prompt": (value,)}, "result": (value,)}
 
     @classmethod
-    def IS_CHANGED(s):
+    def IS_CHANGED(s,line, options, type,random, desc, export):
         from datetime import datetime
         # 获取当前时间
         current_time = datetime.now()
@@ -231,7 +231,7 @@ class OutputText:
                 if node:
                     node["widgets_values"] = [text]
 
-        return {"ui": {"text": text}, "result": (text,)}
+        return {"ui": {"text": (text,)}, "result": (text,)}
 
 class OutputImage:
     def __init__(self):
@@ -407,7 +407,7 @@ class LoraLoader:
         return (model_lora, clip_lora)
 
     @classmethod
-    def IS_CHANGED(s, lora_name):
+    def IS_CHANGED(s, model, clip, lora_name, strength_model, strength_clip):
         from datetime import datetime
         # 获取当前时间
         current_time = datetime.now()
@@ -541,7 +541,7 @@ class PublishWorkflow:
                 "name": ("STRING", {"default": "文生图", "multiline": False}),
                 "desc": ("STRING", {"default": "", "multiline": False}),
                 "category": (["people","pet","design","art","langscape","building","logo","artWord","other"],{"default": "other"}),
-                "publish": ("BOOLEAN", {"default": False}),
+                "publish": ("BOOLEAN", {"default": False,"label_on": "yes", "label_off": "no"}),
             },
             "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"},
         }
@@ -553,7 +553,6 @@ class PublishWorkflow:
         text = ''
         if publish:
             workflowStr = json.dumps(prompt)
-            workflowStr = workflowStr.replace('\\n', '\\\\n')
             # print("\nworkflowStr 2 = ",workflowStr)
 
             # 保存本地备份
@@ -582,7 +581,7 @@ class PublishWorkflow:
                 raise ValueError(msg)
         else:
             text = '项目未发布。如果要发布本工作流到网页，请把参数publish设为True'
-        return {"ui": {"text": [text, ]}, "result": (publish, id,)}
+        return {"ui": {"text": (text,)}, "result": (publish, id,)}
 
 class StopQueue:
     @classmethod
@@ -603,51 +602,6 @@ class StopQueue:
             raise InterruptProcessingException()
         return {}
 
-
-# class InputWildCard:
-#     cardMap = {}
-#
-#     @classmethod
-#     def INPUT_TYPES(c):
-#         return {"required": {
-#             "text": ("STRING", {"default": "", "multiline": False}),
-#             "wildcard": (c.get_wildcard_list(),),
-#             "desc": ("STRING", {"default": "选项", "multiline": False}),
-#             "export": ("BOOLEAN", {"default": True}),
-#         },
-#         }
-#
-#     NAME = get_project_name('InputWildCard')
-#     CATEGORY = NODE_CATEGORY
-#     RETURN_TYPES = ("STRING",)
-#     RETURN_NAMES = ("text",)
-#     FUNCTION = "doWork"
-#
-#     @staticmethod
-#     def doWork(text, options, desc, export):
-#         optionList = options.split("|")
-#         if text not in optionList:
-#             raise ValueError(f"{text} not found in options. options should use '|' as the delimiter")
-#         return text,
-#
-#     @staticmethod
-#     def get_wildcard_list():
-#         pass
-#
-#     def read_wildcard(self, cardId):
-#         command = "engine_image_read_wildcard"
-#         paramMap = {
-#             'cardId': cardId,
-#         }
-#         responseJson = submit(command, json.dumps(paramMap))
-#         # print(responseJson)
-#         if responseJson['success'] == True and responseJson['data']:
-#             result = responseJson['data']
-#             self.cardMap[cardId] = result
-#             return result
-#         else:
-#             return {}
-
 NODE_CLASS_MAPPINGS = {
     CheckpointLoader.NAME: CheckpointLoader,
     LoraLoader.NAME: LoraLoader,
@@ -666,18 +620,18 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    CheckpointLoader.NAME: "load available checkpoint"+" ("+PROJECT_NAME+")",
+    CheckpointLoader.NAME: "load available checkpoint "+" ("+PROJECT_NAME+")",
     LoraLoader.NAME: "load available lora"+" ("+PROJECT_NAME+")",
     VAELoader.NAME: "load available vae"+" ("+PROJECT_NAME+")",
     ControlNetLoader.NAME: "load available controlnet"+" ("+PROJECT_NAME+")",
 
-    InputSeed.NAME: "input seed"+" ("+PROJECT_NAME+")",
-    InputImage.NAME: "input image"+" ("+PROJECT_NAME+")",
-    InputText.NAME: "input Text"+" ("+PROJECT_NAME+")",
-    InputChoice.NAME: "input Choice"+" ("+PROJECT_NAME+")",
-    OutputText.NAME: "output text"+" ("+PROJECT_NAME+")",
-    OutputImage.NAME: "output image"+" ("+PROJECT_NAME+")",
-    OutputVideo.NAME: "output video"+" ("+PROJECT_NAME+")",
-    PublishWorkflow.NAME: "publish workflow to 2lab"+" ("+PROJECT_NAME+")",
-    StopQueue.NAME: "stop queue"+" ("+PROJECT_NAME+")",
+    InputSeed.NAME: "input seed 输入随机数"+" ("+PROJECT_NAME+")",
+    InputImage.NAME: "input image 输入图片"+" ("+PROJECT_NAME+")",
+    InputText.NAME: "input Text 输入文字"+" ("+PROJECT_NAME+")",
+    InputChoice.NAME: "input Choice 选择"+" ("+PROJECT_NAME+")",
+    OutputText.NAME: "output text 输出文字"+" ("+PROJECT_NAME+")",
+    OutputImage.NAME: "output image 输出图片"+" ("+PROJECT_NAME+")",
+    OutputVideo.NAME: "output video 输出图片"+" ("+PROJECT_NAME+")",
+    PublishWorkflow.NAME: "publish workflow 发布工作流"+" ("+PROJECT_NAME+")",
+    StopQueue.NAME: "stop queue 停止绘图"+" ("+PROJECT_NAME+")",
 }

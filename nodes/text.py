@@ -19,7 +19,7 @@ class Text:
     }
 
     def doWork(self, text=''):
-        return {"ui": {"text": text}, "result": (text,)}
+        return {"ui": {"text": (text,)}, "result": (text,)}
 
 class TextConcat:
     NAME = get_project_name('TextConcat')
@@ -55,8 +55,7 @@ class TextConcat:
             concat = concat+delimiter+text3
         if(text4!=''):
             concat = concat+delimiter+text4
-        # concat = delimiter.join([text1, text2, text3,text4,text5,text6,text7])
-        return (concat,)
+        return {"ui": {"text": (concat,)}, "result": (concat,)}
 
 class ShowText:
     NAME = get_project_name('ShowText')
