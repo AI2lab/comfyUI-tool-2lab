@@ -19,7 +19,7 @@ from .constants import get_project_name, get_project_category, read_user_key, my
     checkpoints, loras, vaes, controlnets, PROJECT_NAME, AnyType
 from .utils import truncate_string, filter_map
 
-NODE_CATEGORY = get_project_category("pack")
+NODE_CATEGORY = get_project_category("publish")
 MAX_TEXT_LENGTH = 10
 
 any = AnyType("*")
@@ -32,7 +32,7 @@ class InputImage:
         return {"required":
                     {"image": (sorted(files), {"image_upload": True}),
                      "desc": ("STRING", {"default": "图片", "multiline": False}),
-                     "export": ("BOOLEAN", {"default": True}),
+                    "export": ("BOOLEAN", {"default": True,"label_on": "yes", "label_off": "no"}),
                      },
                 }
 
@@ -87,14 +87,12 @@ class InputImage:
         return True
 
 class InputSeed:
-    def __init__(self):
-        pass
 
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
             "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
-            "export": ("BOOLEAN", {"default": True}),
+            "export": ("BOOLEAN", {"default": True,"label_on": "yes", "label_off": "no"}),
         },
         }
 
@@ -116,8 +114,8 @@ class InputText:
         return {"required": {
             "text": ("STRING", {"default": "", "multiline": True}),
             "type": (["short"], {"default": "short"}),
-            "desc": ("STRING", {"default": "提示词", "multiline": False}),
-            "export": ("BOOLEAN", {"default": True}),
+            "desc": ("STRING", {"default": "简短提示词", "multiline": False}),
+            "export": ("BOOLEAN", {"default": True,"label_on": "yes", "label_off": "no"}),
         },
         }
 
@@ -148,7 +146,7 @@ class InputChoice:
             "type": (["list","map"], {"default": "list"}),
             "random": ("BOOLEAN", {"default": False}),
             "desc": ("STRING", {"default": "选项", "multiline": False}),
-            "export": ("BOOLEAN", {"default": True}),
+            "export": ("BOOLEAN", {"default": True,"label_on": "yes", "label_off": "no"}),
             },
         }
 

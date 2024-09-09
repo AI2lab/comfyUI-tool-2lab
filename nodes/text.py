@@ -1,6 +1,8 @@
+import json
 
+from .constants import get_project_name, get_project_category, PROJECT_NAME, AnyType
 
-from .constants import get_project_name, get_project_category, PROJECT_NAME
+any = AnyType("*")
 
 NODE_CATEGORY = get_project_category("util")
 
@@ -80,16 +82,49 @@ class ShowText:
 
         return {"ui": {"text": (value,)}, "result": (value,)}
 
+class ShowAny:
+    NAME = get_project_name('ShowAny')
+    CATEGORY = NODE_CATEGORY
+    FUNCTION = "doWork"
+    RETURN_NAMES = ("text", )
+    RETURN_TYPES = ("STRING",)
+    OUTPUT_NODE = True
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+          "required": {
+            "anything": (any, {}),
+          },
+        }
+
+    def doWork(self, anything=None):
+        value = ''
+        if anything is not None:
+            try:
+                if type(anything) is str:
+                    value = anything
+                else:
+                    val = json.dumps(anything)
+                    value = str(val)
+            except Exception:
+                value = str(val)
+                pass
+        print(f"ShowAny: {value}")
+        return {"ui": {"text": (value,)}, "result": (value,)}
+
 NODE_CLASS_MAPPINGS = {
     Text.NAME: Text,
     TextConcat.NAME: TextConcat,
 
     ShowText.NAME: ShowText,
+    ShowAny.NAME: ShowAny,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    Text.NAME: "Text" + " (" + PROJECT_NAME + ")",
-    TextConcat.NAME: "Text Concat" + " (" + PROJECT_NAME + ")",
+    Text.NAME: "Text 固定文本" + " (" + PROJECT_NAME + ")",
+    TextConcat.NAME: "Text Concat 拼接文本" + " (" + PROJECT_NAME + ")",
 
-    ShowText.NAME: "Show Text" + " (" + PROJECT_NAME + ")",
+    ShowText.NAME: "Show Text 显示文本" + " (" + PROJECT_NAME + ")",
+    ShowAny.NAME: "Show Any 显示任意内容" + " (" + PROJECT_NAME + ")",
 }
