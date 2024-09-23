@@ -1,4 +1,5 @@
 import json
+import inspect
 
 from .constants import get_project_name, get_project_category, PROJECT_NAME, AnyType
 
@@ -34,9 +35,9 @@ class TextConcat:
     def INPUT_TYPES(s):
         return {"required": {
             "text1": ("STRING", {"multiline": True, "default": ''}),
-            "text2": ("STRING", {"multiline": True, "default": ''}),
-            "text3": ("STRING", {"multiline": True, "default": ''}),
-            "text4": ("STRING", {"multiline": True, "default": ''}),
+            "text2": ("STRING", {"multiline": True, "default": '',"lazy":True}),
+            "text3": ("STRING", {"multiline": True, "default": '',"lazy":True}),
+            "text4": ("STRING", {"multiline": True, "default": '',"lazy":True}),
             "delimiter": ("STRING", {"default": ",", "multiline": False}),
         },
     }
@@ -58,6 +59,37 @@ class TextConcat:
         if(text4!=''):
             concat = concat+delimiter+text4
         return {"ui": {"text": (concat,)}, "result": (concat,)}
+
+class InsertText:
+    NAME = get_project_name('InsertText')
+    CATEGORY = NODE_CATEGORY
+    FUNCTION = "doWork"
+    RETURN_TYPES = ("STRING",)
+    OUTPUT_NODE = True
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "fullText": ("STRING", {"multiline": True, "default": ''}),
+            "text1": ("STRING", {"forceInput": True, "default": ''}),
+        },
+        "optional":{
+            "text2": ("STRING", {"forceInput": True, "default": ''}),
+            "text3": ("STRING", {"forceInput": True, "default": ''}),
+            "text4": ("STRING", {"forceInput": True, "default": ''}),
+        }
+    }
+
+    def doWork(self,fullText='', text1='', text2='', text3='', text4=''):
+        fullText = '' if fullText == 'undefined' else fullText
+        text1 = '' if text1 == 'undefined' else text1
+        text2 = '' if text2 == 'undefined' else text2
+        text3 = '' if text3 == 'undefined' else text3
+        text4 = '' if text4 == 'undefined' else text4
+
+        concat = fullText.format(text1,text2,text3,text4)
+        return {"ui": {"text": (concat,)}, "result": (concat,)}
+
 
 class ShowText:
     NAME = get_project_name('ShowText')
@@ -110,12 +142,13 @@ class ShowAny:
             except Exception:
                 value = str(val)
                 pass
-        print(f"ShowAny: {value}")
+        # print(f"ShowAny: {value}")
         return {"ui": {"text": (value,)}, "result": (value,)}
 
 NODE_CLASS_MAPPINGS = {
     Text.NAME: Text,
     TextConcat.NAME: TextConcat,
+    InsertText.NAME: InsertText,
 
     ShowText.NAME: ShowText,
     ShowAny.NAME: ShowAny,
@@ -124,6 +157,7 @@ NODE_CLASS_MAPPINGS = {
 NODE_DISPLAY_NAME_MAPPINGS = {
     Text.NAME: "Text 固定文本" + " (" + PROJECT_NAME + ")",
     TextConcat.NAME: "Text Concat 拼接文本" + " (" + PROJECT_NAME + ")",
+    InsertText.NAME: "Insert Text 插入文本" + " (" + PROJECT_NAME + ")",
 
     ShowText.NAME: "Show Text 显示文本" + " (" + PROJECT_NAME + ")",
     ShowAny.NAME: "Show Any 显示任意内容" + " (" + PROJECT_NAME + ")",

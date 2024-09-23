@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-tool-2lab"
 description = "A toolkit that can conveniently publish comfyUI workflows as web applications"
-version = "1.3.1"
+version = "1.3.3"
 license = "LICENSE"
 dependencies = ["qrcode", "Pillow", "numpy", "torch","requests","tqdm"]
 

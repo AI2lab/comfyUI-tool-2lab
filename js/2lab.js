@@ -13,14 +13,12 @@ app.registerExtension({
 //                console.log('beforeRegisterNodeDef() nodeData = ',nodeData.name)
 //        }
 
-
-
         // Adds an upload button to the nodes
         if (nodeData?.input?.required?.image?.[1]?.image_upload === true) {
             nodeData.input.required.upload = ["IMAGEUPLOAD"];
         }
 
-        if (nodeData.name === "PublishWorkflow"+PROJECT_NAME || nodeData.name === "TextConcat"+PROJECT_NAME) {
+        if (nodeData.name === "PublishWorkflow"+PROJECT_NAME || nodeData.name === "TextConcat"+PROJECT_NAME || nodeData.name === "InsertText"+PROJECT_NAME ) {
             const widgets_count = 5;          //PublishWorkflow初始状态是5个参数
             function populate(text) {
                 // 移除在初始状态上增加的widgets

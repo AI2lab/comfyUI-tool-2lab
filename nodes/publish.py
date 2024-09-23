@@ -20,7 +20,7 @@ from .constants import get_project_name, get_project_category, read_user_key, my
 from .utils import truncate_string, filter_map
 
 NODE_CATEGORY = get_project_category("publish")
-MAX_TEXT_LENGTH = 10
+MAX_TEXT_LENGTH = 24
 
 any = AnyType("*")
 
