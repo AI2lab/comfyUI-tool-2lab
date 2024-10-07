@@ -1,6 +1,5 @@
 import json
-import inspect
-
+from comfy.model_management import InterruptProcessingException
 from .constants import get_project_name, get_project_category, PROJECT_NAME, AnyType
 
 any = AnyType("*")
@@ -90,7 +89,6 @@ class InsertText:
         concat = fullText.format(text1,text2,text3,text4)
         return {"ui": {"text": (concat,)}, "result": (concat,)}
 
-
 class ShowText:
     NAME = get_project_name('ShowText')
     CATEGORY = NODE_CATEGORY
@@ -145,6 +143,25 @@ class ShowAny:
         # print(f"ShowAny: {value}")
         return {"ui": {"text": (value,)}, "result": (value,)}
 
+class StopQueue:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "stop": ("BOOLEAN", {"forceInput": True}),
+            },
+        }
+
+    NAME = get_project_name('StopQueue')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ()
+    FUNCTION = "doWork"
+    OUTPUT_NODE = True
+
+    def doWork(self,stop):
+        if stop:
+            raise InterruptProcessingException()
+        return {}
+
 NODE_CLASS_MAPPINGS = {
     Text.NAME: Text,
     TextConcat.NAME: TextConcat,
@@ -152,6 +169,8 @@ NODE_CLASS_MAPPINGS = {
 
     ShowText.NAME: ShowText,
     ShowAny.NAME: ShowAny,
+
+    StopQueue.NAME: StopQueue,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -161,4 +180,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 
     ShowText.NAME: "Show Text 显示文本" + " (" + PROJECT_NAME + ")",
     ShowAny.NAME: "Show Any 显示任意内容" + " (" + PROJECT_NAME + ")",
+
+    StopQueue.NAME: "stop queue 停止绘图" + " (" + PROJECT_NAME + ")",
 }

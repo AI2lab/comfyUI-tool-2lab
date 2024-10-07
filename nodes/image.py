@@ -125,6 +125,7 @@ class ShowImageSizeAndCount:
             "text": [f"width x height : {width} x {height}\nimage count : {count}"]},
             "result": (image, width, height, count)
         }
+
 NODE_CLASS_MAPPINGS = {
     Image_Scale_To_Ratio.NAME: Image_Scale_To_Ratio,
     Image_Scale_To_Side.NAME: Image_Scale_To_Side,

@@ -290,70 +290,69 @@ def execute_command(command, working_dir)->bool:
         print(f"Git command failed with error: {e.output.decode('utf-8').strip()}")
         return False
 
-def create_qr_code(url, file_path='2lab_key.png'):
-    try:
-        # 指定二维码的宽度像素
-        qr_width_pixels = 600
-
-        # 计算box_size参数，它是每个小方块的像素大小
-        # 假设你想要二维码的宽度为300像素，那么每个小方块的像素大小就是300 / 21（版本1的二维码大小）
-        # 这里我们使用版本1的二维码，因为它是21x21的方块
-        box_size = qr_width_pixels // 21
-        # print(f"box_size: {box_size} pixels")
-
-        # 创建二维码实例
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_H,
-            box_size=box_size,
-            border=2,
-        )
-
-        # 添加数据
-        qr.add_data(url)
-        qr.make(fit=True)
-
-        # 创建二维码图片
-        img_qr = qr.make_image(fill_color="black", back_color="white")
-        img_qr = img_qr.convert("RGBA")  # 添加这一行来进行模式转换
-        img_qr = img_qr.resize((800, 800))
-
-        # 创建一个新的图片，用于添加文字
-        width_qr, height_qr = img_qr.size
-        asset_path = os.path.join(project_root, 'asset')
-        asset_image_path = os.path.join(asset_path, 'image')
-        text_image_path = os.path.join(asset_image_path, 'scantext.png')
-
-        with Image.open(text_image_path) as text_image:
-            # 确保text_image以RGBA模式打开
-            text_image = text_image.convert('RGBA')
-
-            # 获取图片的宽度和高度
-            width_text, height_text = text_image.size
-
-            # 计算图片B的新宽度（A宽度的3/4）和新高度（基于宽度）
-            new_width_text = int(width_qr * 3 / 4)
-            new_height_text = int(new_width_text * height_text / width_text)
-            text_image_new = text_image.resize((new_width_text, new_height_text))
-            width_text, height_text = text_image_new.size
-
-            background_color = "white"  # 背景色为纯白色
-
-            # 创建一张新的图片，颜色设定为白色
-            width_bg = width_qr
-            height_bg = height_qr + height_text + int(height_qr / 20)
-            background = Image.new('RGB', (width_qr, height_bg), background_color)
-            # print(f"background width: {width_bg} pixels")
-            # print(f"background height: {height_bg} pixels")
-
-            # 在新的图片中嵌入QR码
-            background.paste(img_qr, (0, 0))
-            background.paste(text_image_new, (int(width_qr / 8), height_qr), text_image_new)
-
-            background.save(file_path)
-
-    except:
-        print(traceback.format_exc())
+# def create_qr_code(url, file_path='2lab_key.png'):
+#     try:
+#         # 指定二维码的宽度像素
+#         qr_width_pixels = 600
+#
+#         # 计算box_size参数，它是每个小方块的像素大小
+#         # 假设你想要二维码的宽度为300像素，那么每个小方块的像素大小就是300 / 21（版本1的二维码大小）
+#         # 这里我们使用版本1的二维码，因为它是21x21的方块
+#         box_size = qr_width_pixels // 21
+#         # print(f"box_size: {box_size} pixels")
+#
+#         # 创建二维码实例
+#         qr = qrcode.QRCode(
+#             version=1,
+#             error_correction=qrcode.constants.ERROR_CORRECT_H,
+#             box_size=box_size,
+#             border=2,
+#         )
+#
+#         # 添加数据
+#         qr.add_data(url)
+#         qr.make(fit=True)
+#
+#         # 创建二维码图片
+#         img_qr = qr.make_image(fill_color="black", back_color="white")
+#         img_qr = img_qr.convert("RGBA")  # 添加这一行来进行模式转换
+#         img_qr = img_qr.resize((800, 800))
+#
+#         # 创建一个新的图片，用于添加文字
+#         width_qr, height_qr = img_qr.size
+#         asset_path = os.path.join(project_root, 'asset')
+#         asset_image_path = os.path.join(asset_path, 'image')
+#         text_image_path = os.path.join(asset_image_path, 'scantext.png')
+#
+#         with Image.open(text_image_path) as text_image:
+#             # 确保text_image以RGBA模式打开
+#             text_image = text_image.convert('RGBA')
+#
+#             # 获取图片的宽度和高度
+#             width_text, height_text = text_image.size
+#
+#             # 计算图片B的新宽度（A宽度的3/4）和新高度（基于宽度）
+#             new_width_text = int(width_qr * 3 / 4)
+#             new_height_text = int(new_width_text * height_text / width_text)
+#             text_image_new = text_image.resize((new_width_text, new_height_text))
+#             width_text, height_text = text_image_new.size
+#
+#             background_color = "white"  # 背景色为纯白色
+#
+#             # 创建一张新的图片，颜色设定为白色
+#             width_bg = width_qr
+#             height_bg = height_qr + height_text + int(height_qr / 20)
+#             background = Image.new('RGB', (width_qr, height_bg), background_color)
+#             # print(f"background width: {width_bg} pixels")
+#             # print(f"background height: {height_bg} pixels")
+#
+#             # 在新的图片中嵌入QR码
+#             background.paste(img_qr, (0, 0))
+#             background.paste(text_image_new, (int(width_qr / 8), height_qr), text_image_new)
+#
+#             background.save(file_path)
+#     except:
+#         print(traceback.format_exc())
 
 def truncate_string(s):
     # 查找 "/" 或 "\" 最后一次出现的位置
