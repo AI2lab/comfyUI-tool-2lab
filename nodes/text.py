@@ -89,6 +89,67 @@ class InsertText:
         concat = fullText.format(text1,text2,text3,text4)
         return {"ui": {"text": (concat,)}, "result": (concat,)}
 
+class TextListConcatenate:
+    NAME = get_project_name('TextListConcatenate')
+    CATEGORY = NODE_CATEGORY
+    FUNCTION = "doWork"
+    RETURN_TYPES = ("LIST",)
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+            },
+            "optional": {
+                "list_1": ("LIST", {"forceInput": True}),
+                "list_2": ("LIST", {"forceInput": True}),
+                "list_3": ("LIST", {"forceInput": True}),
+                "list_4": ("LIST", {"forceInput": True}),
+            }
+        }
+
+    def doWork(self, **kwargs):
+        concatenated_list: list[str] = []
+
+        for k in sorted(kwargs.keys()):
+            v = kwargs[k]
+
+            # Only process "list" input ports.
+            if isinstance(v, list):
+                concatenated_list += v
+
+        return (concatenated_list,)
+
+class Text2List:
+    NAME = get_project_name('Text2List')
+    CATEGORY = NODE_CATEGORY
+    FUNCTION = "doWork"
+    RETURN_TYPES = ("LIST",)
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+            },
+            "optional": {
+                "text_1": ("STRING", {"forceInput": True}),
+                "text_2": ("STRING", {"forceInput": True}),
+                "text_3": ("STRING", {"forceInput": True}),
+                "text_4": ("STRING", {"forceInput": True}),
+            }
+        }
+
+    def doWork(self, **kwargs):
+        concatenated_list: list[str] = []
+
+        for k in sorted(kwargs.keys()):
+            v = kwargs[k]
+
+            if isinstance(v, str):
+                concatenated_list.append(v)
+
+        return (concatenated_list,)
+
 class ShowText:
     NAME = get_project_name('ShowText')
     CATEGORY = NODE_CATEGORY
@@ -111,37 +172,39 @@ class ShowText:
         value = text.strip()
 
         return {"ui": {"text": (value,)}, "result": (value,)}
-
-class ShowAny:
-    NAME = get_project_name('ShowAny')
-    CATEGORY = NODE_CATEGORY
-    FUNCTION = "doWork"
-    RETURN_NAMES = ("text", )
-    RETURN_TYPES = ("STRING",)
-    OUTPUT_NODE = True
-
-    @classmethod
-    def INPUT_TYPES(cls):
-        return {
-          "required": {
-            "anything": (any, {}),
-          },
-        }
-
-    def doWork(self, anything=None):
-        value = ''
-        if anything is not None:
-            try:
-                if type(anything) is str:
-                    value = anything
-                else:
-                    val = json.dumps(anything)
-                    value = str(val)
-            except Exception:
-                value = str(val)
-                pass
-        # print(f"ShowAny: {value}")
-        return {"ui": {"text": (value,)}, "result": (value,)}
+# 有bug，显示两次
+# class ShowAny:
+#     NAME = get_project_name('ShowAny')
+#     CATEGORY = NODE_CATEGORY
+#     FUNCTION = "doWork"
+#     RETURN_NAMES = ("text", )
+#     RETURN_TYPES = ("STRING",)
+#     OUTPUT_NODE = True
+#
+#     @classmethod
+#     def INPUT_TYPES(cls):
+#         return {
+#           "required": {
+#             "anything": (any, {}),
+#           },
+#         }
+#
+#     def doWork(self, anything=None):
+#         print(f"ShowAny() anything = {anything}")
+#         value = ''
+#         if anything is not None:
+#             try:
+#                 if type(anything) is str:
+#                     value = anything
+#                 else:
+#                     val = json.dumps(anything)
+#                     value = str(val)
+#             except Exception:
+#                 value = str(val)
+#                 pass
+#         print(f"ShowAny() value = {value}")
+#         return {"ui": {"text": (value,)}}
+#         # return {"ui": {"text": (value,)}, "result": (value,)}
 
 class StopQueue:
     @classmethod
@@ -166,9 +229,11 @@ NODE_CLASS_MAPPINGS = {
     Text.NAME: Text,
     TextConcat.NAME: TextConcat,
     InsertText.NAME: InsertText,
+    TextListConcatenate.NAME: TextListConcatenate,
+    Text2List.NAME: Text2List,
 
     ShowText.NAME: ShowText,
-    ShowAny.NAME: ShowAny,
+    # ShowAny.NAME: ShowAny,
 
     StopQueue.NAME: StopQueue,
 }
@@ -177,9 +242,11 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     Text.NAME: "Text 固定文本" + " (" + PROJECT_NAME + ")",
     TextConcat.NAME: "Text Concat 拼接文本" + " (" + PROJECT_NAME + ")",
     InsertText.NAME: "Insert Text 插入文本" + " (" + PROJECT_NAME + ")",
+    TextListConcatenate.NAME: "List Concatenate 多个列表合成列表" + " (" + PROJECT_NAME + ")",
+    Text2List.NAME: "Text To List 多个文本合成列表" + " (" + PROJECT_NAME + ")",
 
     ShowText.NAME: "Show Text 显示文本" + " (" + PROJECT_NAME + ")",
-    ShowAny.NAME: "Show Any 显示任意内容" + " (" + PROJECT_NAME + ")",
+    # ShowAny.NAME: "Show Any 显示任意内容" + " (" + PROJECT_NAME + ")",
 
     StopQueue.NAME: "stop queue 停止绘图" + " (" + PROJECT_NAME + ")",
 }

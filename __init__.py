@@ -9,16 +9,12 @@ import server
 from aiohttp import web
 from .nodes.constants import PROJECT_NAME, project_root, auto_download_model, javascript_folder, asset_folder
 
-from .nodes.utils import download_model, print_console
+from .nodes.utils import  print_console
 
 python = sys.executable
 
 WEB_DIRECTORY = "./js"
 print_console("[comfyUI-tool-2lab] start")
-
-# 如果config中指定自动下载模型，则执行下载
-if auto_download_model:
-    download_model('')
 
 def get_ext_dir(subpath=None, mkdir=False):
     dir = os.path.dirname(__file__)

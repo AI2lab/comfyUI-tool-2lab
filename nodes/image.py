@@ -1,9 +1,191 @@
 import math
-from comfy.utils import common_upscale
+import os
+import random
 
+import requests
+from io import BytesIO
 from .constants import get_project_name, get_project_category, PROJECT_NAME
+import folder_paths
+from comfy.utils import common_upscale
+from PIL.PngImagePlugin import PngInfo
+from PIL import Image, ImageOps, ImageSequence
+import numpy as np
+import torch
+import hashlib
 
 NODE_CATEGORY = get_project_category("image")
+
+class LoadImageByPath:
+    @classmethod
+    def INPUT_TYPES(s):
+        input_dir = folder_paths.get_input_directory()
+        files = [f for f in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir, f))]
+        return {"required":
+                    {
+                        "image_path": ("STRING", {"multiline": False, "default": ''}),
+                     },
+                }
+
+    NAME = get_project_name('LoadImageByPath')
+    CATEGORY = NODE_CATEGORY
+
+    RETURN_TYPES = ("IMAGE", "MASK")
+    FUNCTION = "load_image"
+
+    def load_image(self, image_path):
+        img = Image.open(image_path)
+        output_images = []
+        output_masks = []
+        for i in ImageSequence.Iterator(img):
+            i = ImageOps.exif_transpose(i)
+            if i.mode == 'I':
+                i = i.point(lambda i: i * (1 / 255))
+            image = i.convert("RGB")
+            image = np.array(image).astype(np.float32) / 255.0
+            image = torch.from_numpy(image)[None,]
+            if 'A' in i.getbands():
+                mask = np.array(i.getchannel('A')).astype(np.float32) / 255.0
+                mask = 1. - torch.from_numpy(mask)
+            else:
+                mask = torch.zeros((64, 64), dtype=torch.float32, device="cpu")
+            output_images.append(image)
+            output_masks.append(mask.unsqueeze(0))
+
+        if len(output_images) > 1:
+            output_image = torch.cat(output_images, dim=0)
+            output_mask = torch.cat(output_masks, dim=0)
+        else:
+            output_image = output_images[0]
+            output_mask = output_masks[0]
+
+        return (output_image, output_mask)
+
+    @classmethod
+    def IS_CHANGED(s, image_path):
+        m = hashlib.sha256()
+        m.update(image_path)
+        return m.digest().hex()
+
+    @classmethod
+    def VALIDATE_INPUTS(s, image_path):
+        if not os.path.exists(image_path):
+            return "Invalid image path: {}".format(image_path)
+        return True
+
+class SaveImageByUrl:
+    def __init__(self):
+        self.output_dir = folder_paths.get_output_directory()
+        self.type = "output"
+        self.prefix_append = ""
+        self.compress_level = 4
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required":
+                {"image_urls": ("LIST", {"forceInput": True}),
+                 "filename_prefix": ("STRING", {"default": "2lab/img"}),
+                 },
+        }
+
+    NAME = get_project_name('SaveImageByUrl')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ()
+    FUNCTION = "doWork"
+    OUTPUT_NODE = True
+
+    def doWork(self, image_urls, filename_prefix="2lab/img" ):
+        filename_prefix += self.prefix_append
+        print(f"image_urls = {image_urls}")
+        full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
+        results = list()
+        for (batch_number, image_url) in enumerate(image_urls):
+            print(f"{batch_number} : {image_url}")
+            filename_with_batch_num = filename.replace("%batch_num%", str(batch_number))
+            file = f"{filename_with_batch_num}_{counter:05}_.png"
+            image_path = os.path.join(full_output_folder, file)
+            print(f"image_path = {image_path}")
+            if download_image(image_url, image_path):
+                results.append({
+                    "filename": file,
+                    "subfolder": subfolder,
+                    "type": self.type
+                })
+        return { "ui": { "images": results } }
+
+def download_image(url, save_path)->bool:
+    compress_level = 4
+
+    # 发送HTTP GET请求获取图片数据
+    response = requests.get(url)
+
+    # 检查请求是否成功
+    if response.status_code == 200:
+        # 将响应内容转换为图片对象
+        image = Image.open(BytesIO(response.content))
+
+        # 保存图片到本地
+        image.save(save_path, compress_level=compress_level)
+        print(f"图片已保存到 {save_path}")
+        return True
+    else:
+        print(f"下载图片失败，状态码: {response.status_code}")
+    return False
+
+class SaveImageByPath:
+    def __init__(self):
+        self.output_dir = folder_paths.get_output_directory()
+        self.type = "output"
+        self.prefix_append = ""
+        self.compress_level = 4
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required":
+                {"image_paths": ("LIST", {"forceInput": True}),
+                 "filename_prefix": ("STRING", {"default": "2lab/img"}),
+                 },
+        }
+
+    NAME = get_project_name('SaveImageByPath')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ()
+    FUNCTION = "doWork"
+    OUTPUT_NODE = True
+
+    def doWork(self, image_paths, filename_prefix="2lab/img" ):
+        filename_prefix += self.prefix_append
+        print(f"image_paths = {image_paths}")
+        full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
+        results = list()
+        for (batch_number, image_path) in enumerate(image_paths):
+            print(f"{batch_number} : {image_path}")
+            with Image.open(image_path) as img:
+                filename_with_batch_num = filename.replace("%batch_num%", str(batch_number))
+                file = f"{filename_with_batch_num}_{counter:05}_.png"
+                img.save(os.path.join(full_output_folder, file), compress_level=self.compress_level)
+                results.append({
+                    "filename": file,
+                    "subfolder": subfolder,
+                    "type": self.type
+                })
+                counter += 1
+        return { "ui": { "images": results } }
+
+class PreviewImageByPath(SaveImageByPath):
+    NAME = get_project_name('PreviewImageByPath')
+    def __init__(self):
+        self.output_dir = folder_paths.get_temp_directory()
+        self.type = "temp"
+        self.prefix_append = "_temp_" + ''.join(random.choice("abcdefghijklmnopqrstupvxyz") for x in range(5))
+        self.compress_level = 1
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                    {"image_paths": ("LIST", {"forceInput": True}),},
+                }
 
 class Image_Scale_To_Ratio:
     NAME = get_project_name('Image_Scale_To_Ratio')
@@ -127,12 +309,21 @@ class ShowImageSizeAndCount:
         }
 
 NODE_CLASS_MAPPINGS = {
+    LoadImageByPath.NAME: LoadImageByPath,
+    SaveImageByPath.NAME: SaveImageByPath,
+    PreviewImageByPath.NAME: PreviewImageByPath,
+    SaveImageByUrl.NAME: SaveImageByUrl,
+
     Image_Scale_To_Ratio.NAME: Image_Scale_To_Ratio,
     Image_Scale_To_Side.NAME: Image_Scale_To_Side,
     ShowImageSizeAndCount.NAME: ShowImageSizeAndCount,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
+    LoadImageByPath.NAME: "Load Image By Path" + " (" + PROJECT_NAME + ")",
+    SaveImageByPath.NAME: "Save Image By Path" + " (" + PROJECT_NAME + ")",
+    SaveImageByUrl.NAME: "Save Image By Url" + " (" + PROJECT_NAME + ")",
+    PreviewImageByPath.NAME: "Preview Image By Path" + " (" + PROJECT_NAME + ")",
     Image_Scale_To_Ratio.NAME: "Image scale to ratio" + " (" + PROJECT_NAME + ")",
     Image_Scale_To_Side.NAME: "Image scale to side" + " (" + PROJECT_NAME + ")",
     ShowImageSizeAndCount.NAME: "Show image size & count" + " (" + PROJECT_NAME + ")",

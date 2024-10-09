@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-tool-2lab"
 description = "toolkits"
-version = "1.4.0"
+version = "1.4.1"
 license = "LICENSE"
 dependencies = ["Pillow", "numpy", "torch","requests"]
 
