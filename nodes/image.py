@@ -96,15 +96,15 @@ class SaveImageByUrl:
 
     def doWork(self, image_urls, filename_prefix="2lab/img" ):
         filename_prefix += self.prefix_append
-        print(f"image_urls = {image_urls}")
+        # print(f"image_urls = {image_urls}")
         full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
         results = list()
         for (batch_number, image_url) in enumerate(image_urls):
-            print(f"{batch_number} : {image_url}")
+            # print(f"{batch_number} : {image_url}")
             filename_with_batch_num = filename.replace("%batch_num%", str(batch_number))
             file = f"{filename_with_batch_num}_{counter:05}_.png"
             image_path = os.path.join(full_output_folder, file)
-            print(f"image_path = {image_path}")
+            # print(f"image_path = {image_path}")
             if download_image(image_url, image_path):
                 results.append({
                     "filename": file,
@@ -113,6 +113,19 @@ class SaveImageByUrl:
                 })
         return { "ui": { "images": results } }
 
+class PreviewImageByUrl(SaveImageByUrl):
+    NAME = get_project_name('PreviewImageByUrl')
+    def __init__(self):
+        self.output_dir = folder_paths.get_temp_directory()
+        self.type = "temp"
+        self.prefix_append = "_temp_" + ''.join(random.choice("abcdefghijklmnopqrstupvxyz") for x in range(5))
+        self.compress_level = 1
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                    {"image_urls": ("LIST", {"forceInput": True}),},
+                }
 def download_image(url, save_path)->bool:
     compress_level = 4
 
@@ -130,6 +143,68 @@ def download_image(url, save_path)->bool:
         return True
     else:
         print(f"下载图片失败，状态码: {response.status_code}")
+    return False
+
+
+class SaveVideoByUrl:
+    def __init__(self):
+        self.output_dir = folder_paths.get_output_directory()
+        self.type = "output"
+        self.prefix_append = ""
+        # self.compress_level = 4
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required":
+                {"video_urls": ("LIST", {"forceInput": True}),
+                 "filename_prefix": ("STRING", {"default": "2lab/video"}),
+                 },
+        }
+
+    NAME = get_project_name('SaveVideoByUrl')
+    CATEGORY = NODE_CATEGORY
+    RETURN_TYPES = ()
+    FUNCTION = "doWork"
+    OUTPUT_NODE = True
+
+    def doWork(self, video_urls, filename_prefix="2lab/video" ):
+        filename_prefix += self.prefix_append
+        print(f"video_urls = {video_urls}")
+        full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
+        results = list()
+        for (batch_number, video_url) in enumerate(video_urls):
+            print(f"{batch_number} : {video_url}")
+            ext = video_url.rsplit('.', 1)[1]
+            print(f"filename : {filename}")
+            filename_with_batch_num = filename.replace("%batch_num%", str(batch_number))
+            file = f"{filename_with_batch_num}_{counter:05}_."+ext
+            video_path = os.path.join(full_output_folder, file)
+            print(f"video_path = {video_path}")
+            if download_video(video_url, video_path):
+                results.append({
+                    "filename": file,
+                    "subfolder": subfolder,
+                    "type": self.type
+                })
+        print(f"results = {results}")
+        return { "ui": { "images": results } }
+
+def download_video(url, save_path)->bool:
+    # 发送HTTP GET请求获取视频数据
+    response = requests.get(url, stream=True)
+
+    # 检查请求是否成功
+    if response.status_code == 200:
+        # 打开文件以二进制写入模式
+        with open(save_path, 'wb') as file:
+            # 将响应内容写入文件
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+        print(f"视频已保存到 {save_path}")
+        return True
+    else:
+        print(f"下载视频失败，状态码: {response.status_code}")
     return False
 
 class SaveImageByPath:
@@ -313,6 +388,9 @@ NODE_CLASS_MAPPINGS = {
     SaveImageByPath.NAME: SaveImageByPath,
     PreviewImageByPath.NAME: PreviewImageByPath,
     SaveImageByUrl.NAME: SaveImageByUrl,
+    PreviewImageByUrl.NAME: PreviewImageByUrl,
+    SaveVideoByUrl.NAME: SaveVideoByUrl,
+
 
     Image_Scale_To_Ratio.NAME: Image_Scale_To_Ratio,
     Image_Scale_To_Side.NAME: Image_Scale_To_Side,
@@ -322,8 +400,10 @@ NODE_CLASS_MAPPINGS = {
 NODE_DISPLAY_NAME_MAPPINGS = {
     LoadImageByPath.NAME: "Load Image By Path" + " (" + PROJECT_NAME + ")",
     SaveImageByPath.NAME: "Save Image By Path" + " (" + PROJECT_NAME + ")",
-    SaveImageByUrl.NAME: "Save Image By Url" + " (" + PROJECT_NAME + ")",
     PreviewImageByPath.NAME: "Preview Image By Path" + " (" + PROJECT_NAME + ")",
+    SaveImageByUrl.NAME: "Save Image By Url" + " (" + PROJECT_NAME + ")",
+    PreviewImageByUrl.NAME: "Preview Image By Url" + " (" + PROJECT_NAME + ")",
+    SaveVideoByUrl.NAME: "Save Video By Url" + " (" + PROJECT_NAME + ")",
     Image_Scale_To_Ratio.NAME: "Image scale to ratio" + " (" + PROJECT_NAME + ")",
     Image_Scale_To_Side.NAME: "Image scale to side" + " (" + PROJECT_NAME + ")",
     ShowImageSizeAndCount.NAME: "Show image size & count" + " (" + PROJECT_NAME + ")",
