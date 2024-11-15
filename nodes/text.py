@@ -172,39 +172,41 @@ class ShowText:
         value = text.strip()
 
         return {"ui": {"text": (value,)}, "result": (value,)}
-# 有bug，显示两次
-# class ShowAny:
-#     NAME = get_project_name('ShowAny')
-#     CATEGORY = NODE_CATEGORY
-#     FUNCTION = "doWork"
-#     RETURN_NAMES = ("text", )
-#     RETURN_TYPES = ("STRING",)
-#     OUTPUT_NODE = True
-#
-#     @classmethod
-#     def INPUT_TYPES(cls):
-#         return {
-#           "required": {
-#             "anything": (any, {}),
-#           },
-#         }
-#
-#     def doWork(self, anything=None):
-#         print(f"ShowAny() anything = {anything}")
-#         value = ''
-#         if anything is not None:
-#             try:
-#                 if type(anything) is str:
-#                     value = anything
-#                 else:
-#                     val = json.dumps(anything)
-#                     value = str(val)
-#             except Exception:
-#                 value = str(val)
-#                 pass
-#         print(f"ShowAny() value = {value}")
-#         return {"ui": {"text": (value,)}}
-#         # return {"ui": {"text": (value,)}, "result": (value,)}
+
+
+class SaveText:
+    NAME = get_project_name('SaveText')
+    CATEGORY = NODE_CATEGORY
+    FUNCTION = "doWork"
+    RETURN_NAMES = ()
+    RETURN_TYPES = ()
+    OUTPUT_NODE = True
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+          "required": {
+            "text": ("STRING", {"forceInput":True}),
+            "path": ("STRING", {"default":''}),
+          },
+            "optional":{
+                "filename": ("STRING", {"forceInput":True}),
+            }
+        }
+
+    def doWork(self, text,path,filename=''):
+        if text is None:
+            text = ''
+        text_to_save = text.strip()
+        if path is None:
+            raise ValueError(f"path can't be None")
+        if filename:
+            filepath = path.format(filename)
+        else:
+            filepath = path
+        with open(filepath, 'w', encoding='utf-8') as file:
+            # 将文本写入文件
+            file.write(text_to_save)
 
 class StopQueue:
     @classmethod
@@ -233,6 +235,7 @@ NODE_CLASS_MAPPINGS = {
     Text2List.NAME: Text2List,
 
     ShowText.NAME: ShowText,
+    SaveText.NAME: SaveText,
     # ShowAny.NAME: ShowAny,
 
     StopQueue.NAME: StopQueue,
@@ -246,6 +249,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     Text2List.NAME: "Text To List 多个文本合成列表" + " (" + PROJECT_NAME + ")",
 
     ShowText.NAME: "Show Text 显示文本" + " (" + PROJECT_NAME + ")",
+    SaveText.NAME: "Save Text 保存文本" + " (" + PROJECT_NAME + ")",
     # ShowAny.NAME: "Show Any 显示任意内容" + " (" + PROJECT_NAME + ")",
 
     StopQueue.NAME: "stop queue 停止绘图" + " (" + PROJECT_NAME + ")",
